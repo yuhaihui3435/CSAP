@@ -1,0 +1,218 @@
+<style>
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-radius: .25rem;
+    }
+
+    .card-header:first-child {
+        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+    }
+
+    .text-white {
+        color: #fff !important;
+    }
+
+    .bg-dark {
+        background-color: #343a40 !important;
+    }
+
+    .card-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, .03);
+        border-bottom: 1px solid rgba(0, 0, 0, .125);
+    }
+
+    .pointer, button {
+        cursor: pointer;
+    }
+
+    .align-items-center {
+        align-items: center !important;
+    }
+
+    .lesspass__inner-box {
+        min-height: 240px;
+    }
+
+    .card-body {
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    .thisForm {
+        display: block;
+        margin-top: 0em;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-image: none;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    .left-addon i {
+        left: 0;
+    }
+
+    .inner-addon i {
+        position: absolute;
+        padding: 10px;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    * {
+        border-radius: 0 !important;
+    }
+
+    .left-addon input {
+        padding-left: 30px;
+    }
+
+    .col-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .inner-addon {
+        position: relative;
+    }
+
+    .mb-0, .my-0 {
+        margin-bottom: 0 !important;
+    }
+
+    .no-gutters {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .no-gutters > .col, .no-gutters > [class*=col-] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .col {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+    .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .btn-secondary {
+        color: #fff;
+        background-color: #868e96;
+        border-color: #868e96;
+    }
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: .25rem;
+        transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+
+</style>
+<div class="container" style="padding-top: 110px">
+    <div class="container" >
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img
+                        src="#(ctx)/static/www/img/cloud_data_integration_etlworks_small.png" style="height:auto"
+                >
+            </div>
+            <div class="col-md-5">
+                <div style="padding-top: 30px">
+                    <div class="card" style="border:none;max-width: none!important;">
+                        <div class="card-header text-white bg-dark">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span id="title" class="white-link pointer" style="font-size: 18px">卡激活</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lesspass__inner-box card-body">
+                            <form id="form" class="thisForm" method="post">
+
+                                <div class="form-group ">
+                                    <div class="inner-addon left-addon">
+                                        <i class="fa  icon-credit-card"></i>
+                                        <input id="code" type="text" value="#(code??'')" name="code"
+                                               placeholder="卡号" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="inner-addon left-addon">
+                                        <i class="fa  icon-key"></i>
+                                        <input id="pwd" type="password" value="#(pwd??'')" name="pwd"
+                                               placeholder="卡密码" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row no-gutters mb-0" style="display: flex;flex-wrap: wrap;margin-right:0px;margin-left: 0px">
+                                    <div class="col">
+                                        <button id="signInButton" class="btn btn-primary btn-block"
+                                                style="border-right: none" onclick="act()">
+                                            激活
+                                        </button>
+                                    </div>
+                                    <div class="col">
+                                        <button id="registerButton" type="button" style="border-left: none"
+                                                class="btn btn-secondary btn-block" onclick="view()">
+                                            查询
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

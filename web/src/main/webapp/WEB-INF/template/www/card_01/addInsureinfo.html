@@ -1,0 +1,307 @@
+<script src="#(ctx)/static/common/js/jquery.autocomplete.js"></script>
+<script src="#(ctx)/static/common/js/pn_data.js"></script>
+<script src="#(ctx)/static/common/js/pn_ac.js"></script>
+<script src="#(ctx)/static/common/js/dist-picker/distpicker.common.js"></script>
+<script src="#(ctx)/static/common/js/dist-picker/distpicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="#(ctx)/static/common/css/pn_ac.css">
+<div class="well well-sm" id="contactWell" style="background-color: white;">
+    <form class="form-horizontal" id="cardInfoForm" method="post">
+        <input type="hidden" id="cardId" name="cardId" value="#(card.id??'')">
+        <fieldset>
+            <legend class="text-center header">投保人/公司信息</legend>
+
+            <div class="success text-center"
+                 style="display: none;color: black !important;font-size: 18px;font-family: 'nowaybold';"></div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>投保人类型</label>
+                    <select class="form-control" name="type" id="type" onchange="typeChange(this.value)">
+                        <option value="1">个人</option>
+                        <option value="2">企业</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>证件类型</label>
+                    <select class="form-control"  id="certType-1">
+                        #for(x : certTypeList )
+                        <option value="#(x.id)">#(x.title)</option>
+                        #end
+                    </select>
+                    <select class="form-control"  id="certType-2" style="display: none">
+                        #for(x : companyCertTypeList )
+                        <option value="#(x.id)">#(x.title)</option>
+                        #end
+                    </select>
+
+                </div>
+
+                <div class="col-md-6">
+                    <label>证件号</label>
+                    <input id="certCode" name="certCode" type="text" maxlength="50"
+                           class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>投保人/公司名称</label>
+                    <input id="name" name="name" type="text" maxlength="50"
+                           class="form-control" required>
+                </div>
+                <div class="col-md-6" style="display: none;">
+                    <label>联系人</label>
+                        <input id="linkName" name="linkName" type="text" maxlength="50"
+                               class="form-control" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>手机号</label>
+                    <input id="tel" name="tel" type="text" class="form-control" maxlength="11"
+                           required>
+                </div>
+                <div class="col-md-6">
+                    <label>EMAIL</label>
+                    <input id="email" name="email" type="text" maxlength="100"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label>省/市/区</label>
+                    <div data-toggle="distpicker">
+                        <div class="col-md-4"><select class="form-control " id="province" data-province="---- 选择省 ----" ></select></div>
+                        <div class="col-md-4"><select class="form-control " id="city" data-city="---- 选择市 ----"></select></div>
+                        <div class="col-md-4"><select class="form-control " id="district" data-district="---- 选择区 ----"></select></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label>街道</label>
+                    <input class="form-control" type="text" id="address" name="address" maxlength="200"
+                              rows="5"></input>
+                </div>
+            </div>
+
+
+        </fieldset>
+
+        <fieldset>
+            <legend class="text-center header">被投保车辆信息</legend>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>车辆类型</label>
+                    <select class="form-control" name="carType" id="carType">
+                        #for(x : carTypeList )
+                        <option value="#(x.id)">#(x.title)</option>
+                        #end
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>使用性质</label>
+                    <select class="form-control" name="carProp" id="carProp">
+                        <option value="1">非营运</option>
+                        <option value="2">营运</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>座位数</label>
+                    <select id="seatCount" name="seatCount" class="form-control">
+                        #for(x : [2..50])
+                        <option value="#(x)"
+                        #if(x==5)selected#end
+                        >#(x)</option>
+                        #end
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>车牌号</label>
+                    <input id="plateNum" name="plateNum" type="text" maxlength="10"
+                           class="form-control" required>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>车架子号</label>
+                    <input id="frameNum" name="frameNum" type="text" maxlength="100"
+                           class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label>发动机号</label>
+                    <input id="engineNum" name="engineNum" type="text" maxlength="100"
+                           class="form-control" required>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <script>
+
+        $(function () {
+            pnInit('plateNum',pn_data);
+        });
+        const idv = new IDValidator();
+        const ctx = $('#ctx').val();
+        const cardCode='#(card.code)'
+        function formCheck() {
+            let ret = undefined;
+            let type = $("#type").val();
+            let certType_1 = $("#certType-1").val();
+            let certType_2 = $("#certType-2").val();
+            let certType=type=='1'?certType_1:certType_2
+            let certCode = Bee.StringUtils.trimToEmpty($("#certCode").val());
+            let name = Bee.StringUtils.trimToEmpty($("#name").val());
+            let linkName = Bee.StringUtils.trimToEmpty($("#linkName").val());
+            let email = Bee.StringUtils.trimToEmpty($("#email").val());
+            let tel = Bee.StringUtils.trimToEmpty($("#tel").val());
+            let address = $("#address").val();
+            if (Bee.StringUtils.isBlank(certCode)) {
+                layer.alert('证件号不能为空', {icon: 5})
+                return ret;
+            }else if(type=='1'){
+                let r = idv.isValid(certCode);
+                if (!r) {
+                    layer.alert('投保人身份证号不正确', {icon: 5})
+                    return ret;
+                }
+            }
+            if (Bee.StringUtils.isBlank(name)) {
+                layer.alert('投保人/公司名称不能为空', {icon: 5})
+                return ret;
+            }
+            if (Bee.StringUtils.isBlank(tel)) {
+                layer.alert('联系电话不能为空', {icon: 5})
+                return ret;
+            }else if (!Bee.PhoneUtils.isPhoneNum(tel)) {
+                layer.alert('联系电话格式不正确', {icon: 5});
+                return ret;
+            }
+            if(type=='2') {
+                if (Bee.StringUtils.isBlank(linkName)) {
+                    layer.alert('联系人不能为空', {icon: 5})
+                    return ret;
+                }
+            }
+
+            if (Bee.StringUtils.isNotBlank(email)) {
+                if (!Bee.EmailUtils.isEmail(email)) {
+                    layer.alert('投保人EMAIL格式不正确', {icon: 5})
+                    return ret;
+                }
+            }
+
+            let carType=$('#carType').val();
+            let carProp=$('#carProp').val();
+            let seatCount=$('#seatCount').val();
+            let engineNum=Bee.StringUtils.trimToEmpty($('#engineNum').val());
+            let frameNum=Bee.StringUtils.trimToEmpty($('#frameNum').val());
+            let plateNum=Bee.StringUtils.trimToEmpty($('#plateNum').val());
+
+            if (Bee.StringUtils.isBlank(engineNum)) {
+                layer.alert('发动机号不能为空', {icon: 5})
+                return ret;
+            }
+            if (Bee.StringUtils.isBlank(frameNum)) {
+                layer.alert('车架号不能为空', {icon: 5})
+                return ret;
+            }
+            if (Bee.StringUtils.isBlank(plateNum)) {
+                layer.alert('车牌号不能为空', {icon: 5})
+                return ret;
+            }else if(plateNum.length>10){
+                layer.alert('车牌号长度过长', {icon: 5})
+                return ret;
+            }
+
+
+            ret = {};
+            ret['code'] = cardCode;
+            ret['cardsId'] = '#(card.id)';
+            ret['type'] = type;
+            ret['certTypeId'] = certType;
+            ret['certCode'] = certCode;
+            ret['name'] = name;
+            ret['linkName'] = linkName;
+            ret['email'] = email;
+            ret['tel'] = tel;
+            ret['address'] = address;
+            ret['carType'] = carType;
+            ret['prop'] = carProp;
+            ret['seatCount']=seatCount;
+            ret['engineNum']=engineNum;
+            ret['frameNum']=frameNum;
+            ret['plateNum']=plateNum;
+            ret['province']=$('#province').val()
+            ret['city']=$('#city').val()
+            ret['district']=$('#district').val()
+
+            return ret;
+
+
+        }
+        function typeChange(val) {
+
+            if(val=='1'){
+                $("#certType-2").hide();
+                $("#certType-1").show();
+                $("#linkName").parent().hide();
+            }else if(val=='2'){
+                $("#certType-2").show();
+                $("#certType-1").hide();
+                $("#linkName").parent().show();
+            }
+        }
+        function saveData() {
+            let d = formCheck();
+            if (d != undefined) {
+                let i = layer.confirm('确定要提交投保信息吗？', {
+                    btn: ['否', '是'] //按钮
+                }, function () {
+                    layer.close(i)
+                }, function () {
+                    $.ajax({
+                        type: 'post',
+                        url: ctx + 'saveCardCarInfo',
+                        data: d,
+                        cache: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.resCode == 'success') {
+                                layer.alert(data.resMsg, {icon: 1}, function () {
+                                    window.location.href = $('#ctx').val() + 'index';
+                                });
+                            } else if (data.resCode == 'fail') {
+                                layer.alert(data.resMsg, {icon: 5});
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.alert('网络错误，请稍后重试', {icon: 5});
+                        }, beforeSend(XHR){
+                            layer.msg('数据处理中...', {shade: [0.8, '#393D49'], time: 100000})
+                        }, complete(XHR, TS){
+                            layer.closeAll('loading');
+                        }
+                    });
+                });
+
+            }
+        }
+
+        function preHandler() {
+            $("#protocolDiv").show();
+            $("#addInsureinfoDiv").hide();
+        }
+
+    </script>
+</div>
+<div class="row pull-right">
+    <button class="btn btn-danger" onclick="preHandler()">上一步</button>
+    <button class="btn btn-primary" onclick="saveData()">提交</button>
+</div>

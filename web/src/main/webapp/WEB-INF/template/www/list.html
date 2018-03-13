@@ -1,0 +1,61 @@
+#@layout()
+#define content()
+<div class="news or" >
+    #if(notEmpty(cList.list))
+    #for(x : cList.list)
+    <div class="list">
+        #if(isNotBlank(x.thumbnail))
+        <div class="pic">
+            <a href="#(ctx)/b/#(x.id)" target="_blank">
+                <img src="#(qn_url)#(x.thumbnail)" width="320" height="200">
+            </a>
+        </div>
+        #else
+        <div class="pic">
+            <a href="#(ctx)/b/#(x.id)">
+                <img src="#(ctx)/static/www/img/white_logo.png"  >
+            </a>
+        </div>
+        #end
+        <ul>
+            <li>
+                <h1>
+                    <a href="#(ctx)/b/#(x.id)"  target="_blank">#(x.title)</a>
+                </h1>
+            </li>
+            <li>#(x.pAtTxt)</li>
+            <li>
+                #(x.summary)
+                <a href="#(ctx)/b/#(x.id)" target="_blank">查看详细</a>
+            </li>
+        </ul>
+    </div>
+    #end
+    <div class="page">
+        ###if(cList.pageNumber>1)
+            <!--<a href="#(ctx)/a/#(cId)-#(cList.pageNumber-1)">上一页</a>-->
+        ###end
+        #set(begin=1)
+        #set(end=cList.pageNumber+9)
+        #if(cList.pageNumber>=11)
+            #set(begin=cList.pageNumber-10)
+        #end
+        #if(end>=cList.totalPage)
+            #set(end=cList.totalPage)
+        #end
+        #for(i=begin;i<=end;i++)
+            #if(i==cList.pageNumber)
+                <span>#(i)</span>
+            #else
+                <a href="#(ctx)/a/#(cId)-#(i)">#(i)</a>
+            #end
+        #end
+        ###if(cList.pageNumber<cList.totalPage)
+            <!--<a href="#(ctx)/a/#(cId)-#(cList.pageNumber+1)">下一页</a>-->
+        ###end
+    </div>
+    #else
+    <div class="alert alert-warning alert-dismissible fade in col-md-offset-2 col-md-8" style="padding: 15px"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span style="padding-left: 5px">对不起，该栏目下没有查询到数据</span></div>
+    #end
+</div>
+#end

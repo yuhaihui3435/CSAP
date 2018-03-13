@@ -1,0 +1,137 @@
+#@layout()
+#define content()
+
+<div id="details" class="container-fluid" style="margin-top: 110px;margin-bottom: 50px">
+    <div class="container" style="padding: 0 0">
+
+        <!--<ol class="breadcrumb">-->
+            <!--<li><a href="#(ctx)/">首页</a></li>-->
+            <!--<li class="active">保单详细信息</li>-->
+        <!--</ol>-->
+        #if(isNotBlank(card.policyNum))
+
+        <div class="col-md-6">保单号：#(card.policyNum??"")</div>
+        <div class="col-md-6">报案电话：#(card.reportTel??"")</div>
+
+        #else
+        <div class="  alert alert-danger">
+            <strong>注意！</strong>电子保单尚未生成，请耐心等待。
+        </div>
+        #end
+    </div>
+
+    <div class="container" style="padding: 0 0;background-color: #F6F9FC">
+        <div style="text-align: center;border: 1px dashed;border-color: #eee;padding: 25px;margin-left: 0px;margin-right: 0px;border-radius: 10px">
+            <div class="row" style="font-size: large">
+                <span class="pull-left">本合同依据投保人申请，按下列条件承保</span>
+                <span class="pull-right">币种：人民币</span></div>
+            <hr style="margin-left: -15px;margin-right: -15px;    margin-top: 5px; margin-bottom: 20px;border: 0;border-top: 2px solid #000;">
+            <div class="row" style="font-size: medium">
+
+                <div class="col-md-6" style="text-align: left"><label>产品名称：</label>#(card.cardtypeName??"")</div>
+                <div class="col-md-6" style="text-align: left"><label>保险单号：</label>#(card.policyNum??"")</div>
+            </div>
+            <div class="row" style="font-size: medium;margin-top: 10px">
+                <div class="col-md-6" style="text-align: left">
+                    <label>保险有效期：</label>
+                    #(card.bAt??"")&nbsp;&nbsp;&nbsp;#(card.eAt??"")
+                </div>
+                <div class="col-md-6" style="text-align: left">
+                    <label>报险电话：</label>
+                    #(card.reportTel??"")
+                </div>
+            </div>
+            <div class="row" style="font-size: medium;margin-top: 10px">
+                <div class="col-md-6" style="text-align: left">
+                    <label>投保人姓名：</label>
+                    #(cardsPh.name??"")
+                </div>
+                <div class="col-md-6" style="text-align: left">
+                    <label>性别：</label>
+
+                    #(cardsPh.sexTxt??"")
+
+                </div>
+            </div>
+
+            <div class="row" style="font-size: medium;margin-top: 10px">
+                <div class="col-md-6" style="text-align: left">
+                    <label>证件类型：</label>
+                    #(cardsPh.certTypeTxt??"")
+                </div>
+
+                <div class="col-md-6" style="text-align: left">
+                    <label>证件号：</label>
+
+                    #(cardsPh.idCard??"")
+                </div>
+            </div>
+            <div style="margin-top: 20px">
+                #for(x : cardsIpList)
+
+                <div class="row" style="font-size: medium;margin-top: 10px">
+                    <div class="col-md-6" style="text-align: left">
+                        <label>被投保人姓名:</label>
+                        #(x.name)
+                    </div>
+                    <div class="col-md-6" style="text-align: left">
+                        <label>性别：</label>
+                        #(x.sexTxt)
+                    </div>
+                </div>
+                <div class="row" style="font-size: medium;margin-top: 10px">
+                    <div class="col-md-6" style="text-align: left">
+                        <label>证件类型：</label>
+                        #(x.certTypeTxt)
+                    </div>
+                    <div class="col-md-6" style="text-align: left">
+                        <label>证件号:</label>
+                        #(x.idCard)
+                    </div>
+                </div>
+                <div class="row" style="font-size: medium;margin-top: 10px">
+                    <div class="col-md-6" style="text-align: left">
+                        <label>生效日期：</label>
+                        #(card.bAt??"")
+                    </div>
+                    <div class="col-md-6" style="text-align: left">
+                        <label>受益人：</label>
+                        #(x.beneficiary)
+                    </div>
+                </div>
+                #end
+                #if(!electronicPolicy.isEmpty())
+                <div class="row">
+                    <div>
+                        #for(y:electronicPolicy)
+                        <a href="#(y.accessUrl)" target="_blank">#(y.name)</a>
+                        #end
+                    </div>
+                </div>
+                #end
+            </div>
+            <hr style="margin-left: -15px;margin-right: -15px;    margin-top: 5px; margin-bottom: 20px;border: 0;border-top: 2px solid #000;">
+            <div class="row" style="font-size: large">
+                <span class="pull-left">投保金额</span>
+                <span class="pull-right">#(card.faceVal??"")</span>
+            </div>
+            <hr style="margin-left: -15px;margin-right: -15px;    margin-top: 5px; margin-bottom: 20px;border: 0;border-top: 2px solid #000;">
+            <div class="row">
+                <span class="pull-left" style="font-size: large">保险责任:</span>
+
+            </div>
+            <div class="row">
+                <span>
+                    #(card.protocol??"")
+                </span>
+            </div>
+
+        </div>
+        <div class="row" style="margin-top: 30px;margin-bottom: 20px">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <a class="btn btn-info btn-block btn-lg" href="#(ctx)/index">返回</a>
+            </div>
+        </div>
+    </div>
+</div>
+#end

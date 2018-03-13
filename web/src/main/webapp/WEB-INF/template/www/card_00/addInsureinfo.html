@@ -1,0 +1,514 @@
+<script src="#(ctx)/static/common/js/GB2260.js"></script>
+<script src="#(ctx)/static/common/js/IDValidator.js"></script>
+<div class="well well-sm" id="contactWell" style="background-color: #F6F9FC;">
+    <form class="form-horizontal" id="cardInfoForm" method="post">
+        <input type="hidden" id="cardId" name="cardId" value="#(card.id??'')">
+        <fieldset>
+            <legend class="text-center header">投保人信息</legend>
+
+            <div class="success text-center"
+                 style="display: none;color: black !important;font-size: 18px;font-family: 'nowaybold';"></div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>证件类型</label>
+                    <select class="form-control" name="phCertType" id="phCertType">
+                        #for(x : certTypeList )
+                        <option value="#(x.id)">#(x.title)</option>
+                        #end
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label>证件号</label>
+                    <input id="phIdcard" name="phIdcard" type="text" onchange="checkBirth(this.value)"
+                           class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>投保人姓名</label>
+                    <input id="phName" name="phName" type="text" maxlength="20"
+                           class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label>性别</label>
+                    <div class="col-md-12">
+                        <label class="radio-inline">
+                            <input type="radio" name="phSex" id="ph-sex-boy" value="1"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="phSex" id="ph-sex-gril" value="0" checked> 女
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>手机号</label>
+                    <input id="phTel" name="phTel" type="text" class="form-control" maxlength="11"
+                           required>
+                </div>
+                <div class="col-md-6">
+                    <label>EMAIL</label>
+                    <input id="phEmail" name="phEmail" type="text" maxlength="100"
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class=" col-md-12">
+                    <label>生日</label>
+                    <input class="form-control" size="16" type="text" value="" id="phBirthday" name="phBirthday"
+                           readonly required>
+                </div>
+            </div>
+
+            <!--<div class="form-group">-->
+                <!--<div class="col-md-12">-->
+                    <!--<label>地址</label>-->
+                    <!--<textarea class="form-control" id="phAddress" name="phAddress"-->
+                              <!--rows="5"></textarea>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+        </fieldset>
+        #for(i=0;i<card.peopleCount.toInt();i++)
+        <fieldset>
+            <legend class="text-center header">被投保人信息#(i+1)</legend>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>与投保人关系</label>
+                    <select id="relationship-#(i+1)" name="relationship" class="form-control" required onchange="relationChange(this.value)">
+                        <option value="">请选择与投保人关系</option>
+                        <option value="00">父亲</option>
+                        <option value="01">母亲</option>
+                        <option value="02">儿子</option>
+                        <option value="03">女儿</option>
+                        <option value="04">配偶</option>
+                        <option value="05">本人</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>证件类型</label>
+                    <select class="form-control" name="ipCertType" id="ipCertType-#(i+1)">
+                        #for(x : certTypeList )
+                        <option value="#(x.id)">#(x.title)</option>
+                        #end
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>证件号</label>
+                    <input id="ipIdcard-#(i+1)" name="ipIdcard" type="text" onchange="checkIpBirth(this.value,'#(i+1)')"
+                           class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>被投保人姓名</label>
+                    <input id="ipName-#(i+1)" name="ipName" type="text" maxlength="20"
+                           class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label>性别</label>
+                    <div class="col-md-12">
+                        <label class="radio-inline">
+                            <input type="radio" name="ipSex-#(i+1)" id="ip-sex-boy-#(i+1)" value="1"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="ipSex-#(i+1)" id="ip-sex-gril-#(i+1)" value="0" checked> 女
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label>手机号</label>
+                    <input id="ipTel-#(i+1)" name="ipTel" type="text" maxlength="11"
+                           class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label>生日</label>
+                    <input id="ipBirthday-#(i+1)" name="ipBirthday" type="text"
+                           class="form-control" required readonly>
+                </div>
+            </div>
+            <input type="hidden" id="insurance" value="#(cardtype.categoryCode??'')">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label>职业大类</label>
+                    <select onchange="occ_0_handle('#(i+1)')" id="occ_0-#(i+1)" size="10" style="width: 100%">
+                        #for (x:ioList)
+                        <option value="#(x.code)">#(x.name)</option>
+                        #end
+                    </select>
+                </div>
+                <div class="col-md-4" style="display: none">
+                    <label>职业种类</label>
+
+                    <select onchange="occ_1_handle('#(i+1)')" id="occ_1-#(i+1)" size="10" style="width: 100%">
+
+                    </select>
+                </div>
+                <div class="col-md-4" style="display: none;">
+                    <label>职业小类</label>
+                    <select id="occCode-#(i+1)"  size="10" style="width: 100%">
+
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+        #end
+        <fieldset>
+            <legend class="text-center header">其他</legend>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label for="ipBeneficiary">受益人：</label>
+                    <input id="ipBeneficiary" name="ipBeneficiary" type="text" value="法定受益人"
+                           class="form-control" disabled>
+                </div>
+            </div>
+        </fieldset>
+
+
+    </form>
+    <script>
+
+        let pc =#(card.peopleCount)
+        const idv = new IDValidator();
+        const ctx = $('#ctx').val();
+        const insurance = $('#insurance').val();
+        const cardCode='#(card.code)'
+        function relationChange(val) {
+            if(val=='05'){
+                $("#ipName-1").val($('#phName').val());
+                let sex=$("input[name='phSex'][checked]").val();
+                $("input[name='ipSex-1'][value=" + sex + "]").attr("checked", true);
+                $("#ipIdcard-1").val($('#phIdcard').val())
+                $("#ipTel-1").val($('#phTel').val())
+                $("#ipBirthday-1").val($('#phBirthday').val())
+            }else{
+                $("#ipName-1").val('');
+                $("input[name='ipSex-1'][value=" + sex + "]").attr("checked", true);
+                $("#ipIdcard-1").val('')
+                $("#ipTel-1").val('')
+                $("#ipBirthday-1").val('')
+            }
+        }
+        //        $('#phBirthday').datetimepicker({
+        //            language:  'zh-CN',
+        //            format: 'yyyy-mm-dd',
+        //            minView:2,
+        //            autoclose:true,
+        //            todayBtn:true,
+        //            todayHighlight:true,
+        //        });
+        //
+        //        for(let i=0;i<pc;i++){
+        //            $('#ipBirthday-'+(i+1)).datetimepicker({
+        //                language:  'zh-CN',
+        //                format: 'yyyy-mm-dd',
+        //                minView:2,
+        //                autoclose:true,
+        //                todayBtn:true,
+        //                todayHighlight:true,
+        //            });
+        //        }
+
+
+        function occ_0_handle(index) {
+            $('#occCode-' + index).val('');
+            let occ_0 = $('#occ_0-' + index).val();
+            if (occ_0 != '') {
+                $.ajax({
+                    type: 'post',
+                    url: ctx + 'occQuery',
+                    data: {'occ_0': occ_0, 'insurance': insurance},
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        let occ_code_obj = $('#occCode-' + index);
+
+                        occ_code_obj.empty();
+                        let occ_code_obj_p = occ_code_obj.parent();
+                        occ_code_obj_p.hide();
+                        let occ_1_obj = $('#occ_1-' + index);
+                        let occ_1_obj_p = occ_1_obj.parent();
+
+                        occ_1_obj_p.show();
+                        occ_1_obj.empty();
+                        $.each(data, function (index, obj) {
+                            occ_1_obj.append("<option value='" + obj.code + "' title='" + obj.name + "'>" + obj.name + "</option>");
+                        })
+                    }, beforeSend(XHR){
+                        layer.msg('数据处理中...', {shade: [0.8, '#393D49'], time: 100000})
+                    }, complete(XHR, TS){
+                        layer.closeAll();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        layer.alert('网络错误，请稍后重试', {icon: 5})
+                    },
+                });
+            }
+        }
+        function occ_1_handle(index) {
+            let occ_1 = $('#occ_1-'+index).val();
+            $('#occCode-' + index).val('');
+            if (occ_1 != '') {
+                $.ajax({
+                    type: 'post',
+                    url: ctx + 'occQuery',
+                    data: {'occ_1': occ_1, 'insurance': insurance},
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        let occ_code_obj = $('#occCode-'+index);
+                        let occ_code_obj_p = occ_code_obj.parent();
+                        occ_code_obj_p.show();
+                        occ_code_obj.empty();
+                        $.each(data, function (index, obj) {
+                            occ_code_obj.append("<option value='" + obj.id + "'>" + obj.name + "</option>");
+                        })
+                    }
+                    , beforeSend(XHR){
+                        layer.msg('数据处理中...', {shade: [0.8, '#393D49'], time: 100000})
+                    }, complete(XHR, TS){
+                        layer.closeAll();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        layer.alert('网络错误，请稍后重试', {icon: 5})
+                    },
+                });
+            }
+        }
+
+        function formCheck() {
+
+            let ret = undefined;
+
+
+            let phName = $("#phName").val();
+            let phIdcard = $("#phIdcard").val();
+            let phBirthday = $("#phBirthday").val();
+            let phTel = $("#phTel").val();
+            let phSex = $("input[name='phSex'][checked]").val();
+            let phEmail = $("#phEmail").val();
+
+
+            if (Bee.StringUtils.isBlank(phName)) {
+                layer.alert('投保人姓名不能为空', {icon: 5})
+                return ret;
+            }
+            phName=Bee.StringUtils.trimToEmpty(phName)
+
+            if (Bee.StringUtils.isBlank(phIdcard)) {
+                layer.alert('投保人证件号不能为空', {icon: 5})
+                return ret;
+            } else {
+
+                let r = idv.isValid(phIdcard);
+                if (!r) {
+                    layer.alert('投保人证件号不正确', {icon: 5})
+                    return ret;
+                } else {
+                    let phIdInfo = idv.getInfo(phIdcard);
+                    $("input[name='phSex'][value=" + phIdInfo['sex'] + "]").attr("checked", true);
+                }
+            }
+
+            if (Bee.StringUtils.isBlank(phTel)) {
+                layer.alert('投保人联系电话不能为空', {icon: 5})
+                return ret;
+            } else if (!Bee.PhoneUtils.isPhoneNum(phTel)) {
+                layer.alert('投保人手机号格式不正确', {icon: 5});
+                return ret;
+            }
+
+            if (Bee.StringUtils.isBlank(phBirthday)) {
+                layer.alert('投保人生日不能为空', {icon: 5})
+                return ret;
+            }
+
+            if (Bee.StringUtils.isNotBlank(phEmail)) {
+                if (!Bee.EmailUtils.isEmail(phEmail)) {
+                    layer.alert('投保人EMAIL格式不正确', {icon: 5})
+                    return ret;
+                }
+                phEmail=Bee.StringUtils.trimToEmpty(phEmail);
+            }
+
+
+
+            let ips = new Array;
+            let temp = {};
+
+            for (var i = 0; i < pc; i++) {
+
+                let relationShip = $("#relationship-" + (i + 1)).val();
+                if (Bee.StringUtils.isBlank(relationShip)) {
+                    layer.alert('被投保人' + (i + 1) + '与投保人关系必选', {icon: 5});
+                    return ret;
+                }
+                temp['ip'+(i)+'.relationship'] = relationShip;
+
+                let ipName = $("#ipName-" + (i + 1)).val();
+                if (Bee.StringUtils.isBlank(ipName)) {
+                    layer.alert('被投保人姓名' + (i + 1) + '不能为空', {icon: 5});
+                    return ret;
+                }
+                ipName=Bee.StringUtils.trimToEmpty(ipName)
+                temp['ip'+(i)+'.name'] = ipName
+
+                let ipIdcard = $("#ipIdcard-" + (i + 1)).val();
+                if (Bee.StringUtils.isBlank(ipIdcard)) {
+                    layer.alert('被投保人证件号' + (i + 1) + '不能为空', {icon: 5});
+                    return ret;
+                } else {
+
+                    let r = idv.isValid(ipIdcard);
+                    if (!r) {
+                        layer.alert('被投保人证件号不正确', {icon: 5})
+                        return ret;
+                    } else {
+                        let ipIdInfo = idv.getInfo(ipIdcard);
+                        $("input[name='ipSex-" + (i + 1) + "'][value=" + ipIdInfo['sex'] + "]").attr("checked", true);
+                    }
+                }
+                temp['ip'+(i)+'.idCard'] = ipIdcard
+                let ipTel = $("#ipTel-" + (i + 1)).val();
+                if (Bee.StringUtils.isBlank(ipTel)) {
+                    layer.alert('被投保人电话号' + (i + 1) + '不能为空', {icon: 5});
+                    return ret;
+                }
+                temp['ip'+(i)+'.tel'] = ipTel;
+                let ipBirthday = $("#ipBirthday-" + (i + 1)).val();
+                if (Bee.StringUtils.isBlank(ipBirthday)) {
+                    layer.alert('被投保人' + (i + 1) + '生日不能为空', {icon: 5})
+                    return ret;
+                }
+
+                let occ_0=$('#occ_0-'+(i+1));
+                let occCode=$('#occCode-'+(i+1)).val();
+
+                if(occ_0.length>0&&(occCode==null)){
+                    if (Bee.StringUtils.isBlank(occCode)) {
+                        layer.alert('被投保人' + (i + 1) + '职业不能为空', {icon: 5})
+                        return ret;
+                    }
+                }
+
+
+                temp['ip'+(i)+'.birthDay'] = ipBirthday
+                temp['ip'+(i)+'.job'] = occCode
+                temp['ip'+(i)+'.cardsId'] = $('#cardId').val();
+                temp['ip'+(i)+'.certTypeId'] = $('#ipCertType-' + (i + 1)).val()
+                temp['ip'+(i)+'.sex'] = $("input[name='ipSex-" + (i + 1) + "'][checked]").val()
+                temp['ip'+(i)+'.beneficiary'] = $("#ipBeneficiary").val();
+                ips.push(temp)
+            }
+
+
+            ret = {};
+            ret['ips'] = ips;
+            ret['ph.name'] = phName;
+            ret['ph.cardsId'] = $('#cardId').val();
+            ret['ph.sex'] = $("input[name='phSex'][checked]").val();
+            ret['ph.certTypeId'] = $('#phCertType').val();
+            ret['ph.idCard'] = phIdcard;
+            ret['ph.tel'] = phTel;
+            ret['ph.email'] = $("#phEmail").val();
+//            ret['ph.address'] = $("#phAddress").val();
+            ret['ph.birthDay'] = $("#phBirthday").val();
+            ret['code']=cardCode;
+
+//            console.info(ret)
+
+            return ret;
+
+
+        }
+        function checkBirth(val) {
+            $('#phBirthday').val('')
+            let r = idv.isValid(val);
+            if (r) {
+                let idInfo = idv.getInfo(val);
+                $('#phBirthday').val(idInfo['birth'])
+                $("input[name='phSex'][value=" + idInfo['sex'] + "]").attr("checked", true);
+
+            } else {
+                layer.alert('投保人证件号不正确', {icon: 5});
+            }
+        }
+
+        function checkIpBirth(val, index) {
+            $('#ipBirthday-' + index).val('')
+            let r = idv.isValid(val);
+            if (r) {
+                let idInfo = idv.getInfo(val);
+                $('#ipBirthday-' + index).val(idInfo['birth'])
+                $("input[name='ipSex-" + index + "'][value=" + idInfo['sex'] + "]").attr("checked", true);
+            } else {
+                layer.alert('被投保人' + index + '证件号不正确', {icon: 5});
+            }
+        }
+
+
+        function saveData() {
+            let d = formCheck();
+            if (d != undefined) {
+                let i = layer.confirm('确定要提交投保信息吗？', {
+                    btn: ['否', '是'] //按钮
+                }, function () {
+                    layer.close(i)
+                }, function () {
+                    let ips = d.ips;
+                    d.ipLen = ips.length;
+                    $.each(ips, function (index, obj) {
+                        Object.assign(d, obj)
+                        d.ips = null;
+                    })
+                    $.ajax({
+                        type: 'post',
+                        url: ctx + 'saveCardInfo',
+                        data: d,
+                        cache: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.resCode == 'success') {
+                                layer.alert(data.resMsg, {icon: 1}, function () {
+                                    window.location.href = $('#ctx').val() + 'index';
+                                });
+                            } else if (data.resCode == 'fail') {
+                                layer.alert(data.resMsg, {icon: 5});
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.alert('网络错误，请稍后重试', {icon: 5});
+                        }, beforeSend(XHR){
+                            layer.msg('数据处理中...', {shade: [0.8, '#393D49'], time: 100000})
+                        }, complete(XHR, TS){
+                            layer.closeAll('loading');
+                        }
+                    });
+                });
+            }
+        }
+
+        function preHandler() {
+            $("#protocolDiv").show();
+            $("#addInsureinfoDiv").hide();
+        }
+    </script>
+</div>
+<div class="row pull-right">
+    <button class="btn btn-danger" onclick="preHandler()">上一步</button>
+    <button class="btn btn-primary" onclick="saveData()">提交</button>
+</div>
