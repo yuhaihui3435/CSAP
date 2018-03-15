@@ -8,6 +8,7 @@
     <meta name="renderer" content="webkit">
     <meta name="language" content="en-us" />
     <meta name="description" content="#(siteDescription)">
+    <meta name="keywords" content="#(siteSEO)" />
     <title>#(siteTitle)</title>
     #include("/WEB-INF/template/www/css.html")
 
@@ -18,9 +19,6 @@
 #include("/WEB-INF/template/www/header.html")
 
 #include("/WEB-INF/template/www/js.html")
-<script type="text/javascript">
-    $("div.navbar-fixed-top").autoHidingNavbar();
-</script>
 #@content()
 #include("/WEB-INF/template/www/footer.html")
 

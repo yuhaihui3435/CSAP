@@ -6,7 +6,7 @@
 body{
     font-size: 15px;
     line-height: 21px;
-    font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
+    font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
     color: #1a1a1a;
     -webkit-tap-highlight-color: rgba(26,26,26,0);
 }
@@ -154,9 +154,9 @@ textarea:focus {
     -ms-transform: translate(13%, 190%) rotate(-30deg);
     transform: translate(13%, 190%) rotate(-30deg);
 }
-.menu-btn {
-    padding: 12px 30px;
-}
+/*.menu-btn {*/
+    /*padding: 12px 0px;*/
+/*}*/
 .overly{
     position: relative;
     z-index: 1;
@@ -206,10 +206,54 @@ textarea:focus {
     font-size: 16px;
     line-height: 24px;
 }
+
+
 /*===================
 3. 头部CSS
 ===================== */
-.header-top,
+
+
+header .sign-up{
+    float: left;
+    width: 60px;
+    height: 38px;
+    line-height: 24px;
+    margin: 9px 5px 0 15px;
+    border: 1px solid rgba(102,204,255,.7);
+    border-radius: 20px;
+    font-size: 15px;
+    color: #66CCFF;
+    background-color: transparent;
+}
+header .sign-up, header .sign-up:hover {
+    transition: .1s ease-in;
+    -webkit-transition: .1s ease-in;
+    -moz-transition: .1s ease-in;
+    -o-transition: .1s ease-in;
+    -ms-transition: .1s ease-in;
+}
+nav .sign-up:hover {
+    color: #18adec;
+    border-color: #36ccff;
+    background-color: rgba(103, 205, 236, 0.05)
+}
+header .log-in{
+    color: #969696;
+    float: left;
+    margin: 11px 6px 0 10px;
+    font-size: 15px;
+}
+header .log-in, header .log-in:hover {
+    color: #969696;
+}
+
+
+
+
+.header-top{
+    position: relative;
+    z-index: 1;
+}
 .header-top::before {
     position: absolute;
     left: 0;
@@ -231,6 +275,7 @@ textarea:focus {
     top: 8px;
     content: "\f09e";
     font-size: 14px;
+    font-family: fontawesome;
     color: #a4a4a4;
 }
 .ticker {
@@ -293,7 +338,7 @@ textarea:focus {
     font-size: 14px;
 }
 .single-info ul li:hover a {
-    color: #00d8ff;
+    color: #66CCFF;
 }
 /* ==========================================
 4. 主菜单css
@@ -302,7 +347,8 @@ textarea:focus {
     background: #fff none repeat scroll 0 0;
 }
 .menu-btn {
-    padding-top: 26px;
+    display: inline-block;
+    padding-top: 20px;
     text-align: center;
 }
 .header-bottom {
@@ -333,7 +379,8 @@ textarea:focus {
 }
 .main-menu .navbar ul li a {
     color: #353535;
-    font-size: 14px;
+    font-weight: bold;
+    font-size: 17px;
     padding: 36px 10px;
     text-transform: uppercase;
     display: block;
@@ -341,7 +388,7 @@ textarea:focus {
     text-align: left;
 }
 .main-menu .navbar ul > li:hover > a {
-    color: #00d8ff
+    color: #66CCFF
 }
 .main-menu ul li ul.sub-menu li {
     display: block;
@@ -415,8 +462,43 @@ textarea:focus {
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:focus,
 .navbar-default .navbar-nav > .active > a:hover {
-    color: #00d8ff
+    color: #66CCFF
 }
+
+
+
+
+
+/*====================================
+ Sticky Menu
+======================================*/
+
+.is-sticky .header-bottom {
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.15);
+}
+.is-sticky .main-menu .navbar ul li a {
+    padding: 25px 10px;
+}
+.is-sticky .navbar-brand {
+    padding-top: 7px;
+    padding-bottom: 0;
+}
+.navbar-brand > img,
+.menu-btn {
+    -webkit-transition: .4s;
+    -o-transition: .4s;
+    transition: .4s;
+}
+.is-sticky .navbar-brand > img {
+    height: 61px;
+    padding: 4px 10px;
+    width: 100%;
+}
+.is-sticky .menu-btn {
+    padding-top: 13px;
+}
+
 
 /* ===================================
  滚动图片
@@ -441,7 +523,7 @@ textarea:focus {
     transform: translate(-50%, -50%);
 }
 .slide-txt h2 {
-    color: #00d8ff;
+    color: #66CCFF;
     font-size: 48px;
     line-height: 60px;
     text-transform: uppercase;
@@ -453,7 +535,7 @@ textarea:focus {
     margin-bottom: 35px;
 }
 .slide-txt > p span {
-    color: #00d8ff;
+    color: #66CCFF;
 }
 .single-slide.overly > img {
     height: 600px;
@@ -504,7 +586,7 @@ textarea:focus {
 #slider-area.owl-theme .owl-nav [class*="owl-"] i {
     display: table-cell;
     vertical-align: middle;
-    color: #00d8ff;
+    color: #66CCFF;
     font-size: 16px;
 }
 #slider-area.owl-carousel.owl-theme.owl-loaded.owl-drag {
@@ -570,7 +652,7 @@ icon+文字说明
     border-radius: 50%;
 }
 .card1-icon i {
-    color: #00d8ff;
+    color: #66CCFF;
     font-size: 18px;
     display: table-cell;
     vertical-align: middle;
@@ -632,7 +714,7 @@ icon+文字说明
     border-radius: 50%;
 }
 .member-social > li a {
-    color: #00d8ff;
+    color: #66CCFF;
 }
 .member-social > li a i{
     display: table-cell;
@@ -650,7 +732,7 @@ icon+文字说明
 ================================================*/
 
 .card2-area {
-    background: #f2b33d;
+    background: #66CCFF;
     padding: 100px 0;
 }
 .card2-area .section-heading {
@@ -791,7 +873,7 @@ icon+文字说明
 .image-overly span i {
     display: table-cell;
     vertical-align: middle;
-    color: #00d8ff;
+    color: #66CCFF;
 }
 .single-gallery:hover .image-overly {
     opacity: 1;
@@ -873,7 +955,7 @@ icon+文字说明
     position: relative;
 }
 .nletter-box > button {
-    background: #00d8ff none repeat scroll 0 0;
+    background: #66CCFF none repeat scroll 0 0;
     border: 0 none;
     height: 50px;
     position: absolute;
