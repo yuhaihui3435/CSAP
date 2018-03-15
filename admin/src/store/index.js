@@ -9,6 +9,7 @@ import art from './modules/art';
 import res from './modules/res';
 import tax from './modules/tax';
 import home from './modules/home';
+import carouselSetting from './modules/carouselSetting';
 
 Vue.use(Vuex);
 
@@ -41,7 +42,8 @@ const store = new Vuex.Store({
         art,
         res,
         tax,
-        home
+        home,
+        carouselSetting
     }
 });
 

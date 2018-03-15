@@ -15,7 +15,7 @@ import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.CMNCtr;
 import com.yhh.csap.admin.LoginCtr;
-import com.yhh.csap.admin.Res.ResCtr;
+import com.yhh.csap.admin.res.ResCtr;
 import com.yhh.csap.admin.art.ArtCtr;
 import com.yhh.csap.admin.param.ParamCtr;
 import com.yhh.csap.admin.role.RoleCtr;

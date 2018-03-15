@@ -1,4 +1,4 @@
-package com.yhh.csap.admin.Res;
+package com.yhh.csap.admin.res;
 
 
 import com.jfinal.aop.Before;
