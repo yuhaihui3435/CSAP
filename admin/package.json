@@ -6,7 +6,7 @@
   "scripts": {
     "init": "webpack --progress --config build/webpack.dev.config.js",
     "dev": "webpack-dev-server --content-base ./ --open --inline --hot --compress --config build/webpack.dev.config.js",
-    "build": "webpack --progress --hide-modules --config build/webpack.prod.config.js",
+    "3333333333333333333build": "webpack --progress --hide-modules --config build/webpack.prod.config.js",
     "lint": "eslint --fix --ext .js,.vue src",
     "test": "npm run lint"
   },
@@ -27,7 +27,7 @@
     "echarts": "^3.8.5",
     "es6-promise": "^4.2.4",
     "html2canvas": "^0.5.0-beta4",
-    "iview": "^2.9.1",
+    "iview": "^2.11.0",
     "iview-area": "^1.5.11",
     "js-cookie": "^2.2.0",
     "moment": "^2.19.4",
