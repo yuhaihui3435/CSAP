@@ -28,6 +28,12 @@ public class Consts {
 
     public static final String T_TAG_CK="tag";
 
+    public static final String BLANK="";
+
+    public static final String QINIU_IMG_FOLDER="csap/img/";
+
+
+
     public enum YORN {
         yes(true), no(false);
         boolean val;

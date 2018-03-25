@@ -10,6 +10,7 @@
                 <Row>
                     <Col span="8">
                     <Button type="primary" icon="android-add" @click="add">新增轮播</Button>
+                    <Button type="primary" icon="search" @click="refresh">刷新</Button>
                     </Col>
                 </Row>
                 <Row class="margin-top-10">
@@ -72,7 +73,7 @@
 
         computed: {
             ...mapState({
-                'carouselSettingList': state => state.carouselSetting.roleList,
+                'carouselSettingList': state => state.carouselSetting.carouselSettingList,
                 'totalPage': state => state.carouselSetting.totalPage,
                 'total': state => state.carouselSetting.totalRow,
                 'pageNumber': state => state.carouselSetting.pageNumber,
@@ -87,8 +88,8 @@
                     }
                 });
             },
-            edit(role){
-                this.$store.commit('carouselSetting_set',role);
+            edit(cls){
+                this.$store.commit('carouselSetting_set',cls);
                 this.$refs.rf.open('编辑轮播数据',false);
             },
             add(){
@@ -102,10 +103,14 @@
             }
         },
         mounted (){
-            this.$store.dispatch('carouselSetting_list')
+            let vm=this;
+            this.$store.dispatch('carouselSetting_res_load').then(function () {
+                    vm.$store.dispatch('carouselSetting_list')
+                }
+            )
         },
         components: {
-            roleForm: roleForm,
+            clsForm: clsForm,
         },
         data () {
             return {
@@ -118,7 +123,7 @@
                     },
                     {
                         title: '所属区域',
-                        key: 'area',
+                        key: 'areaTxt',
                     },
                     {
                         title: '轮播图片',
@@ -130,7 +135,11 @@
                     },
                     {
                         title: '操作员',
-                        key: 'operName',
+                        key: 'operTxt',
+                    },
+                    {
+                        title: '状态',
+                        key: 'statusTxt',
                     },
                     {
                         title: '操作',

@@ -69,8 +69,8 @@ public class UserCtr extends CoreController {
             UserRole ur = null;
             for (Integer i : roledIds) {
                 ur = new UserRole();
-                ur.setRid(i);
-                ur.setUid(user.getLong("id"));
+                ur.setRId(i);
+                ur.setUId(user.getLong("id"));
                 ur.save();
             }
         }
@@ -97,8 +97,8 @@ public class UserCtr extends CoreController {
             UserRole ur = null;
             for (Integer i : roledIds) {
                 ur = new UserRole();
-                ur.setRid(i);
-                ur.setUid(user.getId().longValue());
+                ur.setRId(i);
+                ur.setUId(user.getId().longValue());
                 ur.save();
             }
         }

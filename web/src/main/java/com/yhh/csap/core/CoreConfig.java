@@ -27,6 +27,7 @@ import com.yhh.csap.interceptors.WwwInterceptor;
 import com.yhh.csap.kits.DateKit;
 import com.yhh.csap.kits.ResKit;
 import com.yhh.csap.www.IndexCtr;
+import com.yhh.csap.www.carouselsetting.ClsCtr;
 
 /**
  * Created by yuhaihui8913 on 2017/11/14.
@@ -77,7 +78,7 @@ public class CoreConfig extends JFinalConfig{
         routes.add(new Routes() {
             @Override
             public void config() {
-
+                add("/w01", ClsCtr.class);
             }
         });
 

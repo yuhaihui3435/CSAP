@@ -77,6 +77,17 @@ export const appRouter = [
             // { path: 'artList', title: '文章列表', name: 'admin_artList', component: resolve => { require(['@/views/admin/art/list.vue'], resolve); } },
         ]
     },
+    {
+        path: '/www',
+        icon: 'monitor',
+        isCheck:'yes',
+        name: 'www',
+        title: '网站内容管理',
+        component: Main,
+        children: [
+            { path: 'cls', title: '轮播数据管理',isCheck:'yes', name: 'www_cls', component: resolve => { require(['@/views/www/carouselSetting/main.vue'], resolve); } },
+        ]
+    },
 ];
 
 // 所有上面定义的路由都要写在下面的routers里

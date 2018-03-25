@@ -50,6 +50,7 @@ const  carouselSetting={
             return new Promise(function (resolve, reject) {
                 vm.$axios.post('/w01/dr', param).then((res) => {
                     commit('set_dr',res)
+                    resolve()
                 });
             });
         },
