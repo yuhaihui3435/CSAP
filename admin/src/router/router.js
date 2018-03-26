@@ -88,6 +88,17 @@ export const appRouter = [
             { path: 'cls', title: '轮播数据管理',isCheck:'yes', name: 'www_cls', component: resolve => { require(['@/views/www/carouselSetting/main.vue'], resolve); } },
         ]
     },
+    {
+        path: '/mt',
+        icon: 'bowtie',
+        isCheck:'yes',
+        name: 'mt',
+        title: '医患信息管理',
+        component: Main,
+        children: [
+            { path: 'dr', title: '医生信息管理',isCheck:'yes', name: 'mt_dr', component: resolve => { require(['@/views/mt/doctor/main.vue'], resolve); } },
+        ]
+    }
 ];
 
 // 所有上面定义的路由都要写在下面的routers里

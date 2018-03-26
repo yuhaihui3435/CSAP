@@ -241,4 +241,40 @@ public abstract class BaseUser<M extends BaseUser<M>> extends CoreModel<M> imple
 		return get("d_at");
 	}
 
+	public java.lang.String getSheng() {
+		return getStr("sheng");
+	}
+
+	public void setQu(java.lang.String qu) {
+		set("qu", qu);
+	}
+
+	public java.lang.String getQu() {
+		return getStr("qu");
+	}
+
+	public void setShi(java.lang.String shi) {
+		set("shi", shi);
+	}
+
+	public java.lang.String getShi() {
+		return getStr("shi");
+	}
+
+	public void setSex(java.lang.String sex) {
+		set("sex", sex);
+	}
+
+	public java.lang.String getSex() {
+		return getStr("sex");
+	}
+
+	public void setAge(java.lang.String age) {
+		set("age", age);
+	}
+
+	public java.lang.String getAge() {
+		return getStr("age");
+	}
+
 }

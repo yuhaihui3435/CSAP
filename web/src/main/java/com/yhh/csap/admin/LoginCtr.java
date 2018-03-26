@@ -32,7 +32,7 @@ public class LoginCtr extends CoreController{
         String password=getPara("password");
         String rm=getPara("rememberMe");
         if(StrUtil.isBlank(username)){
-            renderFailJSON("用户名不能为空");
+            renderFailJSON("用户名/email/手机号不能为空");
             return;
         }
 
@@ -42,7 +42,7 @@ public class LoginCtr extends CoreController{
         }
 
 
-        User user = com.yhh.csap.admin.model.User.dao.findFirst("select * from s_user where loginname=? ", username);
+        User user = com.yhh.csap.admin.model.User.dao.findFirst("select * from s_user where loginname=? or email=? or phone=?", username,username,username);
 
         if(user==null){
             renderFailJSON("用户不存在!");

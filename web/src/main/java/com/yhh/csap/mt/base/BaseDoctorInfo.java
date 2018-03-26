@@ -1,5 +1,6 @@
 package com.yhh.csap.mt.base;
 
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.IBean;
 import com.yhh.csap.core.CoreModel;
 
@@ -9,140 +10,148 @@ import com.yhh.csap.core.CoreModel;
 @SuppressWarnings("serial")
 public abstract class BaseDoctorInfo<M extends BaseDoctorInfo<M>> extends CoreModel<M> implements IBean {
 
-    public void setId(Integer id) {
-        set("id", id);
-    }
+	public void setId(Integer id) {
+		set("id", id);
+	}
+	
+	public Integer getId() {
+		return getInt("id");
+	}
 
-    public Integer getId() {
-        return getInt("id");
-    }
+	public void setName(String name) {
+		set("name", name);
+	}
+	
+	public String getName() {
+		return getStr("name");
+	}
 
-    public void setName(String name) {
-        set("name", name);
-    }
+	public void setAvatar(String avatar) {
+		set("avatar", avatar);
+	}
+	
+	public String getAvatar() {
+		return getStr("avatar");
+	}
 
-    public String getName() {
-        return getStr("name");
-    }
+	public void setSummary(String summary) {
+		set("summary", summary);
+	}
+	
+	public String getSummary() {
+		return getStr("summary");
+	}
 
-    public void setAvatar(String avatar) {
-        set("avatar", avatar);
-    }
+	public void setSex(Integer sex) {
+		set("sex", sex);
+	}
+	
+	public Integer getSex() {
+		return getInt("sex");
+	}
 
-    public String getAvatar() {
-        return getStr("avatar");
-    }
+	public void setTel1(String tel1) {
+		set("tel1", tel1);
+	}
+	
+	public String getTel1() {
+		return getStr("tel1");
+	}
 
-    public void setSummary(String summary) {
-        set("summary", summary);
-    }
+	public void setEmail(String email) {
+		set("email", email);
+	}
+	
+	public String getEmail() {
+		return getStr("email");
+	}
 
-    public String getSummary() {
-        return getStr("summary");
-    }
+	public void setHospital(String hospital) {
+		set("hospital", hospital);
+	}
+	
+	public String getHospital() {
+		return getStr("hospital");
+	}
 
-    public void setSex(Integer sex) {
-        set("sex", sex);
-    }
+	public void setLicenseNo(String licenseNo) {
+		set("licenseNo", licenseNo);
+	}
+	
+	public String getLicenseNo() {
+		return getStr("licenseNo");
+	}
 
-    public Integer getSex() {
-        return getInt("sex");
-    }
+	public void setWeixin(String weixin) {
+		set("weixin", weixin);
+	}
+	
+	public String getWeixin() {
+		return getStr("weixin");
+	}
 
-    public void setTel1(String tel1) {
-        set("tel1", tel1);
-    }
+	public void setTel2(String tel2) {
+		set("tel2", tel2);
+	}
+	
+	public String getTel2() {
+		return getStr("tel2");
+	}
 
-    public String getTel1() {
-        return getStr("tel1");
-    }
+	public void setTel3(String tel3) {
+		set("tel3", tel3);
+	}
+	
+	public String getTel3() {
+		return getStr("tel3");
+	}
 
-    public void setEmail(String email) {
-        set("email", email);
-    }
+	public void setIntroduction(String introduction) {
+		set("introduction", introduction);
+	}
+	
+	public String getIntroduction() {
+		return getStr("introduction");
+	}
 
-    public String getEmail() {
-        return getStr("email");
-    }
+	public void setCAt(java.util.Date cAt) {
+		set("cAt", cAt);
+	}
+	
+	public java.util.Date getCAt() {
+		return get("cAt");
+	}
 
-    public void setHospital(String hospital) {
-        set("hospital", hospital);
-    }
+	public void setDAt(java.util.Date dAt) {
+		set("dAt", dAt);
+	}
+	
+	public java.util.Date getDAt() {
+		return get("dAt");
+	}
 
-    public String getHospital() {
-        return getStr("hospital");
-    }
+	public void setMAt(java.util.Date mAt) {
+		set("mAt", mAt);
+	}
+	
+	public java.util.Date getMAt() {
+		return get("mAt");
+	}
 
-    public void setLicenseNo(String licenseNo) {
-        set("licenseNo", licenseNo);
-    }
+	public void setOperId(Integer operId) {
+		set("operId", operId);
+	}
+	
+	public Integer getOperId() {
+		return getInt("operId");
+	}
 
-    public String getLicenseNo() {
-        return getStr("licenseNo");
-    }
-
-    public void setWeixin(String weixin) {
-        set("weixin", weixin);
-    }
-
-    public String getWeixin() {
-        return getStr("weixin");
-    }
-
-    public void setTel2(String tel2) {
-        set("tel2", tel2);
-    }
-
-    public String getTel2() {
-        return getStr("tel2");
-    }
-
-    public void setTel3(String tel3) {
-        set("tel3", tel3);
-    }
-
-    public String getTel3() {
-        return getStr("tel3");
-    }
-
-    public void setIntroduction(String introduction) {
-        set("introduction", introduction);
-    }
-
-    public String getIntroduction() {
-        return getStr("introduction");
-    }
-
-    public void setCAt(java.util.Date cAt) {
-        set("cAt", cAt);
-    }
-
-    public java.util.Date getCAt() {
-        return get("cAt");
-    }
-
-    public void setDAt(java.util.Date dAt) {
-        set("dAt", dAt);
-    }
-
-    public java.util.Date getDAt() {
-        return get("dAt");
-    }
-
-    public void setMAt(java.util.Date mAt) {
-        set("mAt", mAt);
-    }
-
-    public java.util.Date getMAt() {
-        return get("mAt");
-    }
-
-    public void setOperId(java.util.Date operId) {
-        set("operId", operId);
-    }
-
-    public java.util.Date getOperId() {
-        return get("operId");
-    }
+	public void setUserId(Integer userId) {
+		set("userId", userId);
+	}
+	
+	public Integer getUserId() {
+		return getInt("userId");
+	}
 
 }
