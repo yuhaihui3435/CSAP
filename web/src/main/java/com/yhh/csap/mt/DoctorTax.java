@@ -1,6 +1,9 @@
 package com.yhh.csap.mt;
 
 
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.mt.base.BaseDoctorTax;
 
 /**
@@ -13,5 +16,9 @@ public class DoctorTax extends BaseDoctorTax<DoctorTax> {
 	@Override
 	public String getTableName() {
 		return "mt_doctor_tax";
+	}
+
+	public Taxonomy getTax(){
+		return CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getTaxId().toString());
 	}
 }

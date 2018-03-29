@@ -4,9 +4,11 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Model;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Role;
 import com.yhh.csap.admin.model.User;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.List;
 
@@ -126,6 +128,8 @@ public class CoreController extends Controller {
     }
 
     protected List<Role> currUserRoles(){return getAttr(Consts.CURR_USER_ROLES);}
+
+
 
 
 

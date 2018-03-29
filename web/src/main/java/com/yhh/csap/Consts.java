@@ -6,35 +6,39 @@ import org.jsoup.safety.Whitelist;
  * Created by yuhaihui8913 on 2017/11/14.
  * 常量类
  */
-public class Consts {
+public interface  Consts {
 
-    public static final Whitelist basicWithImages=Whitelist.basicWithImages();
+     Whitelist basicWithImages=Whitelist.basicWithImages();
 
-    public static final String ENCRYPT_KEY="yuhaihui3435-never-late";
+     String ENCRYPT_KEY="yuhaihui3435-never-late";
 
-    public static final String USER_ACCESS_TOKEN="userId-csap";
+     String USER_ACCESS_TOKEN="userId-csap";
 
-    public static final int COOKIE_TIMEOUT=24*60*60*10;
+     int COOKIE_TIMEOUT=24*60*60;
 
-    public static final int COOKIE_FOREVER=24*60*60*6*365*50;
+     int COOKIE_FOREVER=24*60*60*6*365*50;
 
-    public static final String CURR_USER="currUser";
+     String CURR_USER="currUser";
 
-    public static final String CURR_USER_ROLES="currUserRoles";
+     String CURR_USER_ROLES="currUserRoles";
 
-    public static final String CURR_USER_RESES="currUserReses";
+     String CURR_USER_RESES="currUserReses";
 
-    public static final String T_CATALOG_CK="catalog";
+     String T_CATALOG_CK="catalog";
 
-    public static final String T_TAG_CK="tag";
+     String T_TAG_CK="tag";
 
-    public static final String BLANK="";
+     String BLANK="";
 
-    public static final String QINIU_IMG_FOLDER="csap/img/";
+     String QINIU_IMG_FOLDER="csap/img/";
+
+     String ROLE_DOCTOR="doctor";
+
+     String ROLE_PATIENT="patient";
 
 
 
-    public enum YORN {
+     enum YORN {
         yes(true), no(false);
         boolean val;
 
@@ -51,7 +55,7 @@ public class Consts {
         }
     }
 
-    public enum YORN_STR {
+     enum YORN_STR {
         yes("0"), no("1");
         String val;
 
@@ -75,7 +79,7 @@ public class Consts {
      * @return void
      * @throws
      **/
-    public enum STATUS {
+     enum STATUS {
         enable("0"), forbidden("1");
         String val;
 
@@ -90,11 +94,11 @@ public class Consts {
         }
     }
 
-    public enum REQ_JSON_CODE {
+     enum REQ_JSON_CODE {
         success, fail,unauthorized;
     }
 
-    public enum CHECK_STATUS{
+     enum CHECK_STATUS{
         normal("00"), waitingCheck("01"),revokeCheck("02");
         String val;
 
@@ -116,8 +120,8 @@ public class Consts {
         }
     }
 
-    public enum CACHE_NAMES {
-        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting
+     enum CACHE_NAMES {
+        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo
     }
 
 }
