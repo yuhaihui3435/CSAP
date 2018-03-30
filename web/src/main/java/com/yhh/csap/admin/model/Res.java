@@ -1,8 +1,8 @@
 package com.yhh.csap.admin.model;
 
+import cn.hutool.log.StaticLog;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xiaoleilu.hutool.log.StaticLog;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.base.BaseRes;
 

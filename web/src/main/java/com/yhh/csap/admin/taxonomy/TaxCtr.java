@@ -1,9 +1,9 @@
 package com.yhh.csap.admin.taxonomy;
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.core.CoreController;

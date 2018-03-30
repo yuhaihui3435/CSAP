@@ -1,6 +1,5 @@
 package com.yhh.csap.admin.user;
 
-import static com.xiaoleilu.hutool.util.StrUtil.isNotBlank;
 
 import com.graphbuilder.math.func.LgFunction;
 import com.jfinal.aop.Before;
@@ -8,6 +7,8 @@ import com.yhh.csap.admin.model.Role;
 import com.yhh.csap.admin.model.User;
 import com.yhh.csap.admin.model.UserRole;
 import com.yhh.csap.core.CoreException;
+
+import static cn.hutool.core.util.StrUtil.isNotBlank;
 import static com.yhh.csap.Consts.*;
 import static com.jfinal.kit.LogKit.error;
 import static com.jfinal.kit.LogKit.info;

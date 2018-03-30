@@ -65,12 +65,12 @@ public abstract class BaseDoctorVisit<M extends BaseDoctorVisit<M>> extends Core
         return get("visitDate");
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         set("status", status);
     }
 
-    public Integer getStatus() {
-        return getInt("status");
+    public String getStatus() {
+        return get("status");
     }
 
     public void setDAt(java.util.Date dAt) {

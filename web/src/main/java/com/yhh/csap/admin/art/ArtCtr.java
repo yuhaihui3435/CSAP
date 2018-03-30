@@ -1,12 +1,12 @@
 package com.yhh.csap.admin.art;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Content;
 import com.yhh.csap.admin.model.Mapping;

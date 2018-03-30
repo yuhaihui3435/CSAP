@@ -1,12 +1,10 @@
 package com.yhh.csap.kits;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.kit.Base64Kit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.io.FileUtil;
-import com.xiaoleilu.hutool.lang.Base64;
-import com.xiaoleilu.hutool.util.ImageUtil;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.Consts;
 
 import java.io.*;
@@ -76,7 +74,7 @@ public class AppKit {
 
     public static void main(String[] args) {
         String b=imageToBase64Str("/Users/yuhaihui/Pictures/yb.png");
-        File file=FileUtil.file("/Users/yuhaihui/Pictures/yb-1.png");
+        File file= FileUtil.file("/Users/yuhaihui/Pictures/yb-1.png");
         base64ToImg(b,file);
     }
 

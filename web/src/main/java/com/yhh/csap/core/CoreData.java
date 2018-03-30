@@ -1,7 +1,7 @@
 package com.yhh.csap.core;
 
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.log.StaticLog;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Param;
 import com.yhh.csap.admin.model.Taxonomy;
@@ -27,7 +27,7 @@ public class CoreData {
 //            RenderManager.me().getEngine().getEngineConfig().addSharedObject(p.getK(),p.getVal());
             CacheKit.put(Consts.CACHE_NAMES.paramCache.name(),p.getK(),p.getVal());
         }
-        StaticLog.info("系统参数加载成功");
+        LogKit.info("系统参数加载成功");
     }
 
     public static void loadTax(){

@@ -1,5 +1,6 @@
 package com.yhh.csap.mt.doctor;
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
@@ -8,7 +9,6 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheInterceptor;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.admin.model.User;
@@ -22,8 +22,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static com.xiaoleilu.hutool.util.StrUtil.*;
-import static com.xiaoleilu.hutool.util.RandomUtil.randomString;
+
+import static cn.hutool.core.util.RandomUtil.randomString;
+import static cn.hutool.core.util.StrUtil.UNDERLINE;
+import static cn.hutool.core.util.StrUtil.reverse;
 
 /**
  * 简介
@@ -121,6 +123,7 @@ public class DoctorCtr extends CoreController {
         userSrv.addDr(user);
         doctorInfo.setUserId(user.getId().intValue());
         doctorInfo.save();
+        CacheKit.put(Consts.CACHE_NAMES.doctorInfo.name(),"id-".concat(doctorInfo.getId().toString()),doctorInfo);
         renderSuccessJSON("医生信息创建成功");
     }
 

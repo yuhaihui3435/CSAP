@@ -1,14 +1,14 @@
 package com.yhh.csap.admin.user;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.collection.CollUtil;
-import com.xiaoleilu.hutool.util.RandomUtil;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Role;
 import com.yhh.csap.admin.model.User;
@@ -219,7 +219,7 @@ public class UserCtr extends CoreController {
         }
         Integer id=getParaToInt("id");
         User user=User.dao.findById(id);
-        String newPwd=RandomUtil.randomString(6);
+        String newPwd= RandomUtil.randomString(6);
         user.setSalt(BCrypt.gensalt());
         user.setPassword(BCrypt.hashpw(newPwd,user.getSalt()));
         user.update();

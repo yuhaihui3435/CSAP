@@ -1,16 +1,24 @@
 package com.yhh.csap.admin;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Clear;
+import com.jfinal.kit.JsonKit;
 import com.jfinal.kit.StrKit;
-import com.xiaoleilu.hutool.util.StrUtil;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.jfinal.render.JsonRender;
 import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.LogOp;
 import com.yhh.csap.admin.model.Res;
 import com.yhh.csap.admin.model.User;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminAAuthInterceptor;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.kits.CookieKit;
+import com.yhh.csap.kits.ResKit;
 import com.yhh.csap.kits.ext.BCrypt;
 
 import java.util.Date;
@@ -26,11 +34,25 @@ import java.util.Map;
  */
 @Clear({AdminIAuthInterceptor.class, AdminAAuthInterceptor.class})
 public class LoginCtr extends CoreController{
-
+    public static final int LOGIN_MAX_RETRY_COUNT = 5;//密码重试最大次数
+    public static final int LOGIN_PROTECTED_MIN = 15;//登陆失败保护时间
+    public static final String LOGIN_RETRY_DATE = "LOGIN_RETRY_DATE";
+    public static final String LOGIN_RETRY_COUNT = "LOGIN_RETRY_COUNT";
     public void login(){
         String username=getPara("user");
         String password=getPara("password");
         String rm=getPara("rememberMe");
+        DateTime reTryDate = (DateTime) CacheKit.get(Consts.CACHE_NAMES.login.name(), username + "LOGIN_RETRY_DATE");
+        if (reTryDate != null) {
+            Date now = new Date();
+            if (reTryDate.compareTo(now) >= 0) {
+                String s = DateUtil.formatBetween(reTryDate, now);
+                renderFailJSON("你的账户由于尝试登录失败次数查过5次，暂时被保护。请：" + s + "后重试。");
+                return;
+            }else{
+                CacheKit.remove(Consts.CACHE_NAMES.login.name(),username+LOGIN_RETRY_DATE);
+            }
+        }
         if(StrUtil.isBlank(username)){
             renderFailJSON("用户名/email/手机号不能为空");
             return;
@@ -39,6 +61,12 @@ public class LoginCtr extends CoreController{
         if (StrUtil.isBlank(password)){
             renderFailJSON("密码不能为空");
             return;
+        }
+        if (ResKit.getConfigBoolean("userAuth")) {
+            if (!validateCaptcha("checkCode")) {
+                renderFailJSON("验证码不正确");
+                return;
+            }
         }
 
 
@@ -70,7 +98,34 @@ public class LoginCtr extends CoreController{
                 return;
             }
         } else {
-            renderFailJSON("密码不正确", "");
+            Integer pwdErrCount = (Integer) CacheKit.get(Consts.CACHE_NAMES.login.name(), username + "LOGIN_RETRY_COUNT");
+            if (pwdErrCount == null) {
+                pwdErrCount = 1;
+                CacheKit.put(Consts.CACHE_NAMES.login.name(),username+LOGIN_RETRY_COUNT,pwdErrCount);
+                renderFailJSON("密码不正确,还可以尝试:" + (LOGIN_MAX_RETRY_COUNT - pwdErrCount) + "次");
+            } else if (pwdErrCount == LOGIN_MAX_RETRY_COUNT) {
+                Date date = new Date();
+                DateTime dateTime = DateUtil.offsetMinute(date, LOGIN_PROTECTED_MIN);
+                CacheKit.put(Consts.CACHE_NAMES.login.name(), username + "LOGIN_RETRY_DATE", dateTime);
+                CacheKit.remove(Consts.CACHE_NAMES.login.name(), username + "LOGIN_RETRY_COUNT");
+                renderFailJSON("您的账号尝试登陆失败次数过多，将被进行保护，请"+LOGIN_PROTECTED_MIN+"分钟后重试");
+            } else if (pwdErrCount < LOGIN_MAX_RETRY_COUNT) {
+
+                pwdErrCount++;
+                CacheKit.put(Consts.CACHE_NAMES.login.name(),username+LOGIN_RETRY_COUNT,pwdErrCount);
+                renderFailJSON("密码不正确,还可以尝试:" + (LOGIN_MAX_RETRY_COUNT - pwdErrCount) + "次");
+            }
+
+
+            LogOp logOp = new LogOp();
+            logOp.setReqParam(JsonKit.toJson(user));
+            logOp.setOpName(username);
+            logOp.setReqIp(HttpUtil.getClientIP(getRequest()));
+            logOp.setReqAt(new Date());
+            logOp.setOpChannel("local");
+            logOp.setReqMethod(getClass().getCanonicalName() + ".login");
+            logOp.setReqRet(((JsonRender) getRender()) != null ? ((JsonRender) getRender()).getJsonText() : "密码不正确");
+            logOp.save();
             return;
         }
 
@@ -79,6 +134,10 @@ public class LoginCtr extends CoreController{
     public void logout(){
         CookieKit.remove(this,Consts.USER_ACCESS_TOKEN);
         renderSuccessJSON("退出系统成功");
+    }
+
+    public void createCaptch() {
+        renderCaptcha();
     }
 
 }

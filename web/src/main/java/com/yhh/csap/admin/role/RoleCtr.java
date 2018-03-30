@@ -1,13 +1,13 @@
 package com.yhh.csap.admin.role;
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.log.StaticLog;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Res;
 import com.yhh.csap.admin.model.Role;
@@ -83,7 +83,7 @@ public class RoleCtr extends CoreController{
             rrIds.add(r.getId());
         }
         String ret=Res.dao.listTree(rrIds);
-        StaticLog.info(ret);
+        LogKit.info(ret);
         renderJson(ret);
     }
     @Before(Tx.class)

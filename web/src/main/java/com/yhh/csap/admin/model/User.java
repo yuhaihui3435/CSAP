@@ -1,8 +1,8 @@
 package com.yhh.csap.admin.model;
 
+import cn.hutool.core.collection.CollUtil;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.xiaoleilu.hutool.collection.CollUtil;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.base.BaseUser;
 import com.yhh.csap.kits.DateKit;

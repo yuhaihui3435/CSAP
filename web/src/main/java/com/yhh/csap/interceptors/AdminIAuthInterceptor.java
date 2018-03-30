@@ -1,9 +1,9 @@
 package com.yhh.csap.interceptors;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Res;
 import com.yhh.csap.admin.model.Role;

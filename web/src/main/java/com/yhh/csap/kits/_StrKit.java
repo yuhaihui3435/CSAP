@@ -1,7 +1,5 @@
 package com.yhh.csap.kits;
 
-import com.xiaoleilu.hutool.crypto.SecureUtil;
-import com.xiaoleilu.hutool.lang.Base64;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -55,8 +53,8 @@ public class _StrKit {
 
 
     public static void main(String[] args) throws IOException {
-        byte[] key_array= Base64.decode("+yttlyEjxH44zn/ACScxLg==", Charset.forName("UTF-8"));
-        System.out.println(SecureUtil.aes(key_array).decryptStr("f5ddc6d07606017c336df70c02a47172"));
+//        byte[] key_array= Base64.decode("+yttlyEjxH44zn/ACScxLg==", Charset.forName("UTF-8"));
+//        System.out.println(SecureUtil.aes(key_array).decryptStr("f5ddc6d07606017c336df70c02a47172"));
 //        System.out.println(System.getProperty("java.io.tmpdir"));
 //        Date lastWeek=DateUtil.lastWeek();
 //        Date beginWeek=DateUtil.beginOfWeek(lastWeek);

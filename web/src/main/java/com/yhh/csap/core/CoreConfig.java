@@ -1,5 +1,7 @@
 package com.yhh.csap.core;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.*;
@@ -11,8 +13,6 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.template.Engine;
-import com.xiaoleilu.hutool.util.CollectionUtil;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.CMNCtr;
 import com.yhh.csap.admin.LoginCtr;
 import com.yhh.csap.admin.res.ResCtr;
@@ -29,10 +29,12 @@ import com.yhh.csap.kits.ResKit;
 import com.yhh.csap.www.IndexCtr;
 import com.yhh.csap.www.carouselsetting.ClsCtr;
 
+
 /**
  * Created by yuhaihui8913 on 2017/11/14.
  */
 public class CoreConfig extends JFinalConfig{
+
     @Override
     public void configConstant(Constants constants) {
         constants.setDevMode(ResKit.getConfigBoolean("devMode"));
@@ -154,6 +156,6 @@ public class CoreConfig extends JFinalConfig{
     @Override
     public void afterJFinalStart() {
         super.afterJFinalStart();
-        CoreData.loadAllCache();//省市区 Cache 初始化
+        CoreData.loadAllCache();
     }
 }

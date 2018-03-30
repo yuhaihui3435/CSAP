@@ -1,10 +1,10 @@
 package com.yhh.csap;
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.upload.UploadFile;
 import com.qiniu.common.QiniuException;
-import com.xiaoleilu.hutool.util.StrUtil;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.core.CoreException;
 import com.yhh.csap.kits.DateKit;
