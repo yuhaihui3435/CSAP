@@ -22,20 +22,20 @@ public class VisitCtr extends CoreController {
         Page page=null;
         Kv kv= Kv.create();
         if(StrUtil.isNotBlank(drId))
-            kv.put("dId=",drId);
+            kv.put("dv.dId=",drId);
         if(StrUtil.isNotBlank(bDate))
-            kv.put("visitDate>=",bDate);
+            kv.put("dv.visitDate>=",bDate);
         if(StrUtil.isNotBlank(eDate))
-            kv.put(" visitDate<=",eDate);
+            kv.put(" dv.visitDate<=",eDate);
         if(StrUtil.isNotBlank(status))
-            kv.put("status=",status);
+            kv.put("dv.status=",status);
 
         SqlPara sqlPara= Db.getSqlPara("doctorVisit.findPage",kv);
         page= DoctorVisit.dao.paginate(getPN(),getPS(),sqlPara);
         renderJson(page);
     }
 
-    @Before({Tx.class})
+    @Before({VisitValidate.class,Tx.class})
     public void save (){
         DoctorVisit doctorVisit=getModel(DoctorVisit.class,"",true);
         doctorVisit.setStatus(Consts.YORN_STR.yes.getVal());

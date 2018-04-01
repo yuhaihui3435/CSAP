@@ -4,3 +4,6 @@
 #namespace("doctorVisit")
   #include("doctorVisit.sql")
 #end
+#namespace("userMedicalrecords")
+  #include("userMedicalrecords.sql")
+#end

@@ -80,7 +80,7 @@ public class DoctorCtr extends CoreController {
         page=DoctorInfo.dao.paginate(getPN(),getPS(),sqlPara);
         renderJson(page);
     }
-    @Before({Tx.class})
+    @Before({DoctorValidate.class,Tx.class})
     public void save(){
         DoctorInfo doctorInfo=getModel(DoctorInfo.class,"",true);
         doctorInfo.setCAt(new Date());
@@ -124,9 +124,11 @@ public class DoctorCtr extends CoreController {
         doctorInfo.setUserId(user.getId().intValue());
         doctorInfo.save();
         CacheKit.put(Consts.CACHE_NAMES.doctorInfo.name(),"id-".concat(doctorInfo.getId().toString()),doctorInfo);
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
         renderSuccessJSON("医生信息创建成功");
     }
-
+    @Before({DoctorValidate.class,Tx.class})
     public void update(){
         DoctorInfo doctorInfo=getModel(DoctorInfo.class,"",true);
         doctorInfo.setMAt(new Date());
@@ -134,6 +136,8 @@ public class DoctorCtr extends CoreController {
         doctorInfo.update();
         CacheKit.removeAll(Consts.CACHE_NAMES.doctorTax.name());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"id-".concat(doctorInfo.getId().toString()));
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
         renderSuccessJSON("医生信息更新成功");
     }
 
@@ -145,6 +149,8 @@ public class DoctorCtr extends CoreController {
         doctorInfo.update();
         CacheKit.removeAll(Consts.CACHE_NAMES.doctorTax.name());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"id-".concat(doctorInfo.getId().toString()));
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
         renderSuccessJSON("医生信息删除成功");
     }
 
@@ -152,5 +158,7 @@ public class DoctorCtr extends CoreController {
         int id=getParaToInt("id");
         renderJson(DoctorInfo.dao.findFirstByCache(Consts.CACHE_NAMES.doctorInfo.name(),"id-"+id,"select * from mt_doctor_info where id=? and dAt is null ",id));
     }
+
+
 
 }

@@ -80,7 +80,7 @@ export default {
     methods: {
         createCaptchUrl(){
             let now = new Date().getTime();
-            let url=consts.env+'ad06/createCaptch'
+            let url=consts.env+'/ad06/createCaptch'
             this.getCaptchUrl=url+'?tt='+now
         },
         handleSubmit () {

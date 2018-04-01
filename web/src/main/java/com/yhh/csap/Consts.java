@@ -38,6 +38,8 @@ public interface  Consts {
 
 
 
+
+
      enum YORN {
         yes(true), no(false);
         boolean val;
@@ -121,7 +123,7 @@ public interface  Consts {
     }
 
      enum CACHE_NAMES {
-        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit
+        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords
     }
 
 }

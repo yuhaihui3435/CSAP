@@ -26,6 +26,9 @@ import com.yhh.csap.interceptors.ExceptionInterceptor;
 import com.yhh.csap.interceptors.WwwInterceptor;
 import com.yhh.csap.kits.DateKit;
 import com.yhh.csap.kits.ResKit;
+import com.yhh.csap.mt.doctor.DoctorCtr;
+import com.yhh.csap.mt.doctor.VisitApiCtr;
+import com.yhh.csap.mt.doctor.VisitCtr;
 import com.yhh.csap.www.IndexCtr;
 import com.yhh.csap.www.carouselsetting.ClsCtr;
 
@@ -73,6 +76,16 @@ public class CoreConfig extends JFinalConfig{
             @Override
             public void config() {
                 add("/cmn", CMNCtr.class);
+            }
+        });
+
+
+        routes.add(new Routes() {
+            @Override
+            public void config() {
+                add("/mt00", DoctorCtr.class);
+                add("/mt01", VisitCtr.class);
+                add("/mt02", VisitApiCtr.class);
             }
         });
 

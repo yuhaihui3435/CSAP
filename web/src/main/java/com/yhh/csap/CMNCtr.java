@@ -98,6 +98,23 @@ public class CMNCtr extends CoreController {
 
     }
 
+    /**
+     * 重新加载tax的缓存列表数据
+     *
+     */
+    public void act02(){
+        String tax=getPara("tax");
+        renderJson(Consts.CACHE_NAMES.taxonomy.name(),tax+"List");
+    }
+
+    /**
+     * 重新加载tax的缓存数据
+     *
+     */
+    public void act03(){
+        String tax=getPara("tax");
+        renderJson(Consts.CACHE_NAMES.taxonomy.name(),tax);
+    }
 
 
 
