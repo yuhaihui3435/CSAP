@@ -71,7 +71,6 @@ public class AppKit {
         return Base64Kit.encode(data);
     }
 
-
     public static void main(String[] args) {
         String b=imageToBase64Str("/Users/yuhaihui/Pictures/yb.png");
         File file= FileUtil.file("/Users/yuhaihui/Pictures/yb-1.png");

@@ -30,7 +30,7 @@ public class VisitCtr extends CoreController {
         if(StrUtil.isNotBlank(status))
             kv.put("dv.status=",status);
 
-        SqlPara sqlPara= Db.getSqlPara("doctorVisit.findPage",kv);
+        SqlPara sqlPara= Db.getSqlPara("doctorVisit.findPage",Kv.by("cond",kv));
         page= DoctorVisit.dao.paginate(getPN(),getPS(),sqlPara);
         renderJson(page);
     }

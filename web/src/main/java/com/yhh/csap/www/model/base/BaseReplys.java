@@ -52,12 +52,12 @@ public abstract class BaseReplys<M extends BaseReplys<M>> extends CoreModel<M> i
 		return get("score");
 	}
 
-	public void setBestReply(Integer bestReply) {
+	public void setBestReply(String bestReply) {
 		set("bestReply", bestReply);
 	}
 	
-	public Integer getBestReply() {
-		return getInt("bestReply");
+	public String getBestReply() {
+		return get("bestReply");
 	}
 
 	public void setCAt(java.util.Date cAt) {

@@ -76,7 +76,7 @@ public class DoctorCtr extends CoreController {
         if(StrUtil.isNotBlank(tel))
             kv.put("tel",tel);
 
-        SqlPara sqlPara= Db.getSqlPara("doctor.findPage",kv);
+        SqlPara sqlPara= Db.getSqlPara("doctor.findPage",Kv.by("cond",kv));
         page=DoctorInfo.dao.paginate(getPN(),getPS(),sqlPara);
         renderJson(page);
     }

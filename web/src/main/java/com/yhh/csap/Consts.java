@@ -2,6 +2,10 @@ package com.yhh.csap;
 
 import org.jsoup.safety.Whitelist;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by yuhaihui8913 on 2017/11/14.
  * 常量类
@@ -36,9 +40,9 @@ public interface  Consts {
 
      String ROLE_PATIENT="patient";
 
+     BigDecimal BD_ZERO=new BigDecimal(0);
 
-
-
+     Map<String,String> MAPPING_TO_TBL=new HashMap<>();
 
      enum YORN {
         yes(true), no(false);
@@ -123,7 +127,7 @@ public interface  Consts {
     }
 
      enum CACHE_NAMES {
-        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans
+        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans,postInfo
     }
 
 }

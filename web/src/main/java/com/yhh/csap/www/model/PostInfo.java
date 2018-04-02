@@ -1,6 +1,10 @@
 package com.yhh.csap.www.model;
 
 
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.Taxonomy;
+import com.yhh.csap.admin.model.User;
 import com.yhh.csap.www.model.base.BasePostInfo;
 
 /**
@@ -14,5 +18,18 @@ public class PostInfo extends BasePostInfo<PostInfo> {
 	public String getTableName() {
 		return "www_post_info";
 	}
+
+	public User getOper(){
+		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+getOperId(),"select * from s_user where id=?",getOperId());
+	}
+
+	public User getChecker(){
+		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+getCheckOperId(),"select * from s_user where id=?",getCheckOperId());
+	}
+
+	public Taxonomy getTax(){
+		return CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getTaxId().toString());
+	}
+
 
 }

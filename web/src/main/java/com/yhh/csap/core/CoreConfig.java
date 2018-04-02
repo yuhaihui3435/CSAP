@@ -14,6 +14,7 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.template.Engine;
 import com.yhh.csap.CMNCtr;
+import com.yhh.csap.Consts;
 import com.yhh.csap.admin.LoginCtr;
 import com.yhh.csap.admin.res.ResCtr;
 import com.yhh.csap.admin.art.ArtCtr;
@@ -37,6 +38,11 @@ import com.yhh.csap.www.carouselsetting.ClsCtr;
  * Created by yuhaihui8913 on 2017/11/14.
  */
 public class CoreConfig extends JFinalConfig{
+
+    static{
+        Consts.MAPPING_TO_TBL.put("postInfo","www_post_info");
+        Consts.MAPPING_TO_TBL.put("replys","www_replys");
+    }
 
     @Override
     public void configConstant(Constants constants) {

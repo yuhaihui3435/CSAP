@@ -167,7 +167,7 @@ public class MedicalrecordsCtr extends CoreController {
         kv.put("tax",tax.toString());
         kv.put("dr",dr.toString());
 
-        SqlPara sqlPara= Db.getSqlPara("userMedicalrecords.queryUmByCdn",kv);
+        SqlPara sqlPara= Db.getSqlPara("userMedicalrecords.queryUmByCdn",Kv.by("cond",kv));
         Page page= DoctorVisit.dao.paginate(getPN(),getPS(),sqlPara);
         renderJson(page);
     }
