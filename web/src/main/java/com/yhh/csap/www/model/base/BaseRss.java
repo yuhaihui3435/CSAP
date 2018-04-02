@@ -66,4 +66,12 @@ public abstract class BaseRss<M extends BaseRss<M>> extends CoreModel<M> impleme
 		return getStr("url");
 	}
 
+
+	public void setStatus(String status) {
+		set("status", status);
+	}
+
+	public String getStatus() {
+		return getStr("status");
+	}
 }

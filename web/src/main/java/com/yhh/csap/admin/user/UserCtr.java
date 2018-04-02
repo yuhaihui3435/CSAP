@@ -103,6 +103,7 @@ public class UserCtr extends CoreController {
             }
         }
         CacheKit.remove(Consts.CACHE_NAMES.user.name(),user.getId());
+        CacheKit.remove(Consts.CACHE_NAMES.user.name(),"id_"+user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userRoles.name(),user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userReses.name(),user.getId());
         user.update();
@@ -114,6 +115,7 @@ public class UserCtr extends CoreController {
         User user=User.dao.findById(BigInteger.valueOf(id));
         user.setDAt(new Date());
         user.update();
+        CacheKit.remove(Consts.CACHE_NAMES.user.name(),"id_"+user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.user.name(),user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userRoles.name(),user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userReses.name(),user.getId());
@@ -161,6 +163,7 @@ public class UserCtr extends CoreController {
             user.setStatus(Consts.STATUS.forbidden.getVal());
             user.update();
             CacheKit.remove(Consts.CACHE_NAMES.user.name(),user.getId());
+            CacheKit.remove(Consts.CACHE_NAMES.user.name(),"id_"+user.getId());
         }
 
         renderSuccessJSON("禁用操作执行成功。", "");
@@ -186,6 +189,7 @@ public class UserCtr extends CoreController {
             user.setStatus(Consts.STATUS.enable.getVal());
             user.update();
             CacheKit.remove(Consts.CACHE_NAMES.user.name(),user.getId());
+            CacheKit.remove(Consts.CACHE_NAMES.user.name(),"id_"+user.getId());
         }
 
         renderSuccessJSON("恢复操作执行成功。", "");

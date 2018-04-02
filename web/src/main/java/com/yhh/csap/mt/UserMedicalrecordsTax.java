@@ -1,6 +1,9 @@
 package com.yhh.csap.mt;
 
 
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.mt.base.BaseUserMedicalrecordsTax;
 
 /**
@@ -14,4 +17,10 @@ public class UserMedicalrecordsTax extends BaseUserMedicalrecordsTax<UserMedical
 	public String getTableName() {
 		return "mt_user_medicalrecords_tax";
 	}
+
+	public Taxonomy getTax(){
+		return CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getTaxId().toString());
+	}
+
+
 }

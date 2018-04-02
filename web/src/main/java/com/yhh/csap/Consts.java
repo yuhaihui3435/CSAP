@@ -82,7 +82,7 @@ public interface  Consts {
      * @throws
      **/
      enum STATUS {
-        enable("0"), forbidden("1");
+        enable("0"), forbidden("1"),expired("2");
         String val;
 
         private STATUS(String val) {
@@ -92,7 +92,7 @@ public interface  Consts {
             return this.val;
         }
         public String getValTxt(){
-            return (val.equals("0")?"正常":"禁用");
+            return (val.equals("0")?"正常":(val.equals("2"))?"过期":"禁用");
         }
     }
 
@@ -123,7 +123,7 @@ public interface  Consts {
     }
 
      enum CACHE_NAMES {
-        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords
+        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans
     }
 
 }

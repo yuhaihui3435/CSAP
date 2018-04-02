@@ -14,4 +14,5 @@ public class PostInfo extends BasePostInfo<PostInfo> {
 	public String getTableName() {
 		return "www_post_info";
 	}
+
 }

@@ -1,6 +1,7 @@
 package com.yhh.csap.mt;
 
 
+import com.yhh.csap.Consts;
 import com.yhh.csap.mt.base.BaseUserMedicalrecordsDoctor;
 
 /**
@@ -13,5 +14,9 @@ public class UserMedicalrecordsDoctor extends BaseUserMedicalrecordsDoctor<UserM
 	@Override
 	public String getTableName() {
 		return "mt_user_medicalrecords_doctor";
+	}
+
+	public DoctorInfo getDr(){
+		return DoctorInfo.dao.findFirstByCache(Consts.CACHE_NAMES.doctorInfo.name(),"id_"+getDId(),"select * from mt_doctor_info where id=? ",getDId());
 	}
 }

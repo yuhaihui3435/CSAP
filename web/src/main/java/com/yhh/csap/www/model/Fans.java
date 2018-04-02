@@ -1,6 +1,8 @@
 package com.yhh.csap.www.model;
 
 
+import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.User;
 import com.yhh.csap.www.model.base.BaseFans;
 
 /**
@@ -13,5 +15,13 @@ public class Fans extends BaseFans<Fans> {
 	@Override
 	public String getTableName() {
 		return "www_fans";
+	}
+
+	public User getFanUser(){
+		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+getFanId(),"select * from s_user where id=?",getFanId());
+	}
+
+	public User getFollowUser(){
+		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+getFollowId(),"select * from s_user where id=?",getFollowId());
 	}
 }

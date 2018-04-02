@@ -3,9 +3,12 @@ package com.yhh.csap.core;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.Mgc;
 import com.yhh.csap.admin.model.Param;
 import com.yhh.csap.admin.model.Taxonomy;
+import com.yhh.csap.kits.WordFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +20,7 @@ public class CoreData {
     public static void loadAllCache(){
         loadParam();
         loadTax();
+        initMgc();
     }
 
     public static void loadParam(){
@@ -41,5 +45,14 @@ public class CoreData {
                 CacheKit.put(Consts.CACHE_NAMES.taxonomy.name(),taxonomy1.getId().toString(),taxonomy1);
             }
         }
+    }
+
+    public static void initMgc(){
+        List<String> mgcList=new ArrayList<String>();
+        List<Mgc> list=Mgc.dao.find("select DISTINCT(txt) as txt from s_mgc ");
+        for (int i = 0; i < list.size(); i++) {
+            mgcList.add(list.get(i).getTxt());
+        }
+        WordFilter.init(mgcList);
     }
 }

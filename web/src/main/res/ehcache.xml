@@ -106,5 +106,19 @@
            diskPersistent="true"
            memoryStoreEvictionPolicy="FIFO"
     />
+    <cache name="fans"
+           maxEntriesLocalHeap="5000"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           memoryStoreEvictionPolicy="FIFO"
+    />
+    <cache name="collect"
+           maxEntriesLocalHeap="5000"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           memoryStoreEvictionPolicy="FIFO"
+    />
 
 </ehcache>
