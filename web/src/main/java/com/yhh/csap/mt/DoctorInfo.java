@@ -40,6 +40,12 @@ public class DoctorInfo extends BaseDoctorInfo<DoctorInfo> {
 
 
 
+	public List<DoctorInfo> findTop(int limit){
+		String sql="select * from ".concat(getTableName()).concat(" where dAt is null and ifTop='0' limit ").concat(Integer.toString(limit));
+		return dao.findByCache(Consts.CACHE_NAMES.index.name(),"drList",sql);
+	}
+
+
 	@Override
 	public String getTableName() {
 		return "mt_doctor_info";

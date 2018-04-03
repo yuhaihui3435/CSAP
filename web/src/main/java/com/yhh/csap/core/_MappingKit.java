@@ -48,6 +48,7 @@ public class _MappingKit {
 		arp.addMapping("www_rss", Rss.class);
 		arp.addMapping("www_tipoffs", Tipoffs.class);
 		arp.addMapping("log_op", LogOp.class);
+		arp.addMapping("s_mgc", Mgc.class);
 	}
 }
 

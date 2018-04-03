@@ -127,7 +127,11 @@ public interface  Consts {
     }
 
      enum CACHE_NAMES {
-        paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans,postInfo
+       index,content,paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans,postInfo
+    }
+
+    enum SECTION{
+        science,dr,successCase,communicate,about
     }
 
 }

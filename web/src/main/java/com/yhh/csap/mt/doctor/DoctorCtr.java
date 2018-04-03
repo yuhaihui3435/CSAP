@@ -126,6 +126,7 @@ public class DoctorCtr extends CoreController {
         CacheKit.put(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()),doctorInfo);
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
         renderSuccessJSON("医生信息创建成功");
     }
     @Before({DoctorValidate.class,Tx.class})
@@ -138,6 +139,7 @@ public class DoctorCtr extends CoreController {
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()));
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
         renderSuccessJSON("医生信息更新成功");
     }
 
@@ -151,6 +153,7 @@ public class DoctorCtr extends CoreController {
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()));
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
         renderSuccessJSON("医生信息删除成功");
     }
 

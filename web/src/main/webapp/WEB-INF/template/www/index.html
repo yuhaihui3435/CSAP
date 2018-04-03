@@ -1,5 +1,83 @@
 #@layout()
 #define content()
 
+<div id="slider-area" class="owl-carousel owl-theme owl-loaded owl-drag">
+    #for(item:clsTopList)
+    <div class="item">
+        <div class="single-slide overly">
+            <img src="#(item.pic)" alt="">
+            <div class="slide-txt">
+                <h2 class="animated fadeInUp" style="opacity: 1;">#(item.name)</h2>
+                <p class="animated fadeInUp" style="opacity: 1;">#(item.summary)</p>
+                <a href="#(item.linkTo)" class="btn-filled animated fadeInDown" style="opacity: 1;">查看</a>
+            </div>
+        </div>
+    </div>
+    #end
+</div>
+#if(cKit.isNotEmpty(communicateList))
+<div class="about-area" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sectino-intro">
+                    <h2 class="section-heading">关于脊髓空洞症和小脑下疝畸形</h2>
+                    <p>脊髓空洞症和小脑下疝畸形疾病是一种比较隐匿的疾病，常常被误诊为颈肩疾病，这里提供了最准确、最权威的关于这个疾病的所有知识。</p>
+                </div>
+            </div>
+            <!-- Team Member -->
+
+            #for(item:communicateList)
+            <div class="col-md-4 col-sm-4">
+                <div class="about-single">
+                    #if(isNotBlank(item.thumbnail))<img src="" alt="">#end
+                    <div class="about-detail">
+                        <h4 >#(item.title)</h4>
+                        <p>#(item.summary)</p>
+                    </div>
+                </div>
+            </div>
+            #end
+        </div>
+    </div>
+</div>
+#end
+#if(cKit.isNotEmpty(drList))
+<div class="our-team section-padding" id="team">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sectino-intro">
+                    <h2 class="section-heading">名医简介</h2>
+                    <p>国内目前最专业权威的专家，都将在这里为您提供正确的治疗及康复指导</p>
+                </div>
+            </div>
+            #for(item:drList)
+            <div class="col-md-3 col-sm-6">
+                <div class="team-member">
+                    <div class="member-thumb">
+                        #if(isNotEmpty(item.avatar))<img src="#(item.avatar)" alt="">#end
+                    </div>
+                    <div class="member-detail">
+                        <h4 class="member-name">#(item.name)</h4>
+                        <p>#(item.summary)</p>
+                        <ul class="member-social">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            #end
+        </div>
+    </div>
+</div>
+#end
 
 #end

@@ -41,4 +41,10 @@ public class CarouselSetting extends BaseCarouselSetting<CarouselSetting> {
 		return getStatusTxt(getStatus());
 	}
 
+
+
+	public List findByArea(String area){
+		return CarouselSetting.dao.find("select * from "+getTableName()+" where dAt is null and status='0' and area=?",area);
+	}
+
 }

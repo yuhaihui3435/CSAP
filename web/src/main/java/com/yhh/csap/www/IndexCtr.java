@@ -2,9 +2,13 @@ package com.yhh.csap.www;
 
 import com.jfinal.aop.Clear;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Content;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
+import com.yhh.csap.mt.DoctorInfo;
+import com.yhh.csap.www.model.CarouselSetting;
 
 import java.util.*;
 
@@ -15,50 +19,23 @@ import java.util.*;
 public class IndexCtr extends CoreController {
 
     public void index() {
-        List<Content> contents=Content.dao.find("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid where dAt is null and module='art' and flag='00' and tid=389 order by pAt desc limit 3");
-        setAttr("pInfoList",contents);
-        render("index.html");
-    }
-    public void a(){
-        Integer id=getParaToInt(0);
-        int pn =getParaToInt(1,1);
-        Page<Content> contents=Content.dao.paginate(pn,getPS(),"select sc.* ","from s_content sc left join s_mapping sm on sc.id=sm.cid  where dAt is null and module='art' and flag='00' and sm.tid=? order by pAt desc",id);
-        setAttr("cList",contents);
-        setAttr("cId",id);
-        render("list.html");
-    }
-    public void c(){
-        Integer id=getParaToInt(0);
-        int pn =getParaToInt(1,1);
-        Page<Content> contents=Content.dao.paginate(pn,getPS(),"select sc.* ","from s_content sc left join s_mapping sm on sc.id=sm.cid  where dAt is null and module='art' and flag='00' and sm.tid=? order by pAt desc",id);
-        setAttr("cList",contents);
-        setAttr("cId",id);
-        render("list_without_img.html");
-    }
-
-    public void b(){
-        String index0=getPara(0);
-        Integer id=0;
-        //带有a_的第一位索引数据，表示直接显示详细内容
-        if(index0.startsWith("a_")){
-            String[] strings=index0.split("_");
-            id=Integer.parseInt(strings[1]);
-        }else {
-            id = getParaToInt(0);
-            setAttr("closeBtn","y");
+        List clsTop=CarouselSetting.dao.findByArea("index_top");//上部幻灯片
+        List clsBottom=CarouselSetting.dao.findByArea("index_bottom");//下部幻灯片
+        //关于疾病介绍部分
+        if(CacheKit.get(Consts.CACHE_NAMES.index.name(),"communicateList")==null) {
+            List<Content> communicateList = Content.dao.findByTextAndModule(Consts.SECTION.communicate.name(), "section", true, 3);
+            CacheKit.put(Consts.CACHE_NAMES.index.name(), "communicateList", communicateList);
+            setAttr("communicateList",communicateList);
         }
-        Content content=Content.dao.findById(id);
-        setAttr("content",content);
 
-        render("view.html");
-    }
+        List<DoctorInfo> drList=DoctorInfo.dao.findTop(3);
 
-    public void d(){
-        Integer id=getParaToInt(0);
-        int pn =getParaToInt(1,1);
-        Content content=Content.dao.findFirst("select sc.* from s_content sc left join s_mapping sm on sc.id=sm.cid  where dAt is null and module='art' and flag='00' and sm.tid=? order by pAt desc limit 1",id);
-        setAttr("content",content);
-        render("view.html");
+
+
+        setAttr("drList",drList);
+        setAttr("clsTopList",clsTop);
+        setAttr("clsBottomList",clsBottom);
+        render("index.html");
     }
 
 }

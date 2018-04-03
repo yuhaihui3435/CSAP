@@ -154,4 +154,12 @@ public abstract class BaseDoctorInfo<M extends BaseDoctorInfo<M>> extends CoreMo
 		return getInt("userId");
 	}
 
+	public void setIfTop(java.lang.String ifTop) {
+		set("ifTop", ifTop);
+	}
+
+	public java.lang.String getIfTop() {
+		return getStr("ifTop");
+	}
+
 }

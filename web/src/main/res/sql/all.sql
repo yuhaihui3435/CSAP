@@ -7,6 +7,6 @@
 #namespace("userMedicalrecords")
   #include("userMedicalrecords.sql")
 #end
-#namespace("post")
-  #include("post.sql")
+#namespace("postInfo")
+  #include("postInfo.sql")
 #end

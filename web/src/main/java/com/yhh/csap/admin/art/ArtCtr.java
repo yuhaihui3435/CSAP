@@ -7,6 +7,7 @@ import com.jfinal.aop.Clear;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Content;
 import com.yhh.csap.admin.model.Mapping;
@@ -102,7 +103,7 @@ public class ArtCtr extends CoreController {
                 mapping.save();
             }
         }
-
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"communicateList");//删除index页面上关于文章的缓存内容
         renderSuccessJSON("保存成功","");
     }
 
@@ -134,6 +135,7 @@ public class ArtCtr extends CoreController {
             c.setDAt(new Date());
             c.updateWithoutClean();
         }
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"communicateList");//删除index页面上关于文章的缓存内容
         renderSuccessJSON("删除成功","");
 
     }

@@ -135,4 +135,12 @@
            memoryStoreEvictionPolicy="FIFO"
     />
 
+    <cache name="index"
+           maxEntriesLocalHeap="5000"
+           eternal="true"
+           overflowToDisk="true"
+           diskPersistent="true"
+           memoryStoreEvictionPolicy="FIFO"
+    />
+
 </ehcache>
