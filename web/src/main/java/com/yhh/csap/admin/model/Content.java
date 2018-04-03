@@ -35,15 +35,15 @@ public class Content extends BaseContent<Content> {
 
 	public List<Content> findByTextAndModule(String text,String module,boolean ifTop,int limit){
 		StringBuilder sql=new StringBuilder();
-		sql.append("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st where sm.tid=st.id where sc.dAt is null and st.module=? and flag='00' and st.text=?");
+		sql.append("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st on sm.tid=st.id where sc.dAt is null and st.module=? and flag='00' and st.text=?");
 		if(ifTop){
 			sql.append(" and top ='0' ");
 		}
-		sql.append("  order by pAt desc");
+		sql.append("  order by sc.pAt desc");
 		if(limit>0){
 			sql.append(" limit "+limit);
 		}
-		return Content.dao.find(sql.toString());
+		return Content.dao.find(sql.toString(),module,text);
 	}
 
 

@@ -887,7 +887,7 @@ icon+文字说明
     padding: 95px 0 25px;
 }
 .footer-top {
-    background: #CCFFFF;
+    background: #3b3f41;
     padding: 60px 0 40px;
 }
 .footer-area .widget-title {
@@ -919,53 +919,21 @@ icon+文字说明
 }
 .footer-contact ul li span,
 .c-contact-details ul li span {
-    display: inline-table;
+    /*display: inline-table;*/
     margin-left: 10px;
 }
 .footer-widget ul li a {
     color: #a4a4a4;
 }
 .footer-widget ul li:hover a {
-    color: #f2b33d;
+    color: #66CCFF;
 }
 .footer-widget > p {
     color: #a4a4a4;
     margin-bottom: 25px;
 }
-.nletter-box > input[type=email] {
-    background: rgba(255, 255, 255, .3);
-    border: 0 none;
-    border-radius: 50px;
-    height: 50px;
-    color: #b7b7b7;
-}
-.nletter-box > input::-webkit-input-placeholder {
-    color: #b7b7b7
-}
-.nletter-box > input:-ms-input-placeholder {
-    color: #b7b7b7
-}
-.nletter-box > input::placeholder {
-    color: #b7b7b7
-}
-.nletter-box {
-    border-radius: 50px;
-    overflow: hidden;
-    position: relative;
-}
-.nletter-box > button {
-    background: #66CCFF none repeat scroll 0 0;
-    border: 0 none;
-    height: 50px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 70px;
-    color: #fff;
-    font-size: 18px;
-}
 .footer-bottom {
-    background: #CCFFFF;
+    background: #24272b;
     padding: 30px 0;
 }
 .footer-bottom > p {

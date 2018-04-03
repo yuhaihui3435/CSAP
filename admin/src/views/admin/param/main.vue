@@ -36,6 +36,9 @@
                             <FormItem label="网站电话">
                                 <Input v-model="param.sitePhone" placeholder="请输入..." style="width: 300px"></Input>
                             </FormItem>
+                            <FormItem label="地址">
+                                <Input v-model="param.siteAddress" placeholder="请输入..." style="width: 300px"></Input>
+                            </FormItem>
                             <FormItem label="SEO">
                                 <Input v-model="param.siteSEO" type="textarea" style="width: 300px"
                                        :autosize="{minRows: 5,maxRows: 5}" placeholder="请输入..."></Input>

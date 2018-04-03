@@ -1,9 +1,60 @@
-<div id="footer" class="main_foot">
-    <div class="foot">
-        <div class="bottom or">
-            <span>
+<footer class="footer-area">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">联系方式</h4>
+                        <div class="footer-contact">
+                            <ul>
+                                #if(isNotBlank(siteAddress))
+                                <li><i class="fa fa-home"></i><span>#(siteAddress)</span>
+                                </li>
+                                #end
+                                #if(isNotBlank(sitePhone))
+                                <li><i class="fa fa-phone"></i><span>#(sitePhone)</span>
+                                </li>
+                                #end
+                                #if(isNotBlank(siteEmail))
+                                <li><i class="fa fa-envelope-o"></i><span><a href="mailto:#(siteEmail)">#(siteEmail)</a></span>
+                                </li>
+                                #end
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">相关站点</h4>
+                        <div class="footer-page">
+                            <ul>
+                                #for(item:fsLinkList)
+                                <li><a href="#(item.text)" target="_blank">#(item.title)</a>
+                                </li>
+                                #end
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">捐助</h4>
+                        <p>如果您希望捐助我们可以从这里开始</p>
 
-            </span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">微信公众账号</h4>
+                        <p>关注微信公众账号获得最新的资讯</p>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    <div class="footer-bottom">
+        <p>© CNASPA 2018 #if(isNotBlank(siteICP))| #(siteICP) #end | Designed by 源代码3435</p>
+    </div>
+
+</footer>

@@ -93,6 +93,9 @@ public class ArtCtr extends CoreController {
             Mapping.dao.delByCId(content.getId());
             content.updateWithoutClean();
         }
+
+
+        Taxonomy taxonomy=null;
         if(StrUtil.isNotBlank(tax)){
             String[] tax_array=tax.split(",");
             Mapping mapping=null;
@@ -101,9 +104,15 @@ public class ArtCtr extends CoreController {
                 mapping.setCid(content.getId());
                 mapping.setTid(new Long(s));
                 mapping.save();
+                taxonomy=Taxonomy.dao.findById(mapping.getTid());
+                if(taxonomy!=null&&taxonomy.getText().equals(Consts.SECTION.science.name()))
+                    CacheKit.remove(Consts.CACHE_NAMES.index.name(),"scienceList");//删除index页面上关于文章的缓存内容
+                else if(taxonomy!=null&&taxonomy.getText().equals(Consts.SECTION.successCase.name()))
+                    CacheKit.remove(Consts.CACHE_NAMES.index.name(),"successCaseList");//删除index页面上关于文章的缓存内容
+
             }
         }
-        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"communicateList");//删除index页面上关于文章的缓存内容
+
         renderSuccessJSON("保存成功","");
     }
 
@@ -135,14 +144,15 @@ public class ArtCtr extends CoreController {
             c.setDAt(new Date());
             c.updateWithoutClean();
         }
-        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"communicateList");//删除index页面上关于文章的缓存内容
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"scienceList");//删除index页面上关于文章的缓存内容
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"successCaseList");//删除index页面上关于文章的缓存内容
         renderSuccessJSON("删除成功","");
 
     }
     @Clear(AdminAAuthInterceptor.class)
     public void get(){
         Long id=getParaToLong("id");
-        List<Taxonomy> all=Taxonomy.dao.findAllListByModule("art");
+        List<Taxonomy> all=Taxonomy.dao.findAllListByModule("section");
         List<Taxonomy> own=Taxonomy.dao.findTaxsByCId(id);
         if(!all.isEmpty()) {
             all.get(0).getChildren().removeAll(own);

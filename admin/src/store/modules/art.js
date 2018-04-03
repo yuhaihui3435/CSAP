@@ -80,7 +80,7 @@ const art = {
         art_tax_jsonArray: function ({commit, state}) {
             let vm = this._vm;
             return new Promise(function (resolve, reject) {
-                vm.$axios.post('/ad05/treeJsonArray', {'module': 'art'}).then((res) => {
+                vm.$axios.post('/ad05/treeJsonArray', {'module': 'section'}).then((res) => {
                     commit('set_art_taxJsonarray', res)
                     resolve()
                 });

@@ -9,13 +9,13 @@
             <div class="slide-txt">
                 <h2 class="animated fadeInUp" style="opacity: 1;">#(item.name)</h2>
                 <p class="animated fadeInUp" style="opacity: 1;">#(item.summary)</p>
-                <a href="#(item.linkTo)" class="btn-filled animated fadeInDown" style="opacity: 1;">查看</a>
+                <a href="#(item.linkTo)"  target="_blank" class="btn-filled animated fadeInDown" style="opacity: 1;">查看</a>
             </div>
         </div>
     </div>
     #end
 </div>
-#if(cKit.isNotEmpty(communicateList))
+#if(cKit.isNotEmpty(scienceList))
 <div class="about-area" id="about">
     <div class="container">
         <div class="row">
@@ -27,10 +27,10 @@
             </div>
             <!-- Team Member -->
 
-            #for(item:communicateList)
+            #for(item:scienceList)
             <div class="col-md-4 col-sm-4">
                 <div class="about-single">
-                    #if(isNotBlank(item.thumbnail))<img src="" alt="">#end
+                    #if(isNotBlank(item.thumbnail))<img src="#(qn_url)#(item.thumbnail)" alt="">#end
                     <div class="about-detail">
                         <h4 >#(item.title)</h4>
                         <p>#(item.summary)</p>
@@ -53,7 +53,7 @@
                 </div>
             </div>
             #for(item:drList)
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-4 col-sm-4">
                 <div class="team-member">
                     <div class="member-thumb">
                         #if(isNotEmpty(item.avatar))<img src="#(item.avatar)" alt="">#end
@@ -62,13 +62,13 @@
                         <h4 class="member-name">#(item.name)</h4>
                         <p>#(item.summary)</p>
                         <ul class="member-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            <li><a href="#"><i class="ali-icon ali-czsj-icon"></i>出诊时间</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            <li><a href="#"><i class="ali-icon ali-yygh-icon"></i>预约挂号</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a>
+                            <li><a href="#"><i class="ali-icon ali-techang-icon"></i>擅长疾病</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            <li><a href="#"><i class="ali-icon ali-zhicheng-icon"></i>职称</a>
                             </li>
                         </ul>
                     </div>
@@ -79,5 +79,32 @@
     </div>
 </div>
 #end
+#if(cKit.isNotEmpty(successCaseList))
+<div class="our-causes-area grey-bg section-padding" id="causes">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sectino-intro">
+                    <h2 class="section-heading">特点医学案例</h2>
+                    <p>在日常的治疗过程中，接触过各种各样的病例，一些具有代表意义的病例被我们总结出来呈现在这里。</p>
+                </div>
+            </div>
+            #for(item:successCaseList)
+            <div class="col-md-4 col-sm-4">
+                <div class="cause-single">
+                    #if(isNotBlank(item.thumbnail))<img src="#(item.thumbnail)" alt="">#end
+                    <div class="cause-details">
+                        <h4>#(item.name)</h4>
+                        <p>#(item.summary)</p>
+                        <a href="#" class="custom-btn">查看</a>
+                    </div>
+                </div>
+            </div>
+            #end
+        </div>
+    </div>
+</div>
+#end
+
 
 #end

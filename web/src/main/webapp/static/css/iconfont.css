@@ -1,11 +1,11 @@
 
 @font-face {
     font-family: 'iconfont';  /* project id 615778 */
-    src: url('//at.alicdn.com/t/font_615778_eib2032khme7b9.eot');
-    src: url('//at.alicdn.com/t/font_615778_eib2032khme7b9.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_615778_eib2032khme7b9.woff') format('woff'),
-    url('//at.alicdn.com/t/font_615778_eib2032khme7b9.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_615778_eib2032khme7b9.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_615778_2l064n24706bt9.eot');
+    src: url('//at.alicdn.com/t/font_615778_2l064n24706bt9.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_615778_2l064n24706bt9.woff') format('woff'),
+    url('//at.alicdn.com/t/font_615778_2l064n24706bt9.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_615778_2l064n24706bt9.svg#iconfont') format('svg');
 }
 
 .ali-icon{
@@ -16,10 +16,19 @@
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
 }
-
+/*出诊时间*/
 .ali-czsj-icon:before{
     content: '\e60c;';
 }
+/*预约挂号*/
 .ali-yygh-icon:before{
     content: '\e61d';
+}
+/*职称*/
+.ali-zhicheng-icon:before{
+    content: '\e632';
+}
+/*特长*/
+.ali-techang-icon:before{
+    content: '\e65f';
 }
