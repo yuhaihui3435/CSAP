@@ -1,5 +1,7 @@
 package com.yhh.csap.admin.model;
 
+import cn.hutool.core.util.StrUtil;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.base.BaseContent;
@@ -35,7 +37,7 @@ public class Content extends BaseContent<Content> {
 
 	public List<Content> findByTextAndModule(String text,String module,boolean ifTop,int limit){
 		StringBuilder sql=new StringBuilder();
-		sql.append("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st on sm.tid=st.id where sc.dAt is null and st.module=? and flag='00' and st.text=?");
+		sql.append("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st on sm.tid=st.id where sc.dAt is null and st.module=? and sc.flag='00' and st.text=?");
 		if(ifTop){
 			sql.append(" and top ='0' ");
 		}
@@ -44,6 +46,19 @@ public class Content extends BaseContent<Content> {
 			sql.append(" limit "+limit);
 		}
 		return Content.dao.find(sql.toString(),module,text);
+	}
+
+	public Page<Content> pageByTextAndModule(int pn,int ps,String text,String module,String searchKey){
+		StringBuilder sql=new StringBuilder();
+		sql.append("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st on sm.tid=st.id left join s_user su sc.userid=su.id where sc.dAt is null and st.module=? and sc.flag='00' and st.text=?");
+		if(StrUtil.isNotBlank(searchKey)){
+			sql.append(" and (sc.title like  CONCAT('%',?,'%') or su.nickname like CONCAT('%',?,'%'))");
+			sql.append("  order by sc.pAt desc");
+			return Content.dao.paginate(pn,ps,sql.toString(),module,text,searchKey,searchKey);
+		}else{
+			sql.append("  order by sc.pAt desc");
+			return Content.dao.paginate(pn,ps,sql.toString(),module,text);
+		}
 	}
 
 
