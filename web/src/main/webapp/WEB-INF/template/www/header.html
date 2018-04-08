@@ -55,15 +55,15 @@
                                         <div class="collapse navbar-collapse" id="nb">
                                             #if(cKit.isNotEmpty(menuList))
                                             <ul class="nav navbar-nav">
-                                                <li #if(currId=='-1') class=" smooth-menu active" #else
+                                                <li #if(currPath=='/') class=" smooth-menu active" #else
                                                     class="smooth-menu" #end><a href="#(ctx)/">首页</a></li>
                                                 #for(x : menuList )
-                                                <li #if(currId==x.id+'') class=" smooth-menu active" #else
+                                                <li #if(currPath=='/'+x.text) class=" smooth-menu active" #else
                                                     class="smooth-menu" #end><a
-                                                        href="#(ctx)#(x.text)#(x.id)">#(x.title)</a></li>
-                                                #if(currId==x.id+'')
-                                                #set(currTitle=x.title)
-                                                #end
+                                                        href="#(ctx)#(x.text)">#(x.title)</a></li>
+                                                    #if(currPath=='/'+x.text)
+                                                        #set(currTitle=x.title)
+                                                    #end
                                                 #end
                                             </ul>
                                             #end

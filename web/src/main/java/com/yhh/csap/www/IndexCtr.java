@@ -1,9 +1,11 @@
 package com.yhh.csap.www;
 
 import com.jfinal.aop.Clear;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Content;
+import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.mt.DoctorInfo;
@@ -41,5 +43,38 @@ public class IndexCtr extends CoreController {
         setAttr("clsBottomList", clsBottom);
         render("index.html");
     }
+
+
+    public void science(){
+        String searchKey=getPara("searchKey");
+        Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.science.name(),Consts._SECTION,searchKey);
+        setAttr("page",page);
+        render(Consts.SECTION.science.name().concat("/main.html"));
+    }
+
+    public void successCase(){
+        String searchKey=getPara("searchKey");
+        Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.successCase.name(),Consts._SECTION,searchKey);
+        setAttr("page",page);
+        render(Consts.SECTION.successCase.name().concat("/main.html"));
+    }
+
+    public void dr(){
+
+    }
+
+    public void communicate(){
+
+    }
+
+    public void about(){
+
+    }
+
+
+
+
+
+
 
 }

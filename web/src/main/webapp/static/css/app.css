@@ -941,7 +941,317 @@ icon+文字说明
     margin: 0;
     text-align: center;
 }
+/* =============================================
+列表页
+================================================*/
+.page-banner {
+    background-position: center center;
+    background-size: cover;
+}
+.page-banner.overly::before {
+    background: #66CCFF;
+    opacity: .9;
+}
+.banner-wrap > span {
+    color: #fff;
+    font-weight: bold;
+    font-size: 36px;
+    text-transform: uppercase;
+}
+.banner-wrap {
+    text-align: center;
+}
+.breadcrumb-area {
+    background: #e4e4e4 none repeat scroll 0 0;
+}
+.breadcrumb {
+    background-color: transparent;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 8px 15px;
+}
+.breadcrumb-item > a {
+    color: #818181;
+    font-size: 14px;
+}
 
+.main-content {
+    background: #f4f4f4 none repeat scroll 0 0;
+    padding: 40px 0 60px;
+}
+.blog-content-wrap .blog-item {
+    background: #fff none repeat scroll 0 0;
+    margin-bottom: 30px;
+}
+.blog-area {
+    background: #f4f4f4;
+}
+.blog-thumb img {
+    height: 180px;
+    width: 100%;
+}
+.blog-details {
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: center;
+}
+.blog-title {
+    font-size: 18px;
+    line-height: 27px;
+    max-width: 301px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+.blog-details > span {
+    font-size: 12px;
+    color: #666666;
+}
+.blog-details > p {
+    margin-bottom: 27px;
+}
+.blog-item .custom-btn,
+.single-article .custom-btn {
+    color: #f2b33d;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    text-transform: inherit;
+    padding: 9px 24px;
+}
+.blog-item .custom-btn:hover,
+.single-article .custom-btn:hover {
+    color: #fff;
+}
+/*========================================
+分页按钮
+==========================================*/
+
+.pager {
+    margin: 0px 0 90px;
+}
+.pager > span {
+    background: #f2b33d none repeat scroll 0 0;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    height: 40px;
+    line-height: 38px;
+    margin: 30px 3px 0;
+    text-align: center;
+    width: 40px;
+}
+.pager span a {
+    background: #fff none repeat scroll 0 0;
+    display: inline-block;
+    height: 40px;
+    line-height: 38px;
+    text-align: center;
+    width: 40px;
+    color: #666;
+    border: 1px solid #e1e1e1;
+}
+.pager span a:hover {
+    background: #f3b33d;
+    color: #fff;
+    border: 1px solid #f3b33d;
+}
+/* =====================================================
+边栏区域
+========================================================*/
+
+.sidebar-widget {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ebebeb;
+    margin-bottom: 30px;
+}
+.search-box > button {
+    background: #f2b33d none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    height: 58px;
+    position: absolute;
+    width: 81px;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+}
+.search-box {
+    position: relative;
+}
+.search-box > input {
+    border: 1px solid #ebebeb;
+    height: 58px;
+    width: 100%;
+    color: #171d24;
+    font-size: 14px;
+    font-family: Roboto-Regular;
+    font-weight: normal;
+}
+/* ==============================
+
+================================*/
+
+.sidebar-widget:last-child {
+    margin: 0;
+}
+.sidebar .widget-title {
+    background: #e1e1e1 none repeat scroll 0 0;
+    color: #353535;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    padding: 20px 15px;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+}
+.sidebar-widget > ul,
+.post-social > ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+.sidebar-widget > ul > li {
+    border-bottom: 1px solid #e1e1e1;
+    padding: 11px 0 11px 18px;
+}
+.sidebar-widget > ul > li:last-child {
+    border-bottom: 0 none;
+}
+.sidebar-widget > ul > li a {
+    color: #353535;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+}
+.sidebar-widget > ul > li:hover > a {
+    color: #f2b33d;
+    padding-left: 5px;
+}
+/* ==============================
+
+================================*/
+
+.popular-single {
+    padding: 15px 15px 15px 18px;
+}
+.popular-single:first-child {
+    padding-top: 30px;
+}
+.popular-single:last-child {
+    padding-bottom: 30px;
+}
+.popular-thumb > a {
+    float: left;
+}
+.popular-single img {
+    height: 72px;
+    width: 103px;
+}
+.popular-txt {
+    margin-left: 113px;
+}
+.popular-txt > h4 a {
+    color: #353535;
+    -webkit-transition: .4s;
+    -o-transition: .4s;
+    transition: .4s;
+}
+.popular-txt > h4 {
+    font-family: Roboto-Regular;
+    font-size: 16px;
+    line-height: 21px;
+    margin-bottom: 0;
+}
+.popular-txt > span {
+    color: #a9a9a9;
+    font-size: 14px;
+    line-height:30px;
+}
+.popular-txt > h4 a:hover {
+    color: #f2b33d
+}
+.popular-single::after,
+.single-follow::after,
+.post-button-social::after,
+.article-share::after,
+.article-pagination::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+/* =======================================
+
+==========================================*/
+
+.single-follow {
+    border-bottom: 1px solid #e1e1e1;
+    padding: 15px 40px 15px 18px;
+}
+.single-follow:last-child {
+    border-bottom: 0 none;
+}
+.follow-icon {
+    float: left;
+    display: inline-table
+}
+.follow-btn {
+    border: medium none;
+    color: #fff;
+    float: right;
+    font-family: Roboto-Medium;
+    font-size: 12px;
+    height: 30px;
+    text-transform: capitalize;
+    width: 74px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.follow-btn.fb {
+    background: #3b5998
+}
+.follow-btn.tw {
+    background: #00aced
+}
+.follow-btn.yt {
+    background: #bb0000
+}
+.follow-icon > span {
+    color: #bcbcbc;
+    display: table-cell;
+    font-size: 30px;
+    padding-right: 20px;
+    vertical-align: middle;
+}
+.follow-icon > h4 {
+    color: #353535;
+    font-family: Roboto-Regular;
+    font-size: 18px;
+    line-height: 21px;
+    margin: 0;
+}
+.follow-icon h4 span {
+    display: block;
+    font-size: 12px;
+    font-style: italic;
+    text-transform: capitalize;
+    color: #bcbcbc;
+}
+/* ======================================
+
+========================================*/
+
+.tagclouds {
+    padding: 20px 16px 20px 18px;
+}
+.tagclouds > a {
+    border-bottom: 1px solid;
+    color: #666666;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    text-transform: capitalize;
+}
+.tagclouds > a:hover {
+    color: #f2b33d;
+}
 
 
 

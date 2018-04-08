@@ -4,6 +4,7 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.core.CoreController;
 
 import java.util.List;
@@ -19,22 +20,32 @@ public class WwwInterceptor implements Interceptor {
         CoreController controller = (CoreController)invocation.getController();
         String ck=invocation.getControllerKey();
         String ak=invocation.getActionKey();
+        //获取系统设置的参数
         List<String> list=CacheKit.getKeys(Consts.CACHE_NAMES.paramCache.name());
         for (String str:list){
             controller.setAttr(str,(String)CacheKit.get(Consts.CACHE_NAMES.paramCache.name(),str));
         }
-
+        //获取菜单
         List menuList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"sectionList");
         controller.setAttr("menuList",menuList);
-
-        if(ak.equals("/")){
-            controller.setAttr("currId","-1");
-        }else if (ak.equals("/a")||ak.equals("/b")||ak.equals("/c")||ak.equals("/d")){
-            controller.setAttr("currId",controller.getPara(0));
-        }
-
+        //当前路径，处理点击过的菜单激活问题
+        controller.setAttr("currPath",ak);
+        //栏目的title的获取
+        Taxonomy taxonomy=getSectionIdFromCacheByText(ak.replaceAll("/",""));
+        controller.setAttr("currTitle",taxonomy==null?"":taxonomy.getTitle());
         invocation.invoke();
 
 
     }
+    //根据栏目的标识符号 查找缓存中的栏目数据
+    private Taxonomy getSectionIdFromCacheByText(String txt){
+        List<Taxonomy> taxonomies=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"sectionList");
+        for (Taxonomy taxonomy:taxonomies){
+            if(taxonomy.getText().equals(txt)){
+                return taxonomy;
+            }
+        }
+        return null;
+    }
+
 }

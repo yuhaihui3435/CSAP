@@ -40,6 +40,8 @@ public interface  Consts {
 
      String ROLE_PATIENT="patient";
 
+     String _SECTION="section";
+
      BigDecimal BD_ZERO=new BigDecimal(0);
 
      Map<String,String> MAPPING_TO_TBL=new HashMap<>();
