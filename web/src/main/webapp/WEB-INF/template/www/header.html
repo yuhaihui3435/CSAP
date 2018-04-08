@@ -8,25 +8,29 @@
                         <div id="rss-item" class="ticker">
                             <ul>
                                 #for(rss : rssList)
-                                <li>#(rss.txt)</li>
+                                <li>
+                                 #if(isNotBlank(rss.url))<a href="#(rss.url)" target="_blank">#end
+                                        #(rss.content)
+                                    #if(isNotBlank(rss.url))</a>#end
+                                </li>
                                 #end
                             </ul>
                         </div>
                         #end
                     </div>
-                    <div class="col-md-6 col-sm-5 hidden-xs">
-                        <div class="top-info">
-                            #if(isNotBlank(siteEmail))
-                            <div class="single-info hidden-sm">
-                                <p><i class="fa fa-envelope-o"></i><a href="mailto:#(siteEmail)">#(siteEmail)</a></p>
-                            </div>
-                            #end
-                            #if(isNotBlank(sitePhone))
-                            <div class="single-info hidden-sm">
-                                <p><i class="fa fa-phone"></i>#(sitePhone)</p>
-                            </div>
-                            #end
+                </div>
+                <div class="col-md-6 col-sm-5 hidden-xs">
+                    <div class="top-info">
+                        #if(isNotBlank(siteEmail))
+                        <div class="single-info hidden-sm">
+                            <p><i class="fa fa-envelope-o"></i><a href="mailto:#(siteEmail)">#(siteEmail)</a></p>
                         </div>
+                        #end
+                        #if(isNotBlank(sitePhone))
+                        <div class="single-info hidden-sm">
+                            <p><i class="fa fa-phone"></i>#(sitePhone)</p>
+                        </div>
+                        #end
                     </div>
                 </div>
             </div>

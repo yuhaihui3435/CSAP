@@ -45,6 +45,13 @@ public class DoctorInfo extends BaseDoctorInfo<DoctorInfo> {
 		return dao.findByCache(Consts.CACHE_NAMES.index.name(),"drList",sql);
 	}
 
+	public String getSexTxt(){
+		return getSex().equals("1")?"男":"女";
+	}
+
+	public String getStatusTxt(){
+		return getStatus().equals(Consts.STATUS.enable.getVal())?Consts.STATUS.enable.getValTxt():Consts.STATUS.forbidden.getValTxt();
+	}
 
 	@Override
 	public String getTableName() {

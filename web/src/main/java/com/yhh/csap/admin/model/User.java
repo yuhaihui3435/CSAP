@@ -187,4 +187,8 @@ public class User extends BaseUser<User>  {
 	}
 
 
+	public User findUserByIdWithCache(int id){
+		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+id,"select * from s_user where id=? ",id);
+	}
+
 }

@@ -8,8 +8,10 @@ import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.json.FastJsonFactory;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log4jLogFactory;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.cron4j.Cron4jPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.template.Engine;
@@ -32,6 +34,9 @@ import com.yhh.csap.mt.doctor.VisitApiCtr;
 import com.yhh.csap.mt.doctor.VisitCtr;
 import com.yhh.csap.www.IndexCtr;
 import com.yhh.csap.www.carouselsetting.ClsCtr;
+import com.yhh.csap.www.rss.RssCtr;
+
+import javax.sql.DataSource;
 
 
 /**
@@ -76,8 +81,6 @@ public class CoreConfig extends JFinalConfig{
             }
         });
 
-
-
         routes.add(new Routes() {
             @Override
             public void config() {
@@ -100,6 +103,7 @@ public class CoreConfig extends JFinalConfig{
             @Override
             public void config() {
                 add("/w01", ClsCtr.class);
+                add("/w02", RssCtr.class);
             }
         });
 
@@ -109,7 +113,6 @@ public class CoreConfig extends JFinalConfig{
                 setBaseViewPath("/WEB-INF/template/www/");
                 addInterceptor(new WwwInterceptor());
                 add("/", IndexCtr.class);
-
             }
         });
 
@@ -153,6 +156,8 @@ public class CoreConfig extends JFinalConfig{
         plugins.add(arp);
         //开启eheache缓存
         plugins.add(new EhCachePlugin());
+
+        Cron4jPlugin cp = new Cron4jPlugin(PropKit.use("task.properties"),"cron4j");
     }
 
     private DruidPlugin createDruidPlugin() {

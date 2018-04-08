@@ -162,4 +162,12 @@ public abstract class BaseDoctorInfo<M extends BaseDoctorInfo<M>> extends CoreMo
 		return getStr("ifTop");
 	}
 
+	public void setStatus(java.lang.String status) {
+		set("status", status);
+	}
+
+	public java.lang.String getStatus() {
+		return getStr("status");
+	}
+
 }

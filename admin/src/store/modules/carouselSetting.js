@@ -5,6 +5,7 @@ const  carouselSetting={
         totalPage:0,
         pageNumber:1,
         totalRow:0,
+        pageSIze:15,
         carouselSetting:{},
         areas:[]
     },
@@ -13,6 +14,7 @@ const  carouselSetting={
             state.carouselSettingList=page.list
             state.totalPage=page.totalPage
             state.pageNumber=page.pageNumber
+            state.pageSize=page.pageSize
             state.totalRow=page.totalRow
         },
         carouselSetting_set(state,obj){
