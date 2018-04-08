@@ -46,7 +46,6 @@
             </Form>
             <div slot="footer">
                 <Button type="success" :loading="modalLoading" @click="save">保存</Button>
-                <Button @click="reset" v-show="isAdd">重置</Button>
                 <Button type="error" @click="carouselSettingModal=false">关闭</Button>
             </div>
         </Modal>
@@ -107,9 +106,6 @@
                         this.modalLoading = false;
                     }
                 })
-            },
-            reset(){
-                this.$store.dispatch('carouselSetting_set',{});
             },
             handleUpload(file){
                 let vm = this;

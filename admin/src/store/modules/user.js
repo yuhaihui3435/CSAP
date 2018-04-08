@@ -6,6 +6,7 @@ const user = {
         userList:[],
         totalPage:0,
         pageNumber:1,
+        pageSize:15,
         totalRow:0,
         user:{}
     },
@@ -32,6 +33,7 @@ const user = {
             state.userList=page.list
             state.totalPage=page.totalPage
             state.pageNumber=page.pageNumber
+            state.pageSize=page.pageSize
             state.totalRow=page.totalRow
         },
         user_reset(state,param){

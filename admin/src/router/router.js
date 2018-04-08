@@ -86,6 +86,7 @@ export const appRouter = [
         component: Main,
         children: [
             { path: 'cls', title: '轮播数据管理',isCheck:'yes', name: 'www_cls', component: resolve => { require(['@/views/www/carouselSetting/main.vue'], resolve); } },
+            { path: 'rss', title: '广播数据管理',isCheck:'yes', name: 'www_rss', component: resolve => { require(['@/views/www/rss/main.vue'], resolve); } },
         ]
     },
     {
@@ -93,10 +94,11 @@ export const appRouter = [
         icon: 'bowtie',
         isCheck:'yes',
         name: 'mt',
-        title: '医患信息管理',
+        title: '医生信息管理',
         component: Main,
         children: [
             { path: 'dr', title: '医生信息管理',isCheck:'yes', name: 'mt_dr', component: resolve => { require(['@/views/mt/doctor/main.vue'], resolve); } },
+            { path: 'visit', title: '出诊计划管理',isCheck:'yes', name: 'mt_visit', component: resolve => { require(['@/views/mt/visit/main.vue'], resolve); } },
         ]
     }
 ];

@@ -10,6 +10,7 @@ import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.www.model.CarouselSetting;
+import com.yhh.csap.www.model.Rss;
 
 import java.util.List;
 
@@ -36,7 +37,11 @@ public class IndexCtr extends CoreController {
         if (!successCaseList.isEmpty())
             CacheKit.put(Consts.CACHE_NAMES.index.name(), "successCaseList", successCaseList);
         setAttr("successCaseList", successCaseList);
+        //rss
+        List<Rss> rssList=Rss.dao.findByCache(Consts.CACHE_NAMES.index.name(),"rssList","select * from www_rss where status='0' and dAt is null ");
+        setAttr("rssList",rssList);
 
+        //友情了链接
         setAttr("fsLinkList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(), "fsLinkList"));
         setAttr("drList", drList);
         setAttr("clsTopList", clsTop);

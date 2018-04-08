@@ -10,7 +10,8 @@ import res from './modules/res';
 import tax from './modules/tax';
 import home from './modules/home';
 import carouselSetting from './modules/carouselSetting';
-import dr from './modules/doctor';
+import doctorInfo from './modules/doctor';
+import rss from './modules/rss';
 
 Vue.use(Vuex);
 
@@ -45,7 +46,8 @@ const store = new Vuex.Store({
         tax,
         home,
         carouselSetting,
-        dr
+        doctorInfo,
+        rss
     }
 });
 

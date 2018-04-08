@@ -1,8 +1,10 @@
 package com.yhh.csap.mt.doctor;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.Kv;
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
@@ -15,9 +17,13 @@ import com.yhh.csap.admin.model.User;
 import com.yhh.csap.admin.user.UserSrv;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.core.CoreException;
+import com.yhh.csap.kits.AppKit;
 import com.yhh.csap.kits.PinyinKit;
+import com.yhh.csap.kits.QiNiuKit;
 import com.yhh.csap.kits.ext.BCrypt;
 import com.yhh.csap.mt.DoctorInfo;
+
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +71,7 @@ public class DoctorCtr extends CoreController {
         String email=getPara("email");
         String sex=getPara("sex");
         String tel=getPara("tel");
+        String status=getPara("status");
         Page page=null;
         Kv kv= Kv.create();
         if(StrUtil.isNotBlank(name))
@@ -75,6 +82,8 @@ public class DoctorCtr extends CoreController {
             kv.put(" di.sex=",sex);
         if(StrUtil.isNotBlank(tel))
             kv.put("tel",tel);
+        if(StrUtil.isNotBlank(status))
+            kv.put("status=",status);
 
         SqlPara sqlPara= Db.getSqlPara("doctor.findPage",Kv.by("cond",kv));
         page=DoctorInfo.dao.paginate(getPN(),getPS(),sqlPara);
@@ -108,6 +117,27 @@ public class DoctorCtr extends CoreController {
                 }
             }
         }
+
+        String imgBase64Data=getPara("imgBase64Data");
+        if(StrUtil.isNotBlank(imgBase64Data)){
+            String imgType= AppKit.getBase64ImgType(imgBase64Data);
+            String imgName= DateUtil.current(true)+"";
+            String savePath=Consts.QINIU_IMG_FOLDER+"dr/"+imgName+"."+imgType;
+            try {
+                String qnRs=QiNiuKit.put64image(imgBase64Data,savePath);
+                if(qnRs==null) {
+                    LogKit.error("上传头像失败");
+                }else{
+                    if(qnRs.equals(Consts.YORN_STR.yes.name())){
+                        doctorInfo.setAvatar(CacheKit.get(Consts.CACHE_NAMES.paramCache.name(),"qn_url")+savePath);
+                    }else{
+                        LogKit.error("base64上传失败:"+qnRs);
+                    }
+                }
+            } catch (IOException e) {
+                LogKit.error("图片上传失败，原因："+e.getMessage());
+            }
+        }
         User user = new User();
         user.setCAt(new Date());
         user.setLoginname(loginname.toString());
@@ -120,6 +150,7 @@ public class DoctorCtr extends CoreController {
         user.setSalt(BCrypt.gensalt());
         user.setPassword(BCrypt.hashpw(PinyinKit.getFullSpell(doctorInfo.getName()), user.getSalt()));
         user.setPhone(tel);
+        user.setAvatar(doctorInfo.getAvatar());
         userSrv.addDr(user);
         doctorInfo.setUserId(user.getId().intValue());
         doctorInfo.save();
