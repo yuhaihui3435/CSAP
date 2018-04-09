@@ -10,6 +10,7 @@ const  doctorInfo={
         diseaseList:[],
         opModelList:[],
         drTitleList:[],
+        rApiList:[],
     },
     mutations: {
         set_doctorInfo_list(state,page){
@@ -30,7 +31,12 @@ const  doctorInfo={
             state.opModelList=obj.opModelList
             state.diseaseList=obj.diseaseList
 
+        },
+        set_rApi_list(state,list){
+            state.rApiList=list
+
         }
+        
     },
     actions:{
         doctorInfo_list:function ({ commit,state },param) {
@@ -60,6 +66,47 @@ const  doctorInfo={
                 vm.$axios.post('/mt00/dr', param).then((res) => {
                     commit('set_dr',res)
                     resolve()
+                });
+            });
+        },
+        doctorInfo_top:function ({ commit,state },param) {
+            let vm=this._vm;
+            return new Promise(function (resolve, reject) {
+                vm.$axios.post('/mt00/top', param).then((res) => {
+                    resolve()
+                });
+            });
+        },
+        doctorInfo_cancel_top:function ({ commit,state },param) {
+            let vm=this._vm;
+            return new Promise(function (resolve, reject) {
+                vm.$axios.post('/mt00/cancelTop', param).then((res) => {
+                    resolve()
+                });
+            });
+        },
+        rApi_list:function ({ commit,state },param) {
+            let vm=this._vm;
+            return new Promise(function (resolve, reject) {
+                vm.$axios.post('/mt02/list', param).then((res) => {
+                    commit('set_rApi_list', res)
+                    resolve();
+                });
+            });
+        },
+        rApi_save:function ({ commit,state },param) {
+            let vm=this._vm;
+            return new Promise(function (resolve, reject) {
+                vm.$axios.post('/mt02/save', param).then((res) => {
+                    resolve(res)
+                });
+            });
+        },
+        rApi_del:function ({ commit,state },param) {
+            let vm=this._vm;
+            return new Promise(function (resolve, reject) {
+                vm.$axios.post('/mt02/del', param).then((res) => {
+                    resolve(res)
                 });
             });
         },

@@ -43,7 +43,7 @@
                     <Input v-model="doctorInfo.hospital" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
                 <FormItem label="详细介绍" prop="introduction">
-                    <Input v-model="doctorInfo.introduction" placeholder="请输入..." type="textarea" :rows="4" style="width: 300px"></Input>
+                    <Input v-model="doctorInfo.introduction" placeholder="请输入..." type="textarea" :rows="14" style="width: 300px"></Input>
                 </FormItem>
                 <FormItem label="照片" prop="imgBase64Data">
                     <Upload

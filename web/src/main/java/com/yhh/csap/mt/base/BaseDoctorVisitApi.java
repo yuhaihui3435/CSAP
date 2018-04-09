@@ -33,12 +33,12 @@ public abstract class BaseDoctorVisitApi<M extends BaseDoctorVisitApi<M>> extend
         return getStr("name");
     }
 
-    public void setDvId(Integer dvId) {
-        set("dvId", dvId);
+    public void setDrId(Integer dvId) {
+        set("drId", dvId);
     }
 
-    public Integer getDvId() {
-        return getInt("dvId");
+    public Integer getDrId() {
+        return getInt("drId");
     }
 
 }

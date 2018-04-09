@@ -24,6 +24,7 @@ import com.yhh.csap.kits.ext.BCrypt;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorTax;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -167,7 +168,6 @@ public class DoctorCtr extends CoreController {
 
         CacheKit.put(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()),doctorInfo);
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
-        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
         CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
         renderSuccessJSON("医生信息创建成功");
     }
@@ -212,7 +212,6 @@ public class DoctorCtr extends CoreController {
         CacheKit.removeAll(Consts.CACHE_NAMES.doctorTax.name());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()));
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
-        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
         CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
         renderSuccessJSON("医生信息更新成功");
     }
@@ -226,7 +225,6 @@ public class DoctorCtr extends CoreController {
         CacheKit.removeAll(Consts.CACHE_NAMES.doctorTax.name());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()));
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
-        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
         CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
         renderSuccessJSON("医生信息删除成功");
     }
@@ -254,6 +252,30 @@ public class DoctorCtr extends CoreController {
             }
         }
     }
+
+    public void top(){
+        int id=getParaToInt("id");
+        DoctorInfo doctorInfo=DoctorInfo.dao.findById(id);
+        doctorInfo.setIfTop(Consts.YORN_STR.yes.getVal());
+        doctorInfo.update();
+        CacheKit.put(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()),doctorInfo);
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
+        renderSuccessJSON("置顶成功");
+    }
+
+    public void cancelTop(){
+        int id=getParaToInt("id");
+        DoctorInfo doctorInfo=DoctorInfo.dao.findById(id);
+        doctorInfo.setIfTop(Consts.YORN_STR.no.getVal());
+        doctorInfo.update();
+        CacheKit.put(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()),doctorInfo);
+        CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
+        CacheKit.remove(Consts.CACHE_NAMES.index.name(),"drList");
+        renderSuccessJSON("取消成功");
+    }
+
+
 
 
 }

@@ -40,12 +40,14 @@
             </Col>
         </Row>
         <drForm ref="rf"></drForm>
+        <rApiSet ref="ras"></rApiSet>
     </div>
 </template>
 
 <script>
     import {mapState} from 'vuex'
     import drForm from './form.vue'
+    import rApiSet from './rApiSet.vue'
     import consts from '../../../libs/consts'
     const editBtn=(vm,h,param)=>{
         return h('Button', {
@@ -62,6 +64,22 @@
                 }
             }
         }, '编辑')
+    };
+    const rApiBtn=(vm,h,param)=>{
+        return h('Button', {
+            props: {
+                type: 'primary',
+                size: 'small'
+            },
+            style: {
+                marginRight: '5px'
+            },
+            on: {
+                click: () => {
+                    vm.rApiSet(param.row)
+                }
+            }
+        }, '外部挂号网址设置')
     };
     const delBtn=(vm,h,param)=>{
         return h('Poptip', {
@@ -83,6 +101,48 @@
                 size: 'small'
             }
         }, '删除')]);
+    };
+    const topBtn=(vm,h,param)=>{
+        return h('Poptip', {
+            props: {
+                confirm: '',
+                title: '您确定要置顶这个医生信息吗？'
+            },
+            style: {
+                marginRight: '5px'
+            },
+            on: {
+                'on-ok': () => {
+                    vm.top(param.row.id)
+                }
+            }
+        }, [h('Button', {
+            props: {
+                type: 'error',
+                size: 'small'
+            }
+        }, '置顶')]);
+    };
+    const cancel_topBtn=(vm,h,param)=>{
+        return h('Poptip', {
+            props: {
+                confirm: '',
+                title: '您确定要取消置顶这个医生信息吗？'
+            },
+            style: {
+                marginRight: '5px'
+            },
+            on: {
+                'on-ok': () => {
+                    vm.cancel_top(param.row.id)
+                }
+            }
+        }, [h('Button', {
+            props: {
+                type: 'error',
+                size: 'small'
+            }
+        }, '取消置顶')]);
     };
 
     export default {
@@ -113,10 +173,30 @@
                 this.$refs.rf.open('新增医生数据',true)
             },
             changePage(pn){
-                this.$store.dispatch('doctorInfo_list',{pn:pn})
+                this.param.pn=pn;
+                this.$store.dispatch('doctorInfo_list',this.param)
             },
             search(){
                 this.$store.dispatch('doctorInfo_list',this.param)
+            },
+            top(id){
+                let vm=this
+                this.$store.dispatch('doctorInfo_top',{id:id}).then(()=>{
+                    vm.search()
+                })
+            },
+            cancel_top(id){
+                let vm=this
+                this.$store.dispatch('doctorInfo_cancel_top',{id:id}).then(()=>{
+                    vm.search()
+                })
+            },
+            rApiSet(row){
+                let vm=this
+                this.$store.dispatch('rApi_list',{drId:row.id}).then(()=>{
+                    this.$refs.ras.open(row.id)
+                })
+
             }
         },
         mounted (){
@@ -128,6 +208,7 @@
         },
         components: {
             drForm: drForm,
+            rApiSet:rApiSet
         },
         data () {
             return {
@@ -176,11 +257,12 @@
                         width: 200,
                         align: 'center',
                         render:(h,param)=>{
-                            return h('div', [
-                                editBtn(this,h,param),
-                                delBtn(this,h,param),
-
-                            ])
+                            let btns=[editBtn(this,h,param),delBtn(this,h,param),rApiBtn(this,h,param)]
+                            if(param.row.ifTop!='0')
+                                btns.push(topBtn(this,h,param))
+                            else
+                                btns.push(cancel_topBtn(this,h,param))
+                            return h('div', btns)
                         }
                     }
 
