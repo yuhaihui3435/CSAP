@@ -136,4 +136,19 @@ public interface  Consts {
         science,dr,successCase,communicate,about
     }
 
+    enum DR_TAX{
+         opModel(2),disease(1),drTitle(3);
+        int val;
+
+        private DR_TAX(int val) {
+            this.val = val;
+        }
+        public int getVal(){
+            return this.val;
+        }
+        public String getValTxt(){
+            return (val==1?"擅长疾病":(val==2)?"手术方式":"职称");
+        }
+    }
+
 }

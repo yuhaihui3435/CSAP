@@ -5,7 +5,7 @@
          monitoring="autodetect"
          dynamicConfig="true">
          
-    <diskStore path="java.io.tmpdir"/>
+    <diskStore path="java.io.tmpdir/casp"/>
 
     <cache name="paramCache"
            maxEntriesLocalHeap="5000"

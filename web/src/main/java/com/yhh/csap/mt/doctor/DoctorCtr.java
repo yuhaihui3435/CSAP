@@ -22,6 +22,7 @@ import com.yhh.csap.kits.PinyinKit;
 import com.yhh.csap.kits.QiNiuKit;
 import com.yhh.csap.kits.ext.BCrypt;
 import com.yhh.csap.mt.DoctorInfo;
+import com.yhh.csap.mt.DoctorTax;
 
 import java.io.IOException;
 import java.util.Date;
@@ -32,6 +33,7 @@ import java.util.Map;
 import static cn.hutool.core.util.RandomUtil.randomString;
 import static cn.hutool.core.util.StrUtil.UNDERLINE;
 import static cn.hutool.core.util.StrUtil.reverse;
+import static cn.hutool.core.util.StrUtil.str;
 
 /**
  * 简介
@@ -75,9 +77,9 @@ public class DoctorCtr extends CoreController {
         Page page=null;
         Kv kv= Kv.create();
         if(StrUtil.isNotBlank(name))
-            kv.put("instr(di.name,",name+")>0");
+            kv.put("name",name);
         if(StrUtil.isNotBlank(email))
-            kv.put(" instr(di.email,",email+")>0");
+            kv.put("email",email);
         if(StrUtil.isNotBlank(sex))
             kv.put(" di.sex=",sex);
         if(StrUtil.isNotBlank(tel))
@@ -92,6 +94,9 @@ public class DoctorCtr extends CoreController {
     @Before({DoctorValidate.class,Tx.class})
     public void save(){
         DoctorInfo doctorInfo=getModel(DoctorInfo.class,"",true);
+        String opModels=getPara("opModels");
+        String diseases=getPara("diseases");
+        String drTitles=getPara("drTitles");
         doctorInfo.setCAt(new Date());
         doctorInfo.setOperId(currUser()==null?null:currUser().getId().intValue());
         boolean bl=true;
@@ -153,7 +158,13 @@ public class DoctorCtr extends CoreController {
         user.setAvatar(doctorInfo.getAvatar());
         userSrv.addDr(user);
         doctorInfo.setUserId(user.getId().intValue());
+        doctorInfo.setStatus(Consts.STATUS.enable.getVal());
         doctorInfo.save();
+
+        addDrTax(opModels,Consts.DR_TAX.opModel.getVal(),doctorInfo.getId());
+        addDrTax(diseases,Consts.DR_TAX.disease.getVal(),doctorInfo.getId());
+        addDrTax(drTitles,Consts.DR_TAX.drTitle.getVal(),doctorInfo.getId());
+
         CacheKit.put(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()),doctorInfo);
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike");
@@ -163,9 +174,41 @@ public class DoctorCtr extends CoreController {
     @Before({DoctorValidate.class,Tx.class})
     public void update(){
         DoctorInfo doctorInfo=getModel(DoctorInfo.class,"",true);
+        String opModels=getPara("opModels");
+        String diseases=getPara("diseases");
+        String drTitles=getPara("drTitles");
+        String imgBase64Data=getPara("imgBase64Data");
+        if(StrUtil.isNotBlank(imgBase64Data)){
+            String imgType= AppKit.getBase64ImgType(imgBase64Data);
+            String imgName= DateUtil.current(true)+"";
+            String savePath=Consts.QINIU_IMG_FOLDER+"dr/"+imgName+"."+imgType;
+            try {
+
+                String qnRs=QiNiuKit.put64image(imgBase64Data,savePath);
+                if(qnRs==null) {
+                    LogKit.error("上传头像失败");
+                }else{
+                    if(qnRs.equals(Consts.YORN_STR.yes.name())){
+                        if(StrUtil.isNotBlank(doctorInfo.getAvatar())) {
+                            QiNiuKit.del(doctorInfo.getAvatar().replace((String) CacheKit.get(Consts.CACHE_NAMES.paramCache.name(), "qn_url"), ""));
+                        }
+                        doctorInfo.setAvatar(CacheKit.get(Consts.CACHE_NAMES.paramCache.name(),"qn_url")+savePath);
+                    }else{
+                        LogKit.error("base64上传失败:"+qnRs);
+                    }
+                }
+            } catch (IOException e) {
+                LogKit.error("图片上传失败，原因："+e.getMessage());
+            }
+        }
         doctorInfo.setMAt(new Date());
         doctorInfo.setOperId(currUser()==null?null:currUser().getId().intValue());
         doctorInfo.update();
+        DoctorTax.dao.delByDId(doctorInfo.getId());
+        addDrTax(opModels,Consts.DR_TAX.opModel.getVal(),doctorInfo.getId());
+        addDrTax(diseases,Consts.DR_TAX.disease.getVal(),doctorInfo.getId());
+        addDrTax(drTitles,Consts.DR_TAX.drTitle.getVal(),doctorInfo.getId());
+
         CacheKit.removeAll(Consts.CACHE_NAMES.doctorTax.name());
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"id_".concat(doctorInfo.getId().toString()));
         CacheKit.remove(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike"+doctorInfo.getName());
@@ -193,6 +236,24 @@ public class DoctorCtr extends CoreController {
         renderJson(DoctorInfo.dao.findFirstByCache(Consts.CACHE_NAMES.doctorInfo.name(),"id_"+id,"select * from mt_doctor_info where id=? ",id));
     }
 
+
+
+    private void addDrTax(String taxIds,int type,int drId){
+        String[] strings=null;
+        DoctorTax doctorTax=null;
+        int i=0;
+        if(StrUtil.isNotBlank(taxIds)){
+            strings=taxIds.split(",");
+            for (String s:strings){
+                i=Integer.parseInt(s);
+                doctorTax=new DoctorTax();
+                doctorTax.setDId(drId);
+                doctorTax.setTaxId(i);
+                doctorTax.setType(type);
+                doctorTax.save();
+            }
+        }
+    }
 
 
 }

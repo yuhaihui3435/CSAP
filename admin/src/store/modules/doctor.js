@@ -24,7 +24,9 @@ const  doctorInfo={
                 state.doctorInfo=Object.assign({},obj);
         },
         set_dr(state,obj){
-            state.drTitleList=obj.drTitleList
+            state.drTitleList=obj.drTitleList.map((val,key,arr)=>{
+                return {value:val.id,label:val.title}
+            })
             state.opModelList=obj.opModelList
             state.diseaseList=obj.diseaseList
 

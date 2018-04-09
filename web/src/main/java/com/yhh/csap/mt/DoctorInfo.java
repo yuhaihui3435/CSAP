@@ -5,6 +5,7 @@ import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.mt.base.BaseDoctorInfo;
 
+import javax.print.Doc;
 import java.util.List;
 
 /**
@@ -38,6 +39,47 @@ public class DoctorInfo extends BaseDoctorInfo<DoctorInfo> {
 		return DoctorTax.dao.findByCache(Consts.CACHE_NAMES.doctorTax.name(),"dt_c_".concat(getId().toString()),"select * from mt_doctor_tax where dId=? and type=3",getId());
 	}
 
+	public String getDT_A_IDS(){
+		List<DoctorTax> list=getDT_A();
+		StringBuilder stringBuilder=new StringBuilder();
+		for (DoctorTax doctorTax:list){
+			if(stringBuilder.length()==0){
+				stringBuilder.append(doctorTax.getTaxId().toString());
+			}else{
+				stringBuilder.append(",").append(doctorTax.getTaxId().toString());
+			}
+		}
+		return stringBuilder.toString();
+	}
+
+
+	public String getDT_B_IDS(){
+		List<DoctorTax> list=getDT_B();
+		StringBuilder stringBuilder=new StringBuilder();
+		for (DoctorTax doctorTax:list){
+			if(stringBuilder.length()==0){
+				stringBuilder.append(doctorTax.getTaxId().toString());
+			}else{
+				stringBuilder.append(",").append(doctorTax.getTaxId().toString());
+			}
+		}
+		return stringBuilder.toString();
+	}
+
+
+	public String getDT_C_IDS(){
+		List<DoctorTax> list=getDT_C();
+		StringBuilder stringBuilder=new StringBuilder();
+		for (DoctorTax doctorTax:list){
+			if(stringBuilder.length()==0){
+				stringBuilder.append(doctorTax.getTaxId().toString());
+			}else{
+				stringBuilder.append(",").append(doctorTax.getTaxId().toString());
+			}
+		}
+		return stringBuilder.toString();
+	}
+
 
 
 	public List<DoctorInfo> findTop(int limit){
@@ -46,7 +88,8 @@ public class DoctorInfo extends BaseDoctorInfo<DoctorInfo> {
 	}
 
 	public String getSexTxt(){
-		return getSex().equals("1")?"男":"女";
+
+		return getSex()==1?"男":"女";
 	}
 
 	public String getStatusTxt(){

@@ -39,6 +39,9 @@
                 <FormItem label="执照号" prop="licenseNo">
                     <Input v-model="doctorInfo.licenseNo" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
+                <FormItem label="医院" prop="hospital">
+                    <Input v-model="doctorInfo.hospital" placeholder="请输入..." style="width: 300px" ></Input>
+                </FormItem>
                 <FormItem label="详细介绍" prop="introduction">
                     <Input v-model="doctorInfo.introduction" placeholder="请输入..." type="textarea" :rows="4" style="width: 300px"></Input>
                 </FormItem>
@@ -68,7 +71,7 @@
                 </FormItem>
                 <FormItem label="职称" prop="drTitles">
                     <Select v-model="drTitles" placeholder="请输入..." style="width: 300px" multiple>
-                        <Option v-for="item in drTitleList" :value="item.id" :key="item.id">{{ item.title }}</Option>
+                        <Option v-for="item in drTitleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="状态" prop="status" v-show="!isAdd">
@@ -106,11 +109,27 @@
                 this.isAdd = isAdd
                 this.modalTitle = title;
                 this.doctorInfoModal=true;
+
                 if(isAdd){
                     this.$store.commit('doctorInfo_set',{});
                     this.imgBase64Data='';
                     this.showImg=false;
                 }else{
+                    if(this.doctorInfo.dT_C_IDS!=""){
+                        this.doctorInfo.dT_C_IDS.split(",").forEach((val,key,arr)=>{
+                            this.drTitles.push(parseInt(val))
+                            });
+                    }
+                    if(this.doctorInfo.dT_A_IDS!=""){
+                        this.doctorInfo.dT_A_IDS.split(",").forEach((val,key,arr)=>{
+                            this.diseases.push(parseInt(val))
+                        });
+                    }
+                    if(this.doctorInfo.dT_B_IDS!=""){
+                        this.doctorInfo.dT_B_IDS.split(",").forEach((val,key,arr)=>{
+                            this.opModels.push(parseInt(val))
+                        });
+                    }
                     this.showImg=true;
                     this.imgBase64Data=this.doctorInfo.avatar
                 }
@@ -119,6 +138,10 @@
             vChange(b){
                 if (!b) {
                     this.$refs['formValidate'].resetFields()
+                    this.showImg=false
+                    this.drTitles=[]
+                    this.diseases=[]
+                    this.opModels=[]
                 }
             },
             save(){
@@ -126,6 +149,11 @@
                 this.modalLoading = true;
                 this.$refs['formValidate'].validate((valid) => {
                     if (valid) {
+
+                        vm.doctorInfo.drTitles=vm.drTitles.join(",")
+                        vm.doctorInfo.diseases=vm.diseases.join(",")
+                        vm.doctorInfo.opModels=vm.opModels.join(",")
+
                         let action='save';
                         if(!vm.isAdd)
                             action='update';
@@ -197,9 +225,21 @@
                         {type: 'string', required: true, message: '简介不能为空', trigger: 'blur'},
                         {type: 'string', max: 255, message: '简介长度不能超过255', trigger: 'blur'}
                     ],
-                    linkTo: [
-                        {type: 'url',  message: '目标链接格式不正确', trigger: 'blur'},
-                        {type: 'string', max: 255, message: '目标链接长度不能超过255', trigger: 'blur'}
+                    tel1: [
+                        {type: 'string', max: 50, message: '电话1长度不能超过50', trigger: 'blur'}
+                    ],
+                    tel2: [
+                        {type: 'string', max: 50, message: '电话2长度不能超过50', trigger: 'blur'}
+                    ],
+                    tel3: [
+                        {type: 'string', max: 50, message: '电话3长度不能超过50', trigger: 'blur'}
+                    ],
+                    email: [
+                        {type: 'email', message: 'email格式不正确',  trigger: 'blur'},
+                        {type: 'string', message: 'email长度不能超过200', max: 200, trigger: 'blur'}
+                    ],
+                    hospital: [
+                        {type: 'string', message: '医院长度不能超过200', max: 200, trigger: 'blur'}
                     ],
                 }
             }

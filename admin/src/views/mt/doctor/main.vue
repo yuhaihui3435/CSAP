@@ -16,12 +16,12 @@
                     <Input v-model="param.email" placeholder="请输入EMAIL..." style="width: 200px"/>
                     <Input v-model="param.tel" placeholder="请输入电话..." style="width: 200px"/>
 
-                        <Select v-model="doctorInfo.sex" placeholder="请选择性别..." style="width: 100px">
+                        <Select v-model="param.sex" placeholder="请选择性别..." style="width: 100px" :clearable="true">
                             <Option v-for="item in sexList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
 
 
-                        <Select v-model="doctorInfo.status" placeholder="请选择状态..." style="width: 100px">
+                        <Select v-model="param.status" placeholder="请选择状态..." style="width: 100px" :clearable="true">
                             <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
 
@@ -116,7 +116,7 @@
                 this.$store.dispatch('doctorInfo_list',{pn:pn})
             },
             search(){
-                this.$store.dispatch('doctorInfo_list')
+                this.$store.dispatch('doctorInfo_list',this.param)
             }
         },
         mounted (){
@@ -131,7 +131,7 @@
         },
         data () {
             return {
-                param:{name:'',email:'',tel:'',sex:''},
+                param:{name:'',email:'',tel:'',sex:'',status:''},
                 self: this,
                 sexList:consts.sexList,
                 statusList:consts.status,

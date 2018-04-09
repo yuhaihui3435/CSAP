@@ -27,7 +27,7 @@
     <orderEntry type="library" name="Maven: com.jfinal:jfinal:3.3" level="project" />
     <orderEntry type="library" name="Maven: cglib:cglib-nodep:3.2.5" level="project" />
     <orderEntry type="library" name="Maven: com.jfinal:cos:26Dec2008" level="project" />
-    <orderEntry type="library" name="Maven: com.xiaoleilu:hutool-all:3.2.3" level="project" />
+    <orderEntry type="library" name="Maven: cn.hutool:hutool-all:4.0.9" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:druid:1.1.5" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.40" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
