@@ -9,20 +9,23 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.yhh.csap.Consts;
 import com.yhh.csap.core.CoreController;
+import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorVisit;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VisitCtr extends CoreController {
 
     public void list(){
-        String drId=getPara("drId");
+        String dId=getPara("dId");
         String bDate=getPara("bDate");
         String eDate=getPara("eDate");
         String status=getPara("status");
         Page page=null;
         Kv kv= Kv.create();
-        if(StrUtil.isNotBlank(drId))
-            kv.put("dv.dId=",drId);
+        if(StrUtil.isNotBlank(dId))
+            kv.put("dv.dId=",dId);
         if(StrUtil.isNotBlank(bDate))
             kv.put("dv.visitDate>=",bDate);
         if(StrUtil.isNotBlank(eDate))
@@ -64,6 +67,12 @@ public class VisitCtr extends CoreController {
         int id=getParaToInt("id");
         DoctorVisit doctorVisit= DoctorVisit.dao.findById(id);
         renderJson(doctorVisit);
+    }
+
+    public void dr(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("drList", DoctorInfo.dao.findByPropEQWithDat("status",Consts.STATUS.enable.getVal()));
+        renderJson(map);
     }
 
 }

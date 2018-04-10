@@ -70,6 +70,7 @@ public class DoctorCtr extends CoreController {
 
 
     public void list(){
+
         String name=getPara("name");
         String email=getPara("email");
         String sex=getPara("sex");

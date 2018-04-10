@@ -12,6 +12,7 @@ import home from './modules/home';
 import carouselSetting from './modules/carouselSetting';
 import doctorInfo from './modules/doctor';
 import rss from './modules/rss';
+import visit from './modules/visit';
 
 Vue.use(Vuex);
 
@@ -47,7 +48,8 @@ const store = new Vuex.Store({
         home,
         carouselSetting,
         doctorInfo,
-        rss
+        rss,
+        visit,
     }
 });
 
