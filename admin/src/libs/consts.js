@@ -109,5 +109,6 @@ consts.status=[{value:'0',label:'正常'},{value:'1',label:'禁用'}]
 consts.yon=[{value:'0',label:'是'},{value:'1',label:'否'}]
 consts.checkStatus=[{value:'00',label:'审核通过'},{value:'01',label:'等待审核'},{value:'02',label:'审核未通过'}]
 consts.sexList=[{value:1,label:'男'},{value:2,label:'女'}]
-
+consts.HH=['06','07','08','09','10','11','12','13','14','15','16','17','18','19','20']
+consts.MM=['00','15','30','45']
 export default consts

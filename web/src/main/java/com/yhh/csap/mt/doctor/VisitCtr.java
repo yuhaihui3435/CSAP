@@ -7,6 +7,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.mt.DoctorInfo;
@@ -22,6 +23,7 @@ public class VisitCtr extends CoreController {
         String bDate=getPara("bDate");
         String eDate=getPara("eDate");
         String status=getPara("status");
+        String address=getPara("address");
         Page page=null;
         Kv kv= Kv.create();
         if(StrUtil.isNotBlank(dId))
@@ -32,10 +34,13 @@ public class VisitCtr extends CoreController {
             kv.put(" dv.visitDate<=",eDate);
         if(StrUtil.isNotBlank(status))
             kv.put("dv.status=",status);
+        if(StrUtil.isNotBlank(address))
+            kv.put("dv.address=",address);
 
         SqlPara sqlPara= Db.getSqlPara("doctorVisit.findPage",Kv.by("cond",kv));
         page= DoctorVisit.dao.paginate(getPN(),getPS(),sqlPara);
         renderJson(page);
+
     }
 
     @Before({VisitValidate.class,Tx.class})
@@ -43,6 +48,7 @@ public class VisitCtr extends CoreController {
         DoctorVisit doctorVisit=getModel(DoctorVisit.class,"",true);
         doctorVisit.setStatus(Consts.YORN_STR.yes.getVal());
         doctorVisit.setCAt(new Date());
+        doctorVisit.setOperId(currUser()!=null?currUser().getId().intValue():null);
         doctorVisit.save();
         renderSuccessJSON("出诊计划新增成功");
     }
@@ -72,6 +78,7 @@ public class VisitCtr extends CoreController {
     public void dr(){
         Map<String,Object> map=new HashMap<>();
         map.put("drList", DoctorInfo.dao.findByPropEQWithDat("status",Consts.STATUS.enable.getVal()));
+        map.put("hospList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"visitHospList"));
         renderJson(map);
     }
 

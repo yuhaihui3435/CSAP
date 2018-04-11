@@ -57,12 +57,12 @@ public abstract class BaseUserMedicalrecords<M extends BaseUserMedicalrecords<M>
         return getStr("idCard");
     }
 
-    public void setHospital(String hospital) {
-        set("hospital", hospital);
+    public void setHosp(Integer hosp) {
+        set("hosp", hosp);
     }
 
-    public String getHospital() {
-        return getStr("hospital");
+    public Integer getHosp() {
+        return getInt("hosp");
     }
 
     public void setFee(String fee) {

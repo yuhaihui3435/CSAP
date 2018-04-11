@@ -32,6 +32,7 @@ import com.yhh.csap.kits.ResKit;
 import com.yhh.csap.mt.doctor.DoctorCtr;
 import com.yhh.csap.mt.doctor.VisitApiCtr;
 import com.yhh.csap.mt.doctor.VisitCtr;
+import com.yhh.csap.mt.patient.MedicalrecordsCtr;
 import com.yhh.csap.www.IndexCtr;
 import com.yhh.csap.www.carouselsetting.ClsCtr;
 import com.yhh.csap.www.rss.RssCtr;
@@ -95,6 +96,7 @@ public class CoreConfig extends JFinalConfig{
                 add("/mt00", DoctorCtr.class);
                 add("/mt01", VisitCtr.class);
                 add("/mt02", VisitApiCtr.class);
+                add("/mt03", MedicalrecordsCtr.class);
             }
         });
 

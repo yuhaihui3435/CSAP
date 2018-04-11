@@ -28,8 +28,8 @@ public class VisitValidate extends CoreValidator {
         String ak=getActionKey();
         if(ak.equals("/mt01/save")){
             DoctorVisit doctorVisit=controller.getModel(DoctorVisit.class,"",true);
-            if(doctorSrv.findVisitByDRIdAndVDate(doctorVisit.getDId(),doctorVisit.getVisitDate())==null){
-                addError(Consts.REQ_JSON_CODE.fail.name(), ResKit.getMsg("DRE1"));
+            if(doctorSrv.findVisitByDRIdAndVDate(doctorVisit.getDId(),doctorVisit.getVisitDate())!=null){
+                addError(Consts.REQ_JSON_CODE.fail.name(), ResKit.getMsg("DRVE1"));
             }
         }
     }
@@ -37,5 +37,6 @@ public class VisitValidate extends CoreValidator {
     @Override
     protected void handleError(Controller controller) {
 
+            controller.renderJson(getErrorJSON());
     }
 }

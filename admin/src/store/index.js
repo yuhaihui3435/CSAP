@@ -13,6 +13,7 @@ import carouselSetting from './modules/carouselSetting';
 import doctorInfo from './modules/doctor';
 import rss from './modules/rss';
 import visit from './modules/visit';
+import medicalrecords from './modules/medicalrecords';
 
 Vue.use(Vuex);
 
@@ -50,6 +51,7 @@ const store = new Vuex.Store({
         doctorInfo,
         rss,
         visit,
+        medicalrecords,
     }
 });
 

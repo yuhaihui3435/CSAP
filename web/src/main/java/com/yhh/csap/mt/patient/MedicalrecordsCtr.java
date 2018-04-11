@@ -1,6 +1,8 @@
 package com.yhh.csap.mt.patient;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
@@ -44,7 +46,8 @@ public class MedicalrecordsCtr extends CoreController {
         map.put("diseaseList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"disease".concat("List")));//病情
         map.put("opModelList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"opModel".concat("List")));//手术方式
         map.put("treatEffectList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"treatEffect".concat("List")));//治疗效果
-        renderJson(map);
+        map.put("hospList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"visitHospList"));
+        renderJson(JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect));
     }
     @Before({Tx.class})
     public void save(){
@@ -154,28 +157,34 @@ public class MedicalrecordsCtr extends CoreController {
     public void query(){
         String symptoms=getPara("symptoms");
         String diseases=getPara("diseases");
-        String opModes=getPara("opModes");
+        String opModels=getPara("opModels");
         String treatEffect=getPara("treatEffect");
         String doctorIds=getPara("drIds");
+        String hosp=getPara("hosp");
+        String ifCure=getPara("ifCure");
 
         StringBuilder tax=new StringBuilder();
-        tax.append(symptoms).append(",").append(diseases).append(",").append(opModes).append(",").append(treatEffect);
+        tax.append(symptoms).append(",").append(diseases).append(",").append(opModels).append(",").append(treatEffect);
         StringBuilder dr=new StringBuilder();
         dr.append(doctorIds);
 
         Kv kv= Kv.create();
         kv.put("tax",tax.toString());
         kv.put("dr",dr.toString());
+        if(StrUtil.isNotBlank(hosp))
+            kv.put("hosp=",hosp);
+        if(StrUtil.isNotBlank(ifCure))
+            kv.put("ifCure=",ifCure);
 
         SqlPara sqlPara= Db.getSqlPara("userMedicalrecords.queryUmByCdn",Kv.by("cond",kv));
         Page page= DoctorVisit.dao.paginate(getPN(),getPS(),sqlPara);
-        renderJson(page);
+        renderJson(JSON.toJSONString(page,SerializerFeature.DisableCircularReferenceDetect));
     }
 
     public void view(){
        int umId=getParaToInt("umId");
        UserMedicalrecords userMedicalrecords=UserMedicalrecords.dao.findFirstByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"view_"+umId,"select * from mt_user_medicalrecords where id=?",umId);
-       renderJson(userMedicalrecords);
+       renderJson(JSON.toJSONString(userMedicalrecords,SerializerFeature.DisableCircularReferenceDetect));
     }
 
 }

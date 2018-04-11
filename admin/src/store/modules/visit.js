@@ -1,4 +1,5 @@
 import kit from '../../libs/kit';
+import {formatDate} from '../../libs/date';
 const  visit={
     state: {
         visitList:[],
@@ -8,6 +9,7 @@ const  visit={
         pageSIze:15,
         visit:{},
         drList:[],
+        hospList:[],
     },
     mutations: {
         set_visit_list(state,page){
@@ -21,8 +23,9 @@ const  visit={
             if(obj !=undefined)
                 state.visit=Object.assign({},obj);
         },
-        set_dr(state,obj){
+        set_visit_dr(state,obj){
             state.drList=obj.drList
+            state.hospList=obj.hospList
 
         }
       
@@ -30,6 +33,13 @@ const  visit={
     },
     actions:{
         visit_list:function ({ commit,state },param) {
+            if(param) {
+                let visitDate = param.visitDate;
+                if (visitDate) {
+                    if(visitDate[0]!='')param.bDate = formatDate(visitDate[0], 'yyyy-MM-dd');
+                    if(visitDate[1]!='')param.eDate = formatDate(visitDate[1], 'yyyy-MM-dd');
+                }
+            }
             this._vm.$axios.post('/mt01/list',param).then((res)=>{
                 commit('set_visit_list',res)
             });
@@ -52,9 +62,9 @@ const  visit={
         },
         visit_res_load:function ({ commit,state },param) {
             let vm=this._vm;
-            return new Promise(function (resolve, reject) {
+            return new Promise(function (resolve, rejectvisit_) {
                 vm.$axios.post('/mt01/dr', param).then((res) => {
-                    commit('set_dr',res)
+                    commit('set_visit_dr',res)
                     resolve()
                 });
             });

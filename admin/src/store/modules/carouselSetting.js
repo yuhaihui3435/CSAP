@@ -21,7 +21,7 @@ const  carouselSetting={
             if(obj !=undefined)
                 state.carouselSetting=kit.clone(obj);
         },
-        set_dr(state,obj){
+        set_cls_dr(state,obj){
             state.areas=obj.areasList
         }
     },
@@ -51,7 +51,7 @@ const  carouselSetting={
             let vm=this._vm;
             return new Promise(function (resolve, reject) {
                 vm.$axios.post('/w01/dr', param).then((res) => {
-                    commit('set_dr',res)
+                    commit('set_cls_dr',res)
                     resolve()
                 });
             });

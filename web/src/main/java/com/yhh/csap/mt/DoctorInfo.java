@@ -1,6 +1,7 @@
 package com.yhh.csap.mt;
 
 
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.mt.base.BaseDoctorInfo;
@@ -94,6 +95,10 @@ public class DoctorInfo extends BaseDoctorInfo<DoctorInfo> {
 
 	public String getStatusTxt(){
 		return getStatus().equals(Consts.STATUS.enable.getVal())?Consts.STATUS.enable.getValTxt():Consts.STATUS.forbidden.getValTxt();
+	}
+
+	public String getHospTxt(){
+		return getHospital()==null?"无":((Taxonomy)CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getHospital().toString())).getTitle();
 	}
 
 	@Override

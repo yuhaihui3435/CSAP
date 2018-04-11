@@ -54,7 +54,7 @@ public abstract class CoreModel<M extends CoreModel<M>> extends Model<M> {
 
     public String getStatusTxt(String val){
         if(val==null)return "";
-        return (val.equals(Consts.STATUS.enable.getVal())? Consts.STATUS.enable.getValTxt(): Consts.STATUS.forbidden.getValTxt());
+        return (val.equals(Consts.STATUS.enable.getVal())? Consts.STATUS.enable.getValTxt():val.equals(Consts.STATUS.forbidden.getVal())? Consts.STATUS.forbidden.getValTxt():Consts.STATUS.expired.getValTxt());
     }
 
     public List<M> findByPropEQ(String name, Object val){

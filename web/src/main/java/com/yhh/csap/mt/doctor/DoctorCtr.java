@@ -9,7 +9,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.activerecord.tx.Tx;
-import com.jfinal.plugin.ehcache.CacheInterceptor;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
@@ -24,7 +23,6 @@ import com.yhh.csap.kits.ext.BCrypt;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorTax;
 
-import javax.print.Doc;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,6 +63,7 @@ public class DoctorCtr extends CoreController {
         map.put("diseaseList",diseaseList);
         map.put("opModelList",opModelList);
         map.put("drTitleList",drTitleList);
+        map.put("hospList", (List<Taxonomy>) CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"visitHospList"));
         renderJson(map);
     }
 
@@ -76,6 +75,7 @@ public class DoctorCtr extends CoreController {
         String sex=getPara("sex");
         String tel=getPara("tel");
         String status=getPara("status");
+        String hosp=getPara("hosp");
         Page page=null;
         Kv kv= Kv.create();
         if(StrUtil.isNotBlank(name))
@@ -84,6 +84,8 @@ public class DoctorCtr extends CoreController {
             kv.put("email",email);
         if(StrUtil.isNotBlank(sex))
             kv.put(" di.sex=",sex);
+        if(StrUtil.isNotBlank(hosp))
+            kv.put(" di.hospital=",hosp);
         if(StrUtil.isNotBlank(tel))
             kv.put("tel",tel);
         if(StrUtil.isNotBlank(status))

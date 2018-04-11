@@ -12,12 +12,15 @@
                     <Button type="primary" icon="android-add" @click="add">新增出诊计划</Button>
                     </Col>
                     <Col span="16"  align="right">
-                    <DatePicker type="date" v-model="param.visitDate" :options="options" placeholder="请选择日期" style="width: 300px"  format="yyyy-MM-dd"></DatePicker>
+                    <DatePicker type="daterange" v-model="param.visitDate"  placeholder="请选择日期" style="width: 300px"  format="yyyy-MM-dd"></DatePicker>
                     <Select v-model="param.status" placeholder="请选择状态..." style="width: 100px" :clearable="true">
                         <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
-                    <Select v-model="param.drId" placeholder="请选择状态..." style="width: 100px" :clearable="true">
+                    <Select v-model="param.dId" placeholder="请选择医生..." style="width: 100px" :clearable="true">
                         <Option v-for="item in drList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    </Select>
+                    <Select v-model="param.hosp" placeholder="请选择地点..."  :clearable="true" style="width: 300px">
+                        <Option v-for="item in hospList" :value="item.title" :key="item.title">{{ item.title }}</Option>
                     </Select>
                     <span @click="search" style="margin: 0 10px;"><Button type="primary" icon="search">搜索</Button></span>
                     </Col>
@@ -53,11 +56,12 @@
                 'pageSize': state => state.visit.pageSize,
                 'visit': state => state.visit.visit,
                 'drList': state => state.visit.drList,
+                'hospList':state=>state.visit.hospList,
             })
         },
         methods: {
             del(i){
-                this.$store.dispatch('visit_del',{'ids':i}).then((res)=>{
+                this.$store.dispatch('visit_del',{'id':i}).then((res)=>{
                     if (res && res == 'success') {
                         this.$store.dispatch('visit_list')
                     }
@@ -90,7 +94,7 @@
         },
         data () {
             return {
-                param:{visitDate:'',drId:'',status:''},
+                param:{visitDate:'',dId:'',status:'',hosp:''},
                 self: this,
                 statusList:consts.status,
                 tableColums: [
@@ -101,6 +105,10 @@
                     {
                         title: '医生名称',
                         key: 'drName',
+                    },
+                    {
+                        title: '出诊地点',
+                        key: 'hospTxt',
                     },
                     {
                         title: '看诊数量',

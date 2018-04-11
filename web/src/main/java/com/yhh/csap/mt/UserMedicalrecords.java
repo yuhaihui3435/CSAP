@@ -1,8 +1,10 @@
 package com.yhh.csap.mt;
 
 
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
+import com.yhh.csap.admin.model.User;
 import com.yhh.csap.mt.base.BaseUserMedicalrecords;
 
 import java.util.List;
@@ -37,6 +39,10 @@ public class UserMedicalrecords extends BaseUserMedicalrecords<UserMedicalrecord
 		return "mt_user_medicalrecords";
 	}
 
+	public User getUser(){
+		return User.dao.findUserByIdWithCache(getUserId());
+	}
+
 	public List<UserMedicalrecordsTax> getTreatEffectTax(){
 		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"treatEffectTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='1'",getId());
 	}
@@ -63,6 +69,9 @@ public class UserMedicalrecords extends BaseUserMedicalrecords<UserMedicalrecord
 
 	public List<UserMedicalrecordsDoctor> getDrs(){
 		return UserMedicalrecordsDoctor.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"doctors_"+getId(),"select * from mt_user_medicalrecords_doctor where umId=?",getId() );
+	}
+	public String getHospTxt(){
+		return getHosp()==null?"无":((Taxonomy) CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getHosp().toString())).getTitle();
 	}
 
 

@@ -1,0 +1,74 @@
+import kit from '../../libs/kit';
+import {formatDate} from '../../libs/date';
+const  medicalrecords={
+    state: {
+        medicalrecordsList:[],
+        totalPage:0,
+        pageNumber:1,
+        totalRow:0,
+        pageSIze:15,
+        medicalrecords:{},
+        drList:[],
+        symptomList:[],
+        diseaseList:[],
+        opModelList:[],
+        treatEffectList:[],
+    },
+    mutations: {
+        set_medicalrecords_list(state,page){
+            state.medicalrecordsList=page.list
+            state.totalPage=page.totalPage
+            state.pageNumber=page.pageNumber
+            state.pageSize=page.pageSize
+            state.totalRow=page.totalRow
+        },
+        medicalrecords_set(state,obj){
+            if(obj !=undefined)
+                state.medicalrecords=Object.assign({},obj);
+        },
+        set_medicalrecords_dr(state,obj){
+            state.drList=obj.drList
+            state.symptomList=obj.symptomList;
+            state.diseaseList=obj.diseaseList;
+            state.opModelList=obj.opModelList;
+            state.treatEffectList=obj.treatEffectList;
+            state.hospList=obj.hospList;
+
+        }
+
+
+    },
+    actions:{
+        medicalrecords_list:function ({ commit,state },param) {
+            this._vm.$axios.post('/mt03/query',param).then((res)=>{
+                commit('set_medicalrecords_list',res)
+            });
+        },
+        medicalrecords_save:function ({ commit,state },action) {
+            let vm=this._vm;
+            return new Promise(function (resolve, reject) {
+                vm.$axios.post('/mt03/'+action, state.medicalrecords).then((res) => {
+                    resolve(res.resCode);
+                })
+            });
+        },
+        medicalrecords_del:function ({ commit,state },param) {
+            let vm=this._vm;
+            return new Promise(function (resolve, reject) {
+                vm.$axios.post('/mt03/del', param).then((res) => {
+                    resolve(res.resCode);
+                });
+            });
+        },
+        medicalrecords_res_load:function ({ commit,state },param) {
+            let vm=this._vm;
+            return new Promise(function (resolve, rejectmedicalrecords_) {
+                vm.$axios.post('/mt03/dr', param).then((res) => {
+                    commit('set_medicalrecords_dr',res)
+                    resolve()
+                });
+            });
+        },
+    }
+}
+export default medicalrecords

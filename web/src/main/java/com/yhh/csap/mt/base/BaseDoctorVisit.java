@@ -33,28 +33,28 @@ public abstract class BaseDoctorVisit<M extends BaseDoctorVisit<M>> extends Core
         return getInt("num");
     }
 
-    public void setAddress(String address) {
-        set("address", address);
+    public void setHosp(Integer hosp) {
+        set("hosp", hosp);
     }
 
-    public String getAddress() {
-        return getStr("address");
+    public Integer getHosp() {
+        return getInt("hosp");
     }
 
-    public void setVisitBAt(java.util.Date visitBAt) {
+    public void setVisitBAt(String visitBAt) {
         set("visitBAt", visitBAt);
     }
 
-    public java.util.Date getVisitBAt() {
-        return get("visitBAt");
+    public String getVisitBAt() {
+        return getStr("visitBAt");
     }
 
-    public void setVisitEAt(java.util.Date visitEAt) {
+    public void setVisitEAt(String visitEAt) {
         set("visitEAt", visitEAt);
     }
 
-    public java.util.Date getVisitEAt() {
-        return get("visitEAt");
+    public String getVisitEAt() {
+        return getStr("visitEAt");
     }
 
     public void setVisitDate(java.util.Date visitDate) {
@@ -97,12 +97,12 @@ public abstract class BaseDoctorVisit<M extends BaseDoctorVisit<M>> extends Core
         return get("mAt");
     }
 
-    public void setOperId(java.util.Date operId) {
+    public void setOperId(Integer operId) {
         set("operId", operId);
     }
 
-    public java.util.Date getOperId() {
-        return get("operId");
+    public Integer getOperId() {
+        return getInt("operId");
     }
 
 }

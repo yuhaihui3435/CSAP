@@ -39,8 +39,10 @@
                 <FormItem label="执照号" prop="licenseNo">
                     <Input v-model="doctorInfo.licenseNo" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
-                <FormItem label="医院" prop="hospital">
-                    <Input v-model="doctorInfo.hospital" placeholder="请输入..." style="width: 300px" ></Input>
+                <FormItem label="在职医院" prop="hosp">
+                    <Select v-model="doctorInfo.hospital" placeholder="请选择..." style="width: 300px" >
+                        <Option v-for="item in hospList" :value="item.id" :key="item.id">{{ item.title }}</Option>
+                    </Select>
                 </FormItem>
                 <FormItem label="详细介绍" prop="introduction">
                     <Input v-model="doctorInfo.introduction" placeholder="请输入..." type="textarea" :rows="14" style="width: 300px"></Input>
@@ -102,6 +104,7 @@
                 'drTitleList':state=>state.doctorInfo.drTitleList,
                 'opModelList':state=>state.doctorInfo.opModelList,
                 'diseaseList':state=>state.doctorInfo.diseaseList,
+                'hospList':state=>state.doctorInfo.hospList,
             })
         },
         methods: {
