@@ -42,6 +42,8 @@ public interface  Consts {
 
      String _SECTION="section";
 
+     String CHAR_WU="无";
+
      BigDecimal BD_ZERO=new BigDecimal(0);
 
      Map<String,String> MAPPING_TO_TBL=new HashMap<>();
@@ -129,7 +131,7 @@ public interface  Consts {
     }
 
      enum CACHE_NAMES {
-       index,content,paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans,postInfo
+       index,content,paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans,postInfo,userOps
     }
 
     enum SECTION{

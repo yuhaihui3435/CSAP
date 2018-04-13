@@ -41,24 +41,24 @@ public class MedicalrecordsCtr extends CoreController {
     public void dr(){
         List<DoctorInfo> doctorInfoList=doctorSrv.findByNameLike(Consts.BLANK);
         Map<String,Object> map=new HashMap<>();
-        map.put("drList",doctorInfoList);
+//        map.put("drList",doctorInfoList);
         map.put("symptomList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"symptom".concat("List")));//病症
         map.put("diseaseList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"disease".concat("List")));//病情
-        map.put("opModelList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"opModel".concat("List")));//手术方式
+//        map.put("opModelList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"opModel".concat("List")));//手术方式
         map.put("treatEffectList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"treatEffect".concat("List")));//治疗效果
-        map.put("hospList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"visitHospList"));
+//        map.put("hospList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"visitHospList"));
         renderJson(JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect));
     }
     @Before({Tx.class})
     public void save(){
         UserMedicalrecords userMedicalrecords=getModel(UserMedicalrecords.class,"",true);
         String symptoms=getPara("symptoms");
-        String diseases=getPara("deseases");
-        String opModes=getPara("opModes");
-        String bOpSymptoms=getPara("bOpSymptoms");
-        String afOpSymptoms=getPara("afOpSymptoms");
+        String diseases=getPara("diseases");
+//        String opModes=getPara("opModels");
+//        String bOpSymptoms=getPara("bOpSymptoms");
+//        String afOpSymptoms=getPara("afOpSymptoms");
         String treatEffect=getPara("treatEffect");
-        String doctorIds=getPara("drIds");
+//        String doctorIds=getPara("drIds");
         userMedicalrecords.setUserId(currUser().getId().intValue());
         userMedicalrecords.setCAt(new Date());
         userMedicalrecords.save();
@@ -66,28 +66,30 @@ public class MedicalrecordsCtr extends CoreController {
         List<UserMedicalrecordsTax> userMedicalrecordsTaxes=new ArrayList<>();
         UserMedicalrecordsTax userMedicalrecordsTax=null;
 
-        //1:治疗效果，2手术方式，3术前症状，4术后症状，5病情，6病症 保存处理
+        //1:治疗效果，5病情，6病症 保存处理
         String[] strings=diseases.split(",");
         medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.deseases);
-        if(userMedicalrecords.getIfCure().equals(Consts.YORN_STR.yes.getVal())){
-            strings=opModes.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.opModes);
-            strings=bOpSymptoms.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.bOpSymptoms);
-            strings=afOpSymptoms.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.afOpSymptoms);
-            medicalrecordsSrv.addMedicalrecordsTax(new String[]{treatEffect},userMedicalrecords.getId(), UserMedicalrecords.TaxType.treatEffect);
-        }else{
-            strings=symptoms.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.symptoms);
-        }
+        strings=symptoms.split(",");
+        medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.symptoms);
+//        if(userMedicalrecords.getIfCure().equals(Consts.YORN_STR.yes.getVal())){
+//            strings=opModes.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.opModes);
+//            strings=bOpSymptoms.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.bOpSymptoms);
+//            strings=afOpSymptoms.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.afOpSymptoms);
+//            medicalrecordsSrv.addMedicalrecordsTax(new String[]{treatEffect},userMedicalrecords.getId(), UserMedicalrecords.TaxType.treatEffect);
+//        }else{
+//            strings=symptoms.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.symptoms);
+//        }
 
 
         //治疗医生保存
-        if(StrUtil.isNotBlank(doctorIds)){
-            strings=doctorIds.split(",");
-            medicalrecordsSrv.addMedicalrecordsDoctor(strings,userMedicalrecords.getId());
-        }
+//        if(StrUtil.isNotBlank(doctorIds)){
+//            strings=doctorIds.split(",");
+//            medicalrecordsSrv.addMedicalrecordsDoctor(strings,userMedicalrecords.getId());
+//        }
         CacheKit.remove(Consts.CACHE_NAMES.userMedicalrecords.name(),"byUser_"+userMedicalrecords.getUserId());
         renderSuccessJSON("医疗档案创建成功");
 
@@ -98,40 +100,42 @@ public class MedicalrecordsCtr extends CoreController {
         UserMedicalrecords userMedicalrecords=getModel(UserMedicalrecords.class,"",true);
         String symptoms=getPara("symptoms");
         String diseases=getPara("diseases");
-        String opModes=getPara("opModes");
-        String bOpSymptoms=getPara("bOpSymptoms");
-        String afOpSymptoms=getPara("afOpSymptoms");
+//        String opModes=getPara("opModes");
+//        String bOpSymptoms=getPara("bOpSymptoms");
+//        String afOpSymptoms=getPara("afOpSymptoms");
         String treatEffect=getPara("treatEffect");
-        String doctorIds=getPara("drIds");
+//        String doctorIds=getPara("drIds");
 
         userMedicalrecords.setMAt(new Date());
         userMedicalrecords.update();
 
         medicalrecordsSrv.delMedicalrecordsTaxByUmId(userMedicalrecords.getId());
-        medicalrecordsSrv.delMedicalrecordsTaxByUmId(userMedicalrecords.getId());
+//        medicalrecordsSrv.delMedicalrecordsTaxByUmId(userMedicalrecords.getId());
 
         //1:治疗效果，2手术方式，3术前症状，4术后症状，5病情，6病症 保存处理
         String[] strings=diseases.split(",");
         medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.deseases);
-        if(userMedicalrecords.getIfCure().equals(Consts.YORN_STR.yes.getVal())){
-            strings=opModes.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.opModes);
-            strings=bOpSymptoms.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.bOpSymptoms);
-            strings=afOpSymptoms.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.afOpSymptoms);
-            medicalrecordsSrv.addMedicalrecordsTax(new String[]{treatEffect},userMedicalrecords.getId(), UserMedicalrecords.TaxType.treatEffect);
-        }else{
-            strings=symptoms.split(",");
-            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.symptoms);
-        }
+        strings=symptoms.split(",");
+        medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.symptoms);
+//        if(userMedicalrecords.getIfCure().equals(Consts.YORN_STR.yes.getVal())){
+//            strings=opModes.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.opModes);
+//            strings=bOpSymptoms.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.bOpSymptoms);
+//            strings=afOpSymptoms.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.afOpSymptoms);
+//            medicalrecordsSrv.addMedicalrecordsTax(new String[]{treatEffect},userMedicalrecords.getId(), UserMedicalrecords.TaxType.treatEffect);
+//        }else{
+//            strings=symptoms.split(",");
+//            medicalrecordsSrv.addMedicalrecordsTax(strings,userMedicalrecords.getId(), UserMedicalrecords.TaxType.symptoms);
+//        }
 
 
         //治疗医生保存
-        if(StrUtil.isNotBlank(doctorIds)){
-            strings=doctorIds.split(",");
-            medicalrecordsSrv.addMedicalrecordsDoctor(strings,userMedicalrecords.getId());
-        }
+//        if(StrUtil.isNotBlank(doctorIds)){
+//            strings=doctorIds.split(",");
+//            medicalrecordsSrv.addMedicalrecordsDoctor(strings,userMedicalrecords.getId());
+//        }
         CacheKit.remove(Consts.CACHE_NAMES.userMedicalrecords.name(),"byUser_"+userMedicalrecords.getUserId());
         CacheKit.remove(Consts.CACHE_NAMES.userMedicalrecords.name(),"view_"+userMedicalrecords.getId());
 
@@ -157,22 +161,24 @@ public class MedicalrecordsCtr extends CoreController {
     public void query(){
         String symptoms=getPara("symptoms");
         String diseases=getPara("diseases");
-        String opModels=getPara("opModels");
+//        String opModels=getPara("opModels");
         String treatEffect=getPara("treatEffect");
-        String doctorIds=getPara("drIds");
-        String hosp=getPara("hosp");
+//        String doctorIds=getPara("drIds");
+//        String hosp=getPara("hosp");
         String ifCure=getPara("ifCure");
 
         StringBuilder tax=new StringBuilder();
-        tax.append(symptoms).append(",").append(diseases).append(",").append(opModels).append(",").append(treatEffect);
+        tax.append(symptoms).append(",").append(diseases).append(",")
+//                .append(opModels)
+                .append(",").append(treatEffect);
         StringBuilder dr=new StringBuilder();
-        dr.append(doctorIds);
+//        dr.append(doctorIds);
 
         Kv kv= Kv.create();
         kv.put("tax",tax.toString());
         kv.put("dr",dr.toString());
-        if(StrUtil.isNotBlank(hosp))
-            kv.put("hosp=",hosp);
+//        if(StrUtil.isNotBlank(hosp))
+//            kv.put("hosp=",hosp);
         if(StrUtil.isNotBlank(ifCure))
             kv.put("ifCure=",ifCure);
 

@@ -50,6 +50,7 @@ public class VisitCtr extends CoreController {
         doctorVisit.setCAt(new Date());
         doctorVisit.setOperId(currUser()!=null?currUser().getId().intValue():null);
         doctorVisit.save();
+        CacheKit.remove(Consts.CACHE_NAMES.doctorVisit.name(),"visitByDrAndLimitRecent_"+doctorVisit.getDId());
         renderSuccessJSON("出诊计划新增成功");
     }
 
@@ -58,6 +59,7 @@ public class VisitCtr extends CoreController {
         DoctorVisit doctorVisit=getModel(DoctorVisit.class,"",true);
         doctorVisit.setMAt(new Date());
         doctorVisit.update();
+        CacheKit.remove(Consts.CACHE_NAMES.doctorVisit.name(),"visitByDrAndLimitRecent_"+doctorVisit.getDId());
         renderSuccessJSON("出诊计划更新成功");
     }
 
@@ -66,6 +68,7 @@ public class VisitCtr extends CoreController {
         DoctorVisit doctorVisit=getModel(DoctorVisit.class,"",true);
         doctorVisit.setDAt(new Date());
         doctorVisit.update();
+        CacheKit.remove(Consts.CACHE_NAMES.doctorVisit.name(),"visitByDrAndLimitRecent_"+doctorVisit.getDId());
         renderSuccessJSON("出诊计划删除成功");
     }
 

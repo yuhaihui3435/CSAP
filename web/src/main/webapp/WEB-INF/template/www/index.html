@@ -42,8 +42,34 @@
     </div>
 </div>
 #end
+#if(cKit.isNotEmpty(successCaseList))
+<div class="our-causes-area grey-bg  section-padding" id="causes">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sectino-intro">
+                    <h2 class="section-heading">特点医学案例</h2>
+                    <p>在日常的治疗过程中，接触过各种各样的病例，一些具有代表意义的病例被我们总结出来呈现在这里。</p>
+                </div>
+            </div>
+            #for(item:successCaseList)
+            <div class="col-md-4 col-sm-4">
+                <div class="cause-single">
+                    #if(isNotBlank(item.thumbnail))<img src="#(qn_url)#(item.thumbnail)" alt="">#end
+                    <div class="cause-details">
+                        <h4>#(item.title)</h4>
+                        <p>#(item.summary)</p>
+                        <a href="#" class="custom-btn">查看</a>
+                    </div>
+                </div>
+            </div>
+            #end
+        </div>
+    </div>
+</div>
+#end
 #if(cKit.isNotEmpty(drList))
-<div class="our-team section-padding" id="team">
+<div class="our-team section-padding " id="team">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -62,13 +88,13 @@
                         <h4 class="member-name">#(item.name)</h4>
                         <p>#(item.summary)</p>
                         <ul class="member-social">
-                            <li><a href="#"><i class="ali-icon ali-czsj-icon"></i>出诊时间</a>
+                            <li><a data-placement="bottom" data-container="body" name="czsj"  tabindex="#(for.index)" role="button" data-toggle="popover" data-trigger="focus" title="近期出诊时间" data-html="true" data='#(item.visitTop5)'><i class="ali-icon ali-czsj-icon"></i></a>
                             </li>
-                            <li><a href="#"><i class="ali-icon ali-yygh-icon"></i>预约挂号</a>
+                            <li><a data-placement="bottom" data-container="body" name="yygh"  tabindex="#(for.index)" role="button" data-toggle="popover" data-trigger="focus" title="预约挂号" data-html="true" data='#(item.visitApiStr)'><i class="ali-icon ali-yygh-icon"></i></a>
                             </li>
-                            <li><a href="#"><i class="ali-icon ali-techang-icon"></i>擅长疾病</a>
+                            <li><a data-placement="bottom" data-container="body" name="scjb"  tabindex="#(for.index)" role="button" data-toggle="popover" data-trigger="focus" title="擅长疾病" data-html="true" data='#(item.dTAStr)'><i class="ali-icon ali-techang-icon"></i></a>
                             </li>
-                            <li><a href="#"><i class="ali-icon ali-zhicheng-icon"></i>职称</a>
+                            <li><a data-placement="bottom" data-container="body" name="zc"  tabindex="#(for.index)" role="button" data-toggle="popover" data-trigger="focus" title="职称" data-html="true" data='#(item.dTCStr)'><i class="ali-icon ali-zhicheng-icon"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -79,32 +105,60 @@
     </div>
 </div>
 #end
-#if(cKit.isNotEmpty(successCaseList))
-<div class="our-causes-area grey-bg section-padding" id="causes">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="sectino-intro">
-                    <h2 class="section-heading">特点医学案例</h2>
-                    <p>在日常的治疗过程中，接触过各种各样的病例，一些具有代表意义的病例被我们总结出来呈现在这里。</p>
-                </div>
-            </div>
-            #for(item:successCaseList)
-            <div class="col-md-4 col-sm-4">
-                <div class="cause-single">
-                    #if(isNotBlank(item.thumbnail))<img src="#(item.thumbnail)" alt="">#end
-                    <div class="cause-details">
-                        <h4>#(item.name)</h4>
-                        <p>#(item.summary)</p>
-                        <a href="#" class="custom-btn">查看</a>
-                    </div>
-                </div>
-            </div>
-            #end
-        </div>
-    </div>
-</div>
-#end
 
+<script>
 
+    $(function () {
+        $('[name="czsj"]').popover({
+            content:function () {
+                let data=$(this).attr('data');
+                data=eval('(' + data + ')');
+                if(data.length==0){
+                    return "没有找到医生近期的出诊计划";
+                }
+                let ret='';
+                data.forEach((value,index,arr)=>{
+                    ret+=Bee.DateUtils.formt(value.visitDate,'yyyy-MM-dd')+" "+value.visitBAt+"~"+value.visitEAt+" "+value.hospTxt+"<br>";
+                })
+                return ret;
+            }
+        })
+
+        $('[name="yygh"]').popover({
+            content:function () {
+                let data=$(this).attr('data');
+                data=eval('(' + data + ')');
+                if(data.length==0){
+                    return "没有找到医生挂号方式";
+                }
+                let ret='';
+                data.forEach((value,index,arr)=>{
+                    ret+="<a target='_blank' href=\""+value.url+"\">"+value.name+"</a><br>";
+                })
+                return ret;
+            }
+        })
+        $('[name="scjb"]').popover({
+            content:function () {
+                let data=$(this).attr('data');
+
+                if(data.length==0){
+                    return "没有找医生的擅长疾病数据";
+                }
+                return data;
+            }
+        })
+        $('[name="zc"]').popover({
+            content:function () {
+                let data=$(this).attr('data');
+                if(data.length==0){
+                    return "没有找到医生的职称";
+                }
+                return data;
+            }
+        })
+        
+    })
+    
+</script>
 #end

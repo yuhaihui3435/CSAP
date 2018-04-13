@@ -25,24 +25,22 @@ public class IndexCtr extends CoreController {
         List clsBottom = CarouselSetting.dao.findByArea("index_bottom");//下部幻灯片
         //关于疾病介绍部分
 
-        List<Content> scienceList = Content.dao.findByTextAndModule(Consts.SECTION.science.name(), "section", true, 3);
-        if (!scienceList.isEmpty())
+        List<Content> scienceList=CacheKit.get(Consts.CACHE_NAMES.index.name(),"scienceList");
+        if (scienceList==null||scienceList.isEmpty()){
+            scienceList = Content.dao.findByTextAndModule(Consts.SECTION.science.name(), "section", true, 3);
             CacheKit.put(Consts.CACHE_NAMES.index.name(), "scienceList", scienceList);
-
+        }
         setAttr("scienceList", scienceList);
         //名医
         List<DoctorInfo> drList = DoctorInfo.dao.findTop(3);
         //特点案例
-        List<Content> successCaseList = Content.dao.findByTextAndModule(Consts.SECTION.successCase.name(), "section", true, 3);
-        if (!successCaseList.isEmpty())
+        List<Content> successCaseList =CacheKit.get(Consts.CACHE_NAMES.index.name(),"successCaseList");
+        if (successCaseList==null||successCaseList.isEmpty()){
+            successCaseList=Content.dao.findByTextAndModule(Consts.SECTION.successCase.name(), "section", true, 3);
             CacheKit.put(Consts.CACHE_NAMES.index.name(), "successCaseList", successCaseList);
+        }
         setAttr("successCaseList", successCaseList);
-        //rss
-        List<Rss> rssList=Rss.dao.findByCache(Consts.CACHE_NAMES.index.name(),"rssList","select * from www_rss where status='0' and dAt is null ");
-        setAttr("rssList",rssList);
 
-        //友情了链接
-        setAttr("fsLinkList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(), "fsLinkList"));
         setAttr("drList", drList);
         setAttr("clsTopList", clsTop);
         setAttr("clsBottomList", clsBottom);
@@ -52,6 +50,7 @@ public class IndexCtr extends CoreController {
 
     public void science(){
         String searchKey=getPara("searchKey");
+        keepPara("searchKey");
         Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.science.name(),Consts._SECTION,searchKey);
         setAttr("page",page);
         render(Consts.SECTION.science.name().concat("/main.html"));

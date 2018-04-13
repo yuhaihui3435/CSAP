@@ -83,9 +83,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> {
 
 	}
 
-	public boolean getExpand(){
-		return children.size()>0?true:false;
-	}
+//	public boolean getExpand(){
+//		return children.size()>0?true:false;
+//	}
 
 	public List<Taxonomy> findAllModule(){
 		String sql="select distinct(module) from s_taxonomy";

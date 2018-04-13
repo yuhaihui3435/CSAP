@@ -2,6 +2,7 @@ package com.yhh.csap.kits;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.jfinal.kit.Base64Kit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -69,6 +70,10 @@ public class AppKit {
         // 加密
 
         return Base64Kit.encode(data);
+    }
+
+    public static String objToJson(Object o){
+        return JSON.toJSONString(o);
     }
 
     public static void main(String[] args) {

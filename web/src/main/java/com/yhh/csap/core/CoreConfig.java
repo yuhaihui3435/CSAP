@@ -2,8 +2,10 @@ package com.yhh.csap.core;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
+import com.alibaba.fastjson.JSON;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.json.FastJsonFactory;
@@ -27,6 +29,7 @@ import com.yhh.csap.admin.user.UserCtr;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.interceptors.ExceptionInterceptor;
 import com.yhh.csap.interceptors.WwwInterceptor;
+import com.yhh.csap.kits.AppKit;
 import com.yhh.csap.kits.DateKit;
 import com.yhh.csap.kits.ResKit;
 import com.yhh.csap.mt.doctor.DoctorCtr;
@@ -124,6 +127,7 @@ public class CoreConfig extends JFinalConfig{
     public void configEngine(Engine engine) {
         engine.addSharedObject("ctx", JFinal.me().getContextPath());
         engine.addSharedMethod( new StrUtil());
+        engine.addSharedObject("appKit", new AppKit());
         engine.addSharedObject("cKit",new CollectionUtil());
         engine.setDevMode(ResKit.getConfigBoolean("devMode", true));
         //使用JF模板渲染通用页面

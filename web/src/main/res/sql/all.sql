@@ -10,3 +10,6 @@
 #namespace("postInfo")
   #include("postInfo.sql")
 #end
+#namespace("userOps")
+  #include("userOps.sql")
+#end
