@@ -41,6 +41,7 @@ public interface  Consts {
      String ROLE_PATIENT="patient";
 
      String _SECTION="section";
+     String _TAG="tag";
 
      String CHAR_WU="无";
 

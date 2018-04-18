@@ -42,6 +42,19 @@
                         <!--</quill-editor>-->
                         <!--<VueTinymce ref="mt" :setting="tinymceCfg" v-model="art.text" :imgUploadUrl="tinymceImgUploadUrl"></VueTinymce>-->
                     </div>
+                    <div class="margin-top-10">
+                        <Card>
+                            <p slot="title">
+                                <Icon type="navicon-round"></Icon>
+                                标签
+                            </p>
+
+                            <div >
+                                <Tree :data="artTagList" ref="artTagSelected" show-checkbox></Tree>
+                            </div>
+
+                        </Card>
+                    </div>
                 </Card>
                 </Col>
                 <Col span="6" class="padding-left-10">
@@ -82,7 +95,7 @@
                     <Card>
                         <p slot="title">
                             <Icon type="navicon-round"></Icon>
-                            分类目录
+                            栏目
                         </p>
 
                                 <div >
@@ -91,6 +104,20 @@
 
                     </Card>
                 </div>
+                <div class="margin-top-10">
+                    <Card>
+                        <p slot="title">
+                            <Icon type="navicon-round"></Icon>
+                            分类
+                        </p>
+
+                        <div >
+                            <Tree :data="artCatalogList" ref="artCatalogSelected" show-checkbox></Tree>
+                        </div>
+
+                    </Card>
+                </div>
+
                 <div class="margin-top-10">
                     <Card>
                         <p slot="title">
@@ -164,6 +191,8 @@
             ...mapState({
                 'art': state => state.art.art,
                 'artTaxList': state => state.art.artTaxList,
+                'artTagList': state => state.art.artTagList,
+                'artCatalogList': state => state.art.catalogList,
                 'uploadPicMaxSize': state => state.uploadPicMaxSize,
             })
         },
@@ -255,6 +284,8 @@
                 }
 
                 let taxArray=this.$refs.artTaxSelected.getCheckedNodes();
+                taxArray=taxArray.concat(this.$refs.artTagSelected.getCheckedNodes())
+
                 let taxIds='';
                 for(let s of taxArray){
                     if(taxIds==''){
@@ -263,6 +294,7 @@
                         taxIds=taxIds+","+s.id
                     }
                 }
+
 
                 let thumbnailBase64=this.imgData
 

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yuhaihui8913 on 2017/11/16.
@@ -30,15 +31,14 @@ public class AdminAAuthInterceptor implements Interceptor{
         User user=controller.getAttr(Consts.CURR_USER);
         HttpServletRequest request=controller.getRequest();
         boolean flag=false;
-        List<Res> resList=controller.getAttr(Consts.CURR_USER_RESES);
-        for (Res res:resList){
-            if(res.getUrl().equals(ak)){
-                flag=true;
-            }
+        Set<String> resStrs=controller.getAttr(Consts.CURR_USER_RESES);
+
+        if(resStrs.contains(ak)){
+            flag=true;
         }
 
         //是否需要用户身份认证,方便测试
-        if(ResKit.getConfigBoolean("userAuth"))
+        if(!ResKit.getConfigBoolean("userAuth"))
             flag=true;
 
         if(flag) {

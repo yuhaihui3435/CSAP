@@ -32,7 +32,7 @@ public class IndexCtr extends CoreController {
         }
         setAttr("scienceList", scienceList);
         //名医
-        List<DoctorInfo> drList = DoctorInfo.dao.findTop(3);
+        List<DoctorInfo> drList = DoctorInfo.dao.findTop(4);
         //特点案例
         List<Content> successCaseList =CacheKit.get(Consts.CACHE_NAMES.index.name(),"successCaseList");
         if (successCaseList==null||successCaseList.isEmpty()){
@@ -52,14 +52,22 @@ public class IndexCtr extends CoreController {
         String searchKey=getPara("searchKey");
         keepPara("searchKey");
         Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.science.name(),Consts._SECTION,searchKey);
+        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
+
         setAttr("page",page);
+        setAttr("top5List",top5List);
+        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         render(Consts.SECTION.science.name().concat("/main.html"));
     }
 
     public void successCase(){
         String searchKey=getPara("searchKey");
+        keepPara("searchKey");
         Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.successCase.name(),Consts._SECTION,searchKey);
+        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.successCase.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
         setAttr("page",page);
+        setAttr("top5List",top5List);
+        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         render(Consts.SECTION.successCase.name().concat("/main.html"));
     }
 
