@@ -65,7 +65,7 @@
                                             #for(x : menuList )
                                             <li #if(currPath=='/'+x.text) class=" smooth-menu active" #else
                                                 class="smooth-menu" #end><a
-                                                    href="#(ctx)#(x.text)">#(x.title)</a></li>
+                                                    href="#(ctx)/#(x.text)">#(x.title)</a></li>
                                             #if(currPath=='/'+x.text)
                                             #set(currTitle=x.title)
                                             #end

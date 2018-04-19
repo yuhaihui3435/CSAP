@@ -1342,4 +1342,184 @@ icon+文字说明
     margin-bottom: 30px;
 }
 
+.s-article-details {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ebebeb;
+}
+.article-share {
+    background: #e1e1e1 none repeat scroll 0 0;
+    margin-top: 30px;
+    padding: 13px 30px 13px;
+}
+.article-s-list {
+    float: right;
+}
+.article-love {
+    margin-top: 5px;
+    position: relative;
+}
+.article-love > span {
+    color: #737373;
+}
+.article-love i {
+    margin-right: 10px;
+}
+.article-love:after {
+    background: #cccccc none repeat scroll 0 0;
+    content: "";
+    height: 33px;
+    position: absolute;
+    right: -23px;
+    top: 0;
+    width: 1px;
+}
 
+.article-pagination {
+    padding: 30px 0;
+}
+.article-pagination li i {
+    display: table-cell;
+    font-weight: bold;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.article-pagination li span {
+    background: #fff none repeat scroll 0 0;
+    display: inline-table;
+    height: 40px;
+    text-align: center;
+    width: 40px;
+    margin-right: 10px;
+    -webkit-transition: .4s;
+    -o-transition: .4s;
+    transition: .4s;
+    color: #18adec;
+}
+.article-pagination li a {
+    color: #666666;
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.article-pagination li:hover a {
+    color: #18adec
+}
+
+.comment-area {
+    margin-bottom: 30px;
+}
+.comment-heading {
+    background: #e1e1e1 none repeat scroll 0 0;
+    color: #353535;
+    /*font-family: Roboto-Bold;*/
+    font-size: 16px;
+    margin-bottom: 0;
+    padding: 20px 30px;
+    position: relative;
+    text-transform: uppercase;
+}
+.comment-heading:after {
+    background: #cccccc none repeat scroll 0 0;
+    content: "";
+    height: 33px;
+    left: 90px;
+    position: absolute;
+    top: 14px;
+    width: 1px;
+}
+.comment-heading > span {
+    color: #737373;
+    /*font-family: Roboto-Medium;*/
+    margin-left: 40px;
+}
+.comment-heading > span i {
+    margin-right: 5px;
+}
+.comment-wrap {
+    border: 1px solid #e1e1e1;
+    list-style: outside none none;
+    margin: 0;
+    padding: 30px 30px 0;
+    background: #fff;
+}
+.single-comment {
+    position: relative;
+    padding-bottom: 30px;
+}
+.comment-thumb {
+    float: left;
+}
+.comment-thumb > img {
+    height: 80px;
+    width: 80px;
+}
+.comment-txt {
+    margin-left: 95px;
+}
+.comment-txt .name {
+    color: #353535;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    line-height: 21px;
+    margin-bottom: 5px;
+}
+.name > a {
+    color: #666666;
+    font-family: Roboto-Regular;
+    font-size: 12px;
+    margin-left: 10px;
+}
+.comment-btn {
+    color: #18adec;
+    font-size: 12px;
+    position: absolute;
+    right: 20px;
+    text-transform: capitalize;
+    top: 0;
+}
+.comment-btn i {
+    margin-right: 8px;
+}
+.comment-txt > p {
+    color: #737373;
+    font-size: 14px;
+    line-height: 21px;
+}
+.comment-area .child {
+    list-style: outside none none;
+    margin: 0;
+}
+/* ================================
+23.5 Add Comment
+===================================*/
+
+.ac-wrap {
+    background: #fff none repeat scroll 0 0;
+    padding: 30px;
+    border: 1px solid #e1e1e1;
+}
+.add-comment .comment-heading:after {
+    background: transparent none repeat scroll 0 0;
+}
+.add-comment .form-group {
+    margin-bottom: 30px;
+}
+.add-comment .form-group > input,
+.add-comment textarea {
+    border: 1px solid #e1e1e1;
+    color: #666666;
+    font-size: 14px;
+}
+.add-comment textarea {
+    height: 209px;
+}
+.add-comment .form-group > input {
+    height: 50px;
+}
+.add-comment .btn-filled {
+    border-radius: 50px;
+    margin-top: 25px;
+    padding: 14px 47px;
+    background: transparent;
+}

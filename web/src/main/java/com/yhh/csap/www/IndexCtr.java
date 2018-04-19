@@ -9,6 +9,7 @@ import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.mt.DoctorInfo;
+import com.yhh.csap.mt.DoctorTax;
 import com.yhh.csap.www.model.CarouselSetting;
 import com.yhh.csap.www.model.Rss;
 
@@ -60,6 +61,16 @@ public class IndexCtr extends CoreController {
         render(Consts.SECTION.science.name().concat("/main.html"));
     }
 
+    public void scienceView(){
+        int id=getParaToInt(0);
+        Content content=Content.dao.findById(id);
+        setAttr("art",content);
+        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
+        setAttr("top5List",top5List);
+        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
+        render(Consts.SECTION.science.name().concat("/view.html"));
+    }
+
     public void successCase(){
         String searchKey=getPara("searchKey");
         keepPara("searchKey");
@@ -72,7 +83,12 @@ public class IndexCtr extends CoreController {
     }
 
     public void dr(){
-
+        Page<DoctorInfo> page= DoctorInfo.dao.paginate(getPN(),getPS(),"select * ","from mt_doctor_info where dAt is null and status='0'");
+        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
+        setAttr("page",page);
+        setAttr("top5List",top5List);
+        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
+        render(Consts.SECTION.dr.name().concat("/main.html"));
     }
 
     public void communicate(){

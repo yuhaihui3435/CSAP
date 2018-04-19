@@ -1,0 +1,193 @@
+#@layout()
+#define content()
+#include("/WEB-INF/template/www/section_header.html")
+<main class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="single-article">
+                    <!--<div class="blog-thumb">-->
+                        <!--#if(isNotBlank(art.thumbnail))<img src="#(qn_url)#(art.thumbnail)">#end-->
+                    <!--</div>-->
+                    <div class="s-article-details">
+                        <h3 class="blog-headline">
+                            #(art.title)
+                        </h3>
+                        <div class="blog-meta">
+                            <span><i class="fa fa-user"></i><a href="#">#(art.author)</a></span>
+                            <span><i class="fa fa-clock-o"></i><a href="#">#(art.pAtTxt)</a></span>
+                            <span>
+                                        #for(tag:art.tagList)
+                                        #if(for.index==0)
+                                        <a href="#(ctx)/getByTag/#(tag.id)" target="_blank">#(tag.title)</a>
+                                        #else
+                                        ,<a href="#(ctx)/getByTag/#(tag.id)"  target="_blank">#(tag.title)</a>
+                                        #end
+                                        #end
+
+                                    </span>
+                        </div>
+                        <p>#(art.text)</p>
+
+                    </div>
+                </div>
+                <div class="article-share">
+                    <div class="article-love pull-left hidden-xs">
+                        <span><i class="fa fa-heart-o"></i> #(art.collectCount)</span>
+                        &nbsp;
+                        <span><i class="fa fa-thumbs-o-up"></i> #(art.laudCount)</span>
+                    </div>
+                    <!--<div class="article-s-list">-->
+                        <!--<ul>-->
+                            <!--<li>分享:</li>-->
+                            <!--<li class="fb"><a href="#"><i class="fa fa-facebook-square"></i>facebook</a>-->
+                            <!--</li>-->
+                            <!--<li class="gp"><a href="#"><i class="fa fa-google-plus"></i>Google+</a>-->
+                            <!--</li>-->
+                            <!--<li class="be"><a href="#"><i class="fa fa-behance"></i>behance</a>-->
+                            <!--</li>-->
+                            <!--<li class="tw"><a href="#"><i class="fa fa-twitter"></i>twitter</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <!-- JiaThis Button BEGIN -->
+                    <div class="article-s-list jiathis_style_32x32 ">
+                        <a class="jiathis_button_weixin"></a>
+                        <a class="jiathis_button_tsina"></a>
+                        <a class="jiathis_button_cqq"></a>
+                        <a class="jiathis_button_qzone"></a>
+                        <a class="jiathis_button_tqq"></a>
+                        <a class="jiathis_button_copy"></a>
+                        <a class="jiathis_button_fav"></a>
+                        <a class="jiathis_button_print"></a>
+
+                        <a class="jiathis_counter_style"></a>
+                    </div>
+                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+                    <!-- JiaThis Button END -->
+                </div>
+                <div class="article-pagination">
+
+                </div>
+
+                <div class="comment-area">
+                    <h3 class="comment-heading">评论 <span><i class="fa fa-comment-o"></i> #(art.commentCount)</span></h3>
+                    <ol class="comment-wrap">
+                        <li>
+                            <div class="single-comment">
+                                <div class="comment-thumb">
+                                    <img src="images/blog/comment.jpg" alt="">
+                                </div>
+                                <div class="comment-txt">
+                                    <h4 class="name">Denise Lopez <a href="#">04 April 2017</a></h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur.</p>
+                                    <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>reply</a>
+                                </div>
+                            </div>
+
+                            <ol class="child">
+                                <li>
+                                    <div class="single-comment">
+                                        <div class="comment-thumb">
+                                            <img src="images/blog/comment2.jpg" alt="">
+                                        </div>
+                                        <div class="comment-txt">
+                                            <h4 class="name">Yan Botham <a href="#">04 April 2017</a></h4>
+                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur.</p>
+                                            <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>reply</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="single-comment">
+                                        <div class="comment-thumb">
+                                            <img src="images/blog/comment2.jpg" alt="">
+                                        </div>
+                                        <div class="comment-txt">
+                                            <h4 class="name">Mark Lopez <a href="#">04 April 2017</a></h4>
+                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur.</p>
+                                            <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>reply</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <div class="single-comment">
+                                <div class="comment-thumb">
+                                    <img src="images/blog/comment.jpg" alt="">
+                                </div>
+                                <div class="comment-txt">
+                                    <h4 class="name">Desha Lopez <a href="#">04 April 2017</a></h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur.</p>
+                                    <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>reply</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="single-comment">
+                                <div class="comment-thumb">
+                                    <img src="images/blog/comment.jpg" alt="">
+                                </div>
+                                <div class="comment-txt">
+                                    <h4 class="name">Denise Lopez <a href="#">04 April 2017</a></h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur.</p>
+                                    <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>reply</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="add-comment">
+                    <h3 class="comment-heading">添加评论</h3>
+                    <div class="ac-wrap">
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea name="message" placeholder="请文明评论"></textarea>
+                                    <button class="btn-filled">提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-widget">
+                        <form action="#(ctx)/successCase" method="post" class="search-box">
+                            <input type="search" name="searchKey" placeholder="输入关键字查询" value="#(searchKey)">
+                            <button><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">热门</h3>
+                        <div class="post-entry">
+                            #for(top:top5List)
+                            <div class="popular-single">
+                                <div class="popular-thumb">
+                                    <a href="#(ctx)/successCaseView/#(top.id)"><img src="#(qn_url)#(top.thumbnail)" alt=""></a>
+                                </div>
+                                <div class="popular-txt">
+                                    <h4><a href="#(ctx)/successCaseView/#(top.id)">#(top.title)</a></h4>
+                                    <span><i class="fa fa-eye"></i> #(top.viewCount) |</span>
+                                    <span><i class="fa fa-thumbs-o-up"></i> #(top.laudCount)</span>
+                                </div>
+                            </div>
+                            #end
+                        </div>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">标签</h3>
+                        <div class="tagclouds">
+                            #for(t:tagList)
+                            <a href="#(ctx)/getByTag/#(t.id)" target="_blank">#(t.title)</a>
+                            #end
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</main>
+#end
