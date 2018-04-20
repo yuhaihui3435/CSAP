@@ -1,0 +1,33 @@
+<aside class="sidebar">
+    <div class="sidebar-widget">
+        <form action="#(ctx)/successCase" method="post" class="search-box">
+            <input type="search" name="searchKey" placeholder="输入关键字查询" value="#(searchKey)">
+            <button><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+    <div class="sidebar-widget">
+        <h3 class="widget-title">热门</h3>
+        <div class="post-entry">
+            #for(top:top5List)
+            <div class="popular-single">
+                <div class="popular-thumb">
+                    <a href="#(ctx)/successCaseView/#(top.id)"><img src="#(qn_url)#(top.thumbnail)" alt=""></a>
+                </div>
+                <div class="popular-txt">
+                    <h4><a href="#(ctx)/successCaseView/#(top.id)">#(top.title)</a></h4>
+                    <span><i class="fa fa-eye"></i> #(top.viewCount) |</span>
+                    <span><i class="fa fa-thumbs-o-up"></i> #(top.laudCount)</span>
+                </div>
+            </div>
+            #end
+        </div>
+    </div>
+    <div class="sidebar-widget">
+        <h3 class="widget-title">标签</h3>
+        <div class="tagclouds">
+            #for(t:tagList)
+            <a href="#(ctx)/getByTag/#(t.id)" target="_blank">#(t.title)</a>
+            #end
+        </div>
+    </div>
+</aside>

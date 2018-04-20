@@ -1,0 +1,64 @@
+<div class="comment-area" >
+
+</div>
+<div class="add-comment">
+    <h3 class="comment-heading">添加评论</h3>
+    <div class="ac-wrap">
+        <form action="#">
+            <div class="row">
+                <div class="col-sm-12">
+                    <input type="hidden" id="replyObjName" value="#(replyObjName)">
+                    <input type="hidden" id="replyObjId" value="#(art.id)">
+                    <input type="hidden" id="replyId" value="0">
+                    <textarea id="replyMsg" placeholder="请文明评论"></textarea>
+                    <button class="btn-filled" id="replyBtn" data-loading-text="数据提交中..."  autocomplete="off">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script id="replys_tmpl" type="text/x-jquery-tmpl">
+    <h3 class="comment-heading">评论 <span><i class="fa fa-comment-o"></i> ${commentCount}</span></h3>
+    <ol class="comment-wrap">
+        {%each(i,reply) page.list%}
+        <li>
+            <div class="single-comment">
+                <div class="comment-thumb">
+                    {%if reply.replyer%}<img src="${reply.replyer.avatar}" alt="">{%/if%}
+                </div>
+                <div class="comment-txt">
+                    <h4 class="name">${reply.replyer.nickname} <a href="#">${reply.cAtTxt}</a></h4>
+                    <p>${reply.content}</p>
+                    <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
+                </div>
+            </div>
+            {%if reply.subReplys&&reply.subReplys.length>0%}
+            <ol class="child">
+                {%each(i,subReply) reply.subReplys%}
+                <li>
+                    <div class="single-comment">
+                        <div class="comment-thumb">
+                            <img src="${subReply.replyer.avatar}" alt="">
+                        </div>
+                        <div class="comment-txt">
+                            <h4 class="name">${subReply.replyer.nickname} <a href="#">${subReply.cAtTxt}</a></h4>
+                            <p>${subReply.content}</p>
+                            <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
+                        </div>
+                    </div>
+                </li>
+                {%/each%}
+            </ol>
+            {%/if%}
+        </li>
+        {%/each%}
+    </ol>
+</script>
+
+<script>
+    $(function () {
+        loadReplys();
+    })
+
+</script>

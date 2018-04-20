@@ -101,6 +101,7 @@
             default_width: 500,
             default_height: 344,
         });
+        
 
         /*-------------------------------
         Service Carousel
@@ -114,7 +115,41 @@
         $('#ajax-contact .btn-filled').on("click", function(e){
             $('#ajax-contact').hide('slow');
         });
-
+        
+        $("#replyBtn").on("click",function (e) {
+            let msg=$("#replyMsg").val();
+            let objId=$("#replyObjId").val();
+            let objName=$("#replyObjName").val();
+            let replyId=$("#replyId").val();
+            $(this).button('loading');
+            let btn=this;
+            if(Bee.StringUtils.isBlank(msg)){
+                $(this).button('reset');
+                sweetAlert2Error('评论内容不能为空')
+            }else{
+                let param={'content':msg,'targetId':objId,'targetObj':objName,'replyId':replyId}
+                $.ajax({
+                    type:'POST',
+                    url:$('#ctx').val()+'/reply/save',
+                    data:param,
+                    dataType:'json',
+                    success:function (data) {
+                        $(btn).button('reset');
+                        if(data&&data.resCode=='success'){
+                            sweetAlert2Success(data.resMsg)
+                            $("#replyMsg").val("");
+                            loadReplys();
+                        }else{
+                            sweetAlert2Error(data.resMsg)
+                        }
+                    },
+                    error:function () {
+                        $(btn).button('reset');
+                        sweetAlert2Error('网络异常，请重试！');
+                    }
+                })
+            }
+        })
     });
 
     jQuery(window).on('load',function(e) {
@@ -125,3 +160,58 @@
     });
 
 }(jQuery));
+
+function loadReplys() {
+    let objName=$("#replyObjName").val();
+    let objId=$("#replyObjId").val();
+    let param={'targetObj':objName,'targetId':objId};
+    sweetAlert2Loading('评论数据加载中...');
+    $.ajax({
+        type:'POST',
+        url:$('#ctx').val()+'/reply/list',
+        data:param,
+        dataType:'json',
+        success:function (data) {
+            swal.close();
+            $("#comment-area").empty();
+            $("#replys_tmpl").tmpl(data).appendTo(".comment-area");
+        },
+        error:function () {
+            swal.close();
+            sweetAlert2Error('网络异常，请重试！');
+        }
+    })
+}
+
+
+
+function sweetAlert2Error(msg) {
+    swal({
+        type: 'error',
+        title: msg,
+        // text: msg,
+        confirmButtonText:'确定',
+
+    })
+}
+
+
+function sweetAlert2Success(msg) {
+    swal({
+        type: 'success',
+        // title: '成功消息',
+        title: msg,
+        confirmButtonText:'确定',
+    })
+}
+
+function sweetAlert2Loading(msg) {
+    swal({
+        title:msg==undefined?'数据加载中...':msg,
+        allowOutsideClick:false,
+        onOpen:function () {
+            swal.showLoading();
+        }
+    })
+}
+

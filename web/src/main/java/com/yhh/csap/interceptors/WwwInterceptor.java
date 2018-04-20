@@ -32,7 +32,7 @@ public class WwwInterceptor implements Interceptor {
         //当前路径，处理点击过的菜单激活问题
         controller.setAttr("currPath",ak);
         //栏目的title的获取
-        Taxonomy taxonomy=getSectionIdFromCacheByText(ak.replaceAll("/",""));
+        Taxonomy taxonomy=getSectionIdFromCacheByText(ak.replaceAll("/","").replaceAll("View",""));
         controller.setAttr("currTitle",taxonomy==null?"":taxonomy.getTitle());
         //rss
         List<Rss> rssList=Rss.dao.findByCache(Consts.CACHE_NAMES.index.name(),"rssList","select * from www_rss where status='0' and dAt is null ");

@@ -38,6 +38,7 @@ import com.yhh.csap.mt.doctor.VisitCtr;
 import com.yhh.csap.mt.patient.MedicalrecordsCtr;
 import com.yhh.csap.www.IndexCtr;
 import com.yhh.csap.www.carouselsetting.ClsCtr;
+import com.yhh.csap.www.replys.ReplysCtr;
 import com.yhh.csap.www.rss.RssCtr;
 
 import javax.sql.DataSource;
@@ -51,6 +52,7 @@ public class CoreConfig extends JFinalConfig{
     static{
         Consts.MAPPING_TO_TBL.put("postInfo","www_post_info");
         Consts.MAPPING_TO_TBL.put("replys","www_replys");
+        Consts.MAPPING_TO_TBL.put("content","s_content");
     }
 
     @Override
@@ -118,6 +120,7 @@ public class CoreConfig extends JFinalConfig{
                 setBaseViewPath("/WEB-INF/template/www/");
                 addInterceptor(new WwwInterceptor());
                 add("/", IndexCtr.class);
+                add("/reply", ReplysCtr.class);
             }
         });
 

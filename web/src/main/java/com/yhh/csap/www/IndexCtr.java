@@ -11,6 +11,7 @@ import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorTax;
 import com.yhh.csap.www.model.CarouselSetting;
+import com.yhh.csap.www.model.Replys;
 import com.yhh.csap.www.model.Rss;
 
 import java.util.List;
@@ -67,6 +68,10 @@ public class IndexCtr extends CoreController {
         setAttr("art",content);
         List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
         setAttr("top5List",top5List);
+        setAttr("currSectionName",getAttrForStr("currTitle"));
+        setAttr("currTitle",content.getTitle());
+        setAttr("currSection",Consts.SECTION.science.name());
+        setAttr("replyObjName","content");
         setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         render(Consts.SECTION.science.name().concat("/view.html"));
     }
@@ -100,7 +105,10 @@ public class IndexCtr extends CoreController {
     }
 
 
+    public void addReply(){
+        Replys replys=getModel(Replys.class,"",true);
 
+    }
 
 
 
