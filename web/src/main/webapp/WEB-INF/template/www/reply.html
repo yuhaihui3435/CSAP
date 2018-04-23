@@ -1,23 +1,80 @@
+<script src="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.js"></script>
+<script src="https://cdn.bootcss.com/js-xss/0.3.3/xss.min.js"></script>
 <div class="comment-area" >
 
 </div>
 <div class="add-comment">
     <h3 class="comment-heading">添加评论</h3>
     <div class="ac-wrap">
-        <form action="#">
             <div class="row">
                 <div class="col-sm-12">
-                    <input type="hidden" id="replyObjName" value="#(replyObjName)">
+                    <input type="hidden" id="replyObjName" value="#(replyObjName)" >
                     <input type="hidden" id="replyObjId" value="#(art.id)">
                     <input type="hidden" id="replyId" value="0">
-                    <textarea id="replyMsg" placeholder="请文明评论"></textarea>
+                    <div id="replyMsg" >
+
+                    </div>
                     <button class="btn-filled" id="replyBtn" data-loading-text="数据提交中..."  autocomplete="off">提交</button>
                 </div>
             </div>
-        </form>
     </div>
 </div>
+<style>
+    .page_div {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 15px;
+        font-family: "microsoft yahei";
+        color: #666666;
+        margin-right: 10px;
+        padding-left: 20px;
+        box-sizing: border-box;
+    }
+    /*
+     * 页数按钮样式
+     */
+    .page_div a {
+        min-width: 30px;
+        height: 28px;
+        border: 1px solid #dce0e0!important;
+        text-align: center;
+        margin: 0 4px;
+        cursor: pointer;
+        line-height: 28px;
+        color: #ffffff;
+        font-size: 13px;
+        display: inline-block;
+    }
 
+    #firstPage,
+    #lastPage {
+        /*width: 50px;*/
+        color: #18adec;
+        border: 1px solid #18adec!important;
+    }
+
+    #prePage,
+    #nextPage {
+        /*width: 70px;*/
+        color: #18adec;
+        border: 1px solid #18adec!important;
+    }
+
+    .page_div .current {
+        background-color: #18adec;
+        border-color: #18adec;
+    }
+
+    .totalPages {
+        margin: 0 10px;
+    }
+
+    .totalPages span,
+    .totalSize span {
+        color: #18adec;
+        margin: 0 5px;
+    }
+</style>
 <script id="replys_tmpl" type="text/x-jquery-tmpl">
     <h3 class="comment-heading">评论 <span><i class="fa fa-comment-o"></i> ${commentCount}</span></h3>
     <ol class="comment-wrap">
@@ -28,23 +85,25 @@
                     {%if reply.replyer%}<img src="${reply.replyer.avatar}" alt="">{%/if%}
                 </div>
                 <div class="comment-txt">
-                    <h4 class="name">${reply.replyer.nickname} <a href="#">${reply.cAtTxt}</a></h4>
-                    <p>${reply.content}</p>
-                    <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
+                    {%if reply.replyer%}<h4 class="name">${reply.replyer.nickname} <a href="#">${reply.cAtTxt}</a></h4>{%/if%}
+                    <p>{{html reply.content}}</p>
+                    <a href="javascript:void(0)" onclick="fastReply(${reply.id}{%if reply.replyer%},'${reply.replyer.nickname}'{%/if%})" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
                 </div>
             </div>
             {%if reply.subReplys&&reply.subReplys.length>0%}
+
             <ol class="child">
+                <li><div    style=" text-align: center;font-size: 10px;padding-bottom: 30px;">------共&nbsp;${reply.subReplys.length}&nbsp;条回复------</div></li>
                 {%each(i,subReply) reply.subReplys%}
                 <li>
                     <div class="single-comment">
                         <div class="comment-thumb">
-                            <img src="${subReply.replyer.avatar}" alt="">
+                           {%if subReply.replyer%} <img src="${subReply.replyer.avatar}" alt="">{%/if%}
                         </div>
                         <div class="comment-txt">
-                            <h4 class="name">${subReply.replyer.nickname} <a href="#">${subReply.cAtTxt}</a></h4>
-                            <p>${subReply.content}</p>
-                            <a href="#" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
+                            {%if subReply.replyer%}<h4 class="name">${subReply.replyer.nickname} <a href="#">${subReply.cAtTxt}</a></h4>{%/if%}
+                            <p>{{html subReply.content}}</p>
+                            <a onclick="fastReply(${subReply.id}{%if subReply.replyer%},'${subReply.replyer.nickname}'{%/if%})" href="javascript:void(0)" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
                         </div>
                     </div>
                 </li>
@@ -54,11 +113,22 @@
         </li>
         {%/each%}
     </ol>
+
+    <div style="text-align: center;">
+        <div id="page" class=" page_div"></div>
+    </div>
 </script>
 
 <script>
+    var editor2=null;
     $(function () {
         loadReplys();
+        var E = window.wangEditor
+        editor2= new E('#replyMsg')
+        editor2.customConfig.uploadImgShowBase64 = true
+        editor2.customConfig.zIndex = 100
+        editor2.create()
+
     })
 
 </script>

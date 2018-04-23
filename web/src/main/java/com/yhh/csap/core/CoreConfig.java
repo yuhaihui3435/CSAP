@@ -53,6 +53,7 @@ public class CoreConfig extends JFinalConfig{
         Consts.MAPPING_TO_TBL.put("postInfo","www_post_info");
         Consts.MAPPING_TO_TBL.put("replys","www_replys");
         Consts.MAPPING_TO_TBL.put("content","s_content");
+        Consts.MAPPING_TO_TBL.put("dr","mt_doctor_info");
     }
 
     @Override

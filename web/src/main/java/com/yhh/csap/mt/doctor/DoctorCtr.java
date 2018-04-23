@@ -56,12 +56,12 @@ public class DoctorCtr extends CoreController {
         //疾病列表
         List<Taxonomy> diseaseList= CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"diseaseList");
         //手术方式
-        List<Taxonomy> opModelList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"opModelList");
+        List<Taxonomy> opModeList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"opModeList");
         //职称
         List<Taxonomy> drTitleList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"drTitleList");
         Map<String,List<Taxonomy>> map=new HashMap<>();
         map.put("diseaseList",diseaseList);
-        map.put("opModelList",opModelList);
+        map.put("opModeList",opModeList);
         map.put("drTitleList",drTitleList);
         map.put("hospList", (List<Taxonomy>) CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"visitHospList"));
         renderJson(map);
@@ -163,7 +163,7 @@ public class DoctorCtr extends CoreController {
         userSrv.addDr(user);
         doctorInfo.setUserId(user.getId().intValue());
         doctorInfo.setStatus(Consts.STATUS.enable.getVal());
-        doctorInfo.save();
+        doctorInfo.saveWithoutClean();
 
         addDrTax(opModels,Consts.DR_TAX.opModel.getVal(),doctorInfo.getId());
         addDrTax(diseases,Consts.DR_TAX.disease.getVal(),doctorInfo.getId());
@@ -206,7 +206,7 @@ public class DoctorCtr extends CoreController {
         }
         doctorInfo.setMAt(new Date());
         doctorInfo.setOperId(currUser()==null?null:currUser().getId().intValue());
-        doctorInfo.update();
+        doctorInfo.updateWithoutClean();
         DoctorTax.dao.delByDId(doctorInfo.getId());
         addDrTax(opModels,Consts.DR_TAX.opModel.getVal(),doctorInfo.getId());
         addDrTax(diseases,Consts.DR_TAX.disease.getVal(),doctorInfo.getId());

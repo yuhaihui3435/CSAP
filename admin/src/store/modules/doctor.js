@@ -29,7 +29,7 @@ const  doctorInfo={
             state.drTitleList=obj.drTitleList.map((val,key,arr)=>{
                 return {value:val.id,label:val.title}
             })
-            state.opModelList=obj.opModelList
+            state.opModeList=obj.opModeList
             state.diseaseList=obj.diseaseList
             state.hospList=obj.hospList
 
@@ -37,6 +37,9 @@ const  doctorInfo={
         set_rApi_list(state,list){
             state.rApiList=list
 
+        },
+        set_dr_introduction(state,txt){
+          state.doctorInfo.introduction=txt;
         }
         
     },

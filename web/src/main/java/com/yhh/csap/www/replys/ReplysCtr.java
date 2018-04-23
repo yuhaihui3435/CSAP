@@ -2,6 +2,7 @@ package com.yhh.csap.www.replys;
 
 import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
@@ -56,13 +57,13 @@ public class ReplysCtr extends CoreController {
         int targetId=getParaToInt("targetId");
         String targetObj=getPara("targetObj");
         targetObj=Consts.MAPPING_TO_TBL.get(targetObj);
-        String sql=" from www_replys where targetId=? and targetObj=? and dAt is null order by bestReply,cAt desc ";
+        String sql=" from www_replys where targetId=? and replyId='0' and targetObj=? and dAt is null order by bestReply,cAt desc ";
         Page page= Replys.dao.paginate(getPN(),getPS(),"select * ",sql,targetId,targetObj);
         Record record=Db.findFirst("select * from ".concat(targetObj).concat(" where id=?"),targetId);
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
         map.put("commentCount",record!=null?record.getInt("commentCount"):0);
-        renderJson(JSON.toJSONString(map));
+        renderJson(JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect));
     }
 
     public void index(){
@@ -74,12 +75,23 @@ public class ReplysCtr extends CoreController {
     public void save(){
         Replys replys=getModel(Replys.class,"",true);
         Integer userId=(ResKit.getConfigBoolean("userAuth"))?currUser().getId().intValue():null;
+        Integer replyId=replys.getReplyId();
+        Integer rootReplyId=replys.getReplyId();
+        if(replyId!=0) {
+            Replys replys1 = Replys.dao.findById(replyId);
+            if(replys1.getReplyId()!=0)
+                rootReplyId=replys1.getRootReplyId();
+        }
+        replys.setRootReplyId(rootReplyId);
         replys.setTargetObj(Consts.MAPPING_TO_TBL.get(replys.getTargetObj()));
         replys.setCAt(new Date());
         replys.setUserId(userId);
         replys.setBestReply(Consts.YORN_STR.no.getVal());
         replys.setScore(Consts.BD_ZERO);
         replys.setLikeCount(0);
+
+
+
 
 
         String txt = replys.getContent();

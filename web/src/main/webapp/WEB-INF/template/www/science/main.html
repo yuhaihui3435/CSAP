@@ -60,64 +60,10 @@
                         </div>
                     #end
                 </div>
-                <div class="pager">
-                    ###if(page.pageNumber>1)
-                    <!--<a href="#(ctx)/a/#(cId)-#(page.pageNumber-1)">上一页</a>-->
-                    ###end
-                    #set(begin=1)
-                    #set(end=page.pageNumber+9)
-                    #if(page.pageNumber>=11)
-                    #set(begin=page.pageNumber-10)
-                    #end
-                    #if(end>=page.totalPage)
-                    #set(end=page.totalPage)
-                    #end
-                    #for(i=begin;i<=end;i++)
-                    #if(i==page.pageNumber)
-                    <span>#(i)</span>
-                    #else
-                    <span><a href="javacript:void(0)" onclick="submitForm('#(i)')">#(i)</a></span>
-                    #end
-                    #end
-                    ###if(page.pageNumber<page.totalPage)
-                    <!--<a href="#(ctx)/a/#(cId)-#(page.pageNumber+1)">下一页</a>-->
-                    ###end
-                </div>
+                #include("/WEB-INF/template/www/main_pager.html")
             </div>
             <div class="col-md-4 col-sm-12">
-                <aside class="sidebar">
-                    <div class="sidebar-widget">
-                        <form action="#(ctx)/science" method="post" class="search-box">
-                            <input type="search" name="searchKey" placeholder="输入关键字查询" value="#(searchKey)">
-                            <button><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
-                    <div class="sidebar-widget">
-                        <h3 class="widget-title">热门</h3>
-                        <div class="post-entry">
-                            #for(top:top5List)
-                            <div class="popular-single">
-                                <div class="popular-thumb">
-                                    <a href="#(ctx)/scienceView/#(top.id)"><img src="#(qn_url)#(top.thumbnail)" alt=""></a>
-                                </div>
-                                <div class="popular-txt">
-                                    <h4><a href="#(ctx)/scienceView/#(top.id)">#(top.title)</a></h4>
-                                    <span><i class="fa fa-eye"></i> #(top.viewCount) |</span>
-                                    <span><i class="fa fa-thumbs-o-up"></i> #(top.laudCount)</span>
-                                </div>
-                            </div>
-                            #end
-                        </div>
-                    </div>
-                    <div class="sidebar-widget">
-                        <h3 class="widget-title">标签</h3>
-                        <div class="tagclouds">
-                            #for(t:tagList)
-                               <a href="#(ctx)/getByTag/#(t.id)" target="_blank">#(t.title)</a>
-                            #end
-                        </div>
-                    </div>
-                </aside>
+                #include("/WEB-INF/template/www/sidebar.html")
             </div>
         </div>
     </div>

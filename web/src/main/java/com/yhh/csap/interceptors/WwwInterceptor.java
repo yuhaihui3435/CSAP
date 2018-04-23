@@ -34,6 +34,7 @@ public class WwwInterceptor implements Interceptor {
         //栏目的title的获取
         Taxonomy taxonomy=getSectionIdFromCacheByText(ak.replaceAll("/","").replaceAll("View",""));
         controller.setAttr("currTitle",taxonomy==null?"":taxonomy.getTitle());
+
         //rss
         List<Rss> rssList=Rss.dao.findByCache(Consts.CACHE_NAMES.index.name(),"rssList","select * from www_rss where status='0' and dAt is null ");
         controller.setAttr("rssList",rssList);

@@ -111,4 +111,5 @@ consts.checkStatus=[{value:'00',label:'审核通过'},{value:'01',label:'等待�
 consts.sexList=[{value:1,label:'男'},{value:2,label:'女'}]
 consts.HH=['06','07','08','09','10','11','12','13','14','15','16','17','18','19','20']
 consts.MM=['00','15','30','45']
+consts.qn_url='http://images.cichlid.cc/'
 export default consts

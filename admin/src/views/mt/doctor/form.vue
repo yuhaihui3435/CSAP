@@ -4,49 +4,69 @@
                 v-model="doctorInfoModal"
                 @on-visible-change="vChange"
                 :mask-closable="false"
+                width="900"
+                :styles="{top: '20px'}"
         >
             <p slot="header">
                 <Icon type="information-circled"></Icon>
                 <span>{{modalTitle}}</span>
             </p>
             <Form ref="formValidate" :label-width="80" :model="doctorInfo" :rules="ruleValidate">
-                <FormItem label="名称" prop="name">
-                    <Input v-model="doctorInfo.name" placeholder="请输入..." style="width: 300px"></Input>
-                </FormItem>
-                <FormItem label="简介" prop="summary">
-                    <Input v-model="doctorInfo.summary" placeholder="请输入..." style="width: 300px" type="textarea" :rows="4"></Input>
-                </FormItem>
-                <FormItem label="性别" prop="sex">
-                    <Select v-model="doctorInfo.sex" placeholder="请输入..." style="width: 300px">
-                        <Option v-for="item in sexList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                </FormItem>
+                <Row>
+                    <Col span="11">
+                    <FormItem label="名称" prop="name">
+                        <Input v-model="doctorInfo.name" placeholder="请输入..." style="width: 300px"></Input>
+                    </FormItem>
+                    </Col><Col span="11">
+                    <FormItem label="性别" prop="sex">
+                        <Select v-model="doctorInfo.sex" placeholder="请输入..." style="width: 300px">
+                            <Option v-for="item in sexList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                    </FormItem>
+                    </Col>
+                </Row>
+
+
+                <Row>
+                    <Col span="11">
                 <FormItem label="电话1" prop="tel1">
                     <Input v-model="doctorInfo.tel1" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
+                    </Col><Col span="11">
                 <FormItem label="电话2" prop="tel2">
                     <Input v-model="doctorInfo.tel2" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
-                <FormItem label="电话3" prop="tel3">
-                    <Input v-model="doctorInfo.tel3" placeholder="请输入..." style="width: 300px" ></Input>
-                </FormItem>
+                    </Col>
+                </Row>
+                <!--<FormItem label="电话3" prop="tel3">-->
+                    <!--<Input v-model="doctorInfo.tel3" placeholder="请输入..." style="width: 300px" ></Input>-->
+                <!--</FormItem>-->
+                <Row>
+                    <Col span="11">
                 <FormItem label="EMAIL" prop="email">
                     <Input v-model="doctorInfo.email" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
+                    </Col><Col span="11">
                 <FormItem label="微信号" prop="weixin">
                     <Input v-model="doctorInfo.weixin" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="11">
                 <FormItem label="执照号" prop="licenseNo">
                     <Input v-model="doctorInfo.licenseNo" placeholder="请输入..." style="width: 300px" ></Input>
                 </FormItem>
+                    </Col><Col span="11">
                 <FormItem label="在职医院" prop="hosp">
                     <Select v-model="doctorInfo.hospital" placeholder="请选择..." style="width: 300px" >
                         <Option v-for="item in hospList" :value="item.id" :key="item.id">{{ item.title }}</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="详细介绍" prop="introduction">
-                    <Input v-model="doctorInfo.introduction" placeholder="请输入..." type="textarea" :rows="14" style="width: 300px"></Input>
-                </FormItem>
+                    </Col>
+                </Row>
+
+
                 <FormItem label="照片" prop="imgBase64Data">
                     <Upload
                             action=""
@@ -57,29 +77,48 @@
                         <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
                     </Upload>
                 </FormItem>
+
                 <FormItem>
                     <img :src="imgBase64Data"   v-if="showImg"
                          style="width: 100px;height: 100px">
                 </FormItem>
+                <Row>
+                    <Col span="11">
                 <FormItem label="擅长疾病" prop="diseases">
                     <Select v-model="diseases" placeholder="请输入..." style="width: 300px" multiple>
                         <Option v-for="item in diseaseList" :value="item.id" :key="item.id">{{ item.title }}</Option>
                     </Select>
                 </FormItem>
+                </Col><Col span="11">
                 <FormItem label="手术方式" prop="opModels">
                     <Select v-model="opModels" placeholder="请输入..." style="width: 300px" multiple>
-                        <Option v-for="item in opModelList" :value="item.id" :key="item.id">{{ item.title }}</Option>
+                        <Option v-for="item in opModeList" :value="item.id" :key="item.id">{{ item.title }}</Option>
                     </Select>
                 </FormItem>
+                </Col>
+                </Row>
+                <Row>
+                    <Col span="11">
                 <FormItem label="职称" prop="drTitles">
                     <Select v-model="drTitles" placeholder="请输入..." style="width: 300px" multiple>
                         <Option v-for="item in drTitleList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </FormItem>
+                    </Col><Col span="11">
                 <FormItem label="状态" prop="status" v-show="!isAdd">
                     <Select v-model="doctorInfo.status" placeholder="请输入..." style="width: 300px">
                         <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
+                </FormItem>
+                    </Col>
+                </Row>
+                <FormItem label="简介" prop="summary">
+                    <Input v-model="doctorInfo.summary" placeholder="请输入..."  type="textarea" :rows="4"></Input>
+                </FormItem>
+
+                <FormItem label="详细介绍" prop="introduction">
+                    <div id="editorElem" style="text-align:left"></div>
+                    <!--<Input v-model="doctorInfo.introduction" placeholder="请输入..." type="textarea" :rows="14" style="width: 300px"></Input>-->
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -95,6 +134,9 @@
 <script>
     import {mapState} from 'vuex'
     import consts from '../../../libs/consts'
+    import E from 'wangeditor'
+
+    var editor=null;
     export default {
         name: 'doctorInfoForm',
         computed: {
@@ -102,7 +144,7 @@
                 'doctorInfo': state => state.doctorInfo.doctorInfo,
                 'uploadPicMaxSize': state => state.uploadPicMaxSize,
                 'drTitleList':state=>state.doctorInfo.drTitleList,
-                'opModelList':state=>state.doctorInfo.opModelList,
+                'opModeList':state=>state.doctorInfo.opModeList,
                 'diseaseList':state=>state.doctorInfo.diseaseList,
                 'hospList':state=>state.doctorInfo.hospList,
             })
@@ -118,6 +160,7 @@
                     this.imgBase64Data='';
                     this.showImg=false;
                 }else{
+                    editor.txt.html(this.doctorInfo.introduction)
                     if(this.doctorInfo.dT_C_IDS!=""){
                         this.doctorInfo.dT_C_IDS.split(",").forEach((val,key,arr)=>{
                             this.drTitles.push(parseInt(val))
@@ -246,6 +289,19 @@
                     ],
                 }
             }
+        },
+        mounted () {
+            editor = new E('#editorElem')
+            editor.customConfig.onchange = (html) => {
+                this.$store.commit('set_dr_introduction',html)
+            }
+            editor.customConfig.uploadImgShowBase64 = true
+            editor.create()
+
+        },
+
+        destroyed () {
+            editor=null;
         }
     }
 

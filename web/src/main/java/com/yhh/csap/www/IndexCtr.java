@@ -1,5 +1,6 @@
 package com.yhh.csap.www;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -8,6 +9,7 @@ import com.yhh.csap.admin.model.Content;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
+import com.yhh.csap.interceptors.WwwwSidebarInterceptor;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorTax;
 import com.yhh.csap.www.model.CarouselSetting;
@@ -49,51 +51,56 @@ public class IndexCtr extends CoreController {
         render("index.html");
     }
 
-
+    @Before({WwwwSidebarInterceptor.class})
     public void science(){
-        String searchKey=getPara("searchKey");
-        keepPara("searchKey");
-        Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.science.name(),Consts._SECTION,searchKey);
-        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
-
+        Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.science.name(),Consts._SECTION,null);
         setAttr("page",page);
-        setAttr("top5List",top5List);
-        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         render(Consts.SECTION.science.name().concat("/main.html"));
     }
-
+    @Before({WwwwSidebarInterceptor.class})
     public void scienceView(){
         int id=getParaToInt(0);
         Content content=Content.dao.findById(id);
         setAttr("art",content);
-        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
-        setAttr("top5List",top5List);
         setAttr("currSectionName",getAttrForStr("currTitle"));
         setAttr("currTitle",content.getTitle());
         setAttr("currSection",Consts.SECTION.science.name());
         setAttr("replyObjName","content");
-        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         render(Consts.SECTION.science.name().concat("/view.html"));
     }
-
+    @Before({WwwwSidebarInterceptor.class})
     public void successCase(){
-        String searchKey=getPara("searchKey");
-        keepPara("searchKey");
-        Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.successCase.name(),Consts._SECTION,searchKey);
-        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.successCase.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
+        Page<Content> page=Content.dao.pageByTextAndModule(getPN(),getPS(),Consts.SECTION.successCase.name(),Consts._SECTION,null);
         setAttr("page",page);
-        setAttr("top5List",top5List);
-        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         render(Consts.SECTION.successCase.name().concat("/main.html"));
     }
-
+    @Before({WwwwSidebarInterceptor.class})
+    public void successCaseView(){
+        int id=getParaToInt(0);
+        Content content=Content.dao.findById(id);
+        setAttr("art",content);
+        setAttr("currSectionName",getAttrForStr("currTitle"));
+        setAttr("currTitle",content.getTitle());
+        setAttr("currSection",Consts.SECTION.science.name());
+        setAttr("replyObjName","content");
+        render(Consts.SECTION.science.name().concat("/view.html"));
+    }
+    @Before({WwwwSidebarInterceptor.class})
     public void dr(){
         Page<DoctorInfo> page= DoctorInfo.dao.paginate(getPN(),getPS(),"select * ","from mt_doctor_info where dAt is null and status='0'");
-        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
         setAttr("page",page);
-        setAttr("top5List",top5List);
-        setAttr("tagList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         render(Consts.SECTION.dr.name().concat("/main.html"));
+    }
+    @Before({WwwwSidebarInterceptor.class})
+    public void drView(){
+        int id=getParaToInt(0);
+        DoctorInfo doctorInfo=DoctorInfo.dao.findById(id);
+        setAttr("dr",doctorInfo);
+        setAttr("currSectionName",getAttrForStr("currTitle"));
+        setAttr("currTitle",doctorInfo.getName());
+        setAttr("currSection",Consts.SECTION.dr.name());
+        setAttr("replyObjName","dr");
+        render(Consts.SECTION.dr.name().concat("/view.html"));
     }
 
     public void communicate(){
@@ -104,6 +111,14 @@ public class IndexCtr extends CoreController {
 
     }
 
+    /**
+     *
+     * 全局搜索
+     *
+     */
+    public void globalSearch(){
+
+    }
 
     public void addReply(){
         Replys replys=getModel(Replys.class,"",true);

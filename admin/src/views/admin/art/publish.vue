@@ -271,6 +271,11 @@
                 if (isAdd){
                     this.$store.commit('set_art');
                 }else{
+                    if(this.art.thumbnail&&this.art.thumbnail!=''){
+                        this.previewImg=true;
+                        this.imgData=consts.qn_url+this.art.thumbnail
+                    }
+
                     editor.txt.html(this.art.text)
                 }
             },

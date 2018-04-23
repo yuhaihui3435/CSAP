@@ -108,4 +108,12 @@ public abstract class BaseReplys<M extends BaseReplys<M>> extends CoreModel<M> i
 		return getStr("targetObj");
 	}
 
+	public void setRootReplyId(Integer rootReplyId) {
+		set("rootReplyId", rootReplyId);
+	}
+
+	public Integer getRootReplyId() {
+		return getInt("rootReplyId");
+	}
+
 }

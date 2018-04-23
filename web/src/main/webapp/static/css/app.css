@@ -1523,3 +1523,15 @@ icon+文字说明
     padding: 14px 47px;
     background: transparent;
 }
+
+/*页面加载遮罩层*/
+preloader {
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -31px;
+}
