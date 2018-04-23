@@ -70,8 +70,7 @@ public class ReplysCtr extends CoreController {
 
     }
 
-//    @Before({EvictInterceptor.class, Tx.class})
-//    @CacheName("replys")
+    @Before({ Tx.class})
     public void save(){
         Replys replys=getModel(Replys.class,"",true);
         Integer userId=(ResKit.getConfigBoolean("userAuth"))?currUser().getId().intValue():null;
@@ -102,8 +101,13 @@ public class ReplysCtr extends CoreController {
         replys.setContent(txt);
         replysSrv.replysAddSave(replys);
 
+        Replys _replys=Replys.dao.findById(replys.getReplyId());
+        if(_replys!=null){
+            User _user=_replys.getReplyer();
+            if(_user!=null&&_user.getId()!=currUser().getId()){
 
-
+            }
+        }
 //        Pattern pattern = Pattern.compile("@[^\\s]+\\s?");
 //        Matcher m = pattern.matcher(txt);
 //        ArrayList<String> strs = new ArrayList<String>();
@@ -139,8 +143,7 @@ public class ReplysCtr extends CoreController {
 //        replys.update();
         renderSuccessJSON("回复成功");
     }
-//    @Before({EvictInterceptor.class,Tx.class})
-//    @CacheName("replys")
+    @Before({Tx.class})
     public void del(){
         int id=getParaToInt(0);
         Replys replys=Replys.dao.findById(id);
@@ -149,8 +152,6 @@ public class ReplysCtr extends CoreController {
         replysSrv.replysSubSave(replys);
         renderSuccessJSON("回复删除成功");
     }
-//    @Before(EvictInterceptor.class)
-//    @CacheName("replys")
     public void setBestReply(){
         int id=getParaToInt("id");
         Replys replys=Replys.dao.findById(id);

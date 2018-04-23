@@ -170,4 +170,44 @@ public abstract class BaseDoctorInfo<M extends BaseDoctorInfo<M>> extends CoreMo
 		return getStr("status");
 	}
 
+
+	public void setCommentStatus(java.lang.String commentStatus) {
+		set("commentStatus", commentStatus);
+	}
+
+	public java.lang.String getCommentStatus() {
+		return getStr("commentStatus");
+	}
+
+	public void setCommentCount(java.lang.Integer commentCount) {
+		set("commentCount", commentCount);
+	}
+
+	public java.lang.Integer getCommentCount() {
+		return getInt("commentCount");
+	}
+
+	public void setCommentTime(java.util.Date commentTime) {
+		set("commentTime", commentTime);
+	}
+
+	public java.util.Date getCommentTime() {
+		return get("commentTime");
+	}
+
+	public void setCollectCount(java.lang.Integer collectCount) {
+		set("collectCount", collectCount);
+	}
+
+	public java.lang.Integer getCollectCount() {
+		return getInt("collectCount");
+	}
+
+	public void setLaudCount(java.lang.Integer laudCount) {
+		set("laudCount", laudCount);
+	}
+
+	public java.lang.Integer getLaudCount() {
+		return getInt("laudCount");
+	}
 }

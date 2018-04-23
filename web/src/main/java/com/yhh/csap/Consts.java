@@ -49,6 +49,10 @@ public interface  Consts {
 
      Map<String,String> MAPPING_TO_TBL=new HashMap<>();
 
+     String THUMB_UP_TOKEN="thumbUpToken";
+
+     String COLLECT_TOKEN="collectToken";
+
      enum YORN {
         yes(true), no(false);
         boolean val;

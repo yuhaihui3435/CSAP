@@ -50,4 +50,20 @@ public abstract class BaseCollect<M extends BaseCollect<M>> extends CoreModel<M>
 		return get("cAt");
 	}
 
+	public void setTargetId(java.lang.Integer targetId) {
+		set("targetId", targetId);
+	}
+
+	public java.lang.Integer getTargetId() {
+		return getInt("targetId");
+	}
+
+	public void setTargetObj(java.lang.String targetObj) {
+		set("targetObj", targetObj);
+	}
+
+	public java.lang.String getTargetObj() {
+		return getStr("targetObj");
+	}
+
 }

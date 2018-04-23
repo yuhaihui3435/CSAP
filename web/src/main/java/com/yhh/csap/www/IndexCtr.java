@@ -12,7 +12,9 @@ import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.interceptors.WwwwSidebarInterceptor;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorTax;
+import com.yhh.csap.www.like.LikeRecordsSrv;
 import com.yhh.csap.www.model.CarouselSetting;
+import com.yhh.csap.www.model.LikeRecords;
 import com.yhh.csap.www.model.Replys;
 import com.yhh.csap.www.model.Rss;
 
@@ -23,6 +25,8 @@ import java.util.List;
  */
 @Clear(AdminIAuthInterceptor.class)
 public class IndexCtr extends CoreController {
+
+    private LikeRecordsSrv likeRecordsSrv=enhance(LikeRecordsSrv.class.getCanonicalName(),LikeRecordsSrv.class);
 
     public void index() {
         List clsTop = CarouselSetting.dao.findByArea("index_top");//上部幻灯片
@@ -120,11 +124,27 @@ public class IndexCtr extends CoreController {
 
     }
 
-    public void addReply(){
-        Replys replys=getModel(Replys.class,"",true);
 
+    /**
+     *
+     * 点赞
+     *
+     */
+    public void thumbUp(){
+        LikeRecords likeRecords=getModel(LikeRecords.class,"",true);
+        likeRecordsSrv.LikeAddSave(likeRecords);
+        renderSuccessJSON("点赞成功");
     }
 
+    /**
+     * 点赞取消
+     *
+     */
+    public void thumbDown(){
+        LikeRecords likeRecords=getModel(LikeRecords.class,"",true);
+        likeRecordsSrv.LikeSubSave(likeRecords);
+        renderSuccessJSON("点赞取消成功");
+    }
 
 
 
