@@ -1,7 +1,10 @@
 package com.yhh.csap.mt;
 
 
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.Taxonomy;
+import com.yhh.csap.kits.DateKit;
 import com.yhh.csap.mt.base.BaseDoctorVisit;
 
 import java.util.List;
@@ -13,6 +16,8 @@ import java.util.List;
 public class DoctorVisit extends BaseDoctorVisit<DoctorVisit> {
 	public static final DoctorVisit dao = new DoctorVisit().dao();
 
+	private String hospTxt;
+
 	@Override
 	public String getTableName() {
 		return "mt_doctor_visit";
@@ -23,8 +28,31 @@ public class DoctorVisit extends BaseDoctorVisit<DoctorVisit> {
 		return doctorInfo;
 	}
 
-	public List<DoctorVisitApi> getVisitApi(){
-		return DoctorVisitApi.dao.findByCache(Consts.CACHE_NAMES.doctorVisit.name(),"visitApi_"+getId(),"select * from mt_doctor_visit_api where dvId=?  ");
+	public String getVisitDateTxt(){
+		return getVisitDate()!=null?DateKit.dateToStr(getVisitDate(),DateKit.yyyy_MM_dd):Consts.BLANK;
+	}
+
+	public String getStatusTxt(){
+		return getStatusTxt(getStatus());
+	}
+
+	public String getDrName(){
+		DoctorInfo doctorInfo=getDr();
+		return doctorInfo!=null?doctorInfo.getName():Consts.BLANK;
+	}
+
+	public String getHospTxt(){
+		this.hospTxt=getHosp()==null?"无":((Taxonomy) CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getHosp().toString())).getTitle();
+		return this.hospTxt;
+	}
+
+//	public List<DoctorVisitApi> getVisitApi(){
+//		return DoctorVisitApi.dao.findByCache(Consts.CACHE_NAMES.doctorVisit.name(),"visitApi_"+getId(),"select * from mt_doctor_visit_api where dvId=?  ",getId());
+//	}
+
+	public List<DoctorVisit> findByDIdAndLimitRecentCache(int dId,int limit){
+		String sql="select * from mt_doctor_visit where dId=? and dAt is null and status='0' and visitDate>now()  order by visitDate limit ?";
+		return DoctorVisit.dao.findByCache(Consts.CACHE_NAMES.doctorVisit.name(),"visitByDrAndLimitRecent_"+dId,sql,dId,limit);
 	}
 
 }

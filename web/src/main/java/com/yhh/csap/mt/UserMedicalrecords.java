@@ -1,8 +1,11 @@
 package com.yhh.csap.mt;
 
 
+import cn.hutool.core.util.StrUtil;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
+import com.yhh.csap.admin.model.User;
 import com.yhh.csap.mt.base.BaseUserMedicalrecords;
 
 import java.util.List;
@@ -15,7 +18,7 @@ public class UserMedicalrecords extends BaseUserMedicalrecords<UserMedicalrecord
 	public static final UserMedicalrecords dao = new UserMedicalrecords().dao();
 
 	public static enum TaxType{
-		symptoms(6),deseases(5),opModes(2),bOpSymptoms(3),afOpSymptoms(4),treatEffect(1);
+		treatmentMhd(7),symptoms(6),deseases(5),opModes(2),bOpSymptoms(3),afOpSymptoms(4),treatEffect(1);
 
 		private int val;
 
@@ -37,21 +40,29 @@ public class UserMedicalrecords extends BaseUserMedicalrecords<UserMedicalrecord
 		return "mt_user_medicalrecords";
 	}
 
-	public List<UserMedicalrecordsTax> getTreatEffectTax(){
-		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"treatEffectTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='1'",getId());
+	public User getUser(){
+		return User.dao.findUserByIdWithCache(getUserId());
 	}
 
-	public List<UserMedicalrecordsTax> getOpModelTax(){
-		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"opModelTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='2'",getId());
+//	public List<UserMedicalrecordsTax> getTreatEffectTax(){
+//		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"treatEffectTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='1'",getId());
+//	}
+
+	public String getTreatEffectTxt(){
+		return getTreatEffect()!=null?((Taxonomy)CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getTreatEffect().toString())).getTitle():Consts.BLANK;
 	}
 
-	public List<UserMedicalrecordsTax> getBOpSymptomsTax(){
-		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"bOpSymptomsTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='3'",getId());
-	}
+//	public List<UserMedicalrecordsTax> getOpModelTax(){
+//		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"opModelTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='2'",getId());
+//	}
 
-	public List<UserMedicalrecordsTax> getAfOpSymptomsTax(){
-		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"afOpSymptomsTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='4'",getId());
-	}
+//	public List<UserMedicalrecordsTax> getBOpSymptomsTax(){
+//		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"bOpSymptomsTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='3'",getId());
+//	}
+
+//	public List<UserMedicalrecordsTax> getAfOpSymptomsTax(){
+//		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"afOpSymptomsTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='4'",getId());
+//	}
 	public List<UserMedicalrecordsTax> getDiseasesTax(){
 		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"diseasesTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='5'",getId());
 	}
@@ -60,10 +71,24 @@ public class UserMedicalrecords extends BaseUserMedicalrecords<UserMedicalrecord
 		return UserMedicalrecordsTax.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"symptomsTax_"+getId(),"select * from mt_user_medicalrecords_tax where umId=? and type='6'",getId());
 	}
 
+    public String getSexTxt(){
+        return "1".equals(getSex())?"男":"女";
+    }
+    public String getTreatmentMhdTxt(){
+	    return getTreatmentMhd()!=null?((Taxonomy)CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),getTreatmentMhd().toString())).getTitle():"";
+    }
+    public String getFullAddress(){
+	    StringBuilder stringBuilder=new StringBuilder();
+	    return stringBuilder.append(getSheng()).append(StrUtil.SPACE).append(getShi()).append(StrUtil.SPACE).append(getQu()).append(StrUtil.SPACE).append(getAddress()).toString();
+    }
 
-	public List<UserMedicalrecordsDoctor> getDrs(){
-		return UserMedicalrecordsDoctor.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"doctors_"+getId(),"select * from mt_user_medicalrecords_doctor where umId=?",getId() );
-	}
+    public String getIfCureTxt(){
+	    return getIfCure().equals(Consts.YORN_STR.yes.getVal())?Consts.YORN_STR.yes.getLabel():Consts.YORN_STR.no.getLabel();
+    }
+
+//	public List<UserMedicalrecordsDoctor> getDrs(){
+//		return UserMedicalrecordsDoctor.dao.findByCache(Consts.CACHE_NAMES.userMedicalrecords.name(),"doctors_"+getId(),"select * from mt_user_medicalrecords_doctor where umId=?",getId() );
+//	}
 
 
 }

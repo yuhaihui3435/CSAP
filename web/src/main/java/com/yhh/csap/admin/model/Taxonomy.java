@@ -72,6 +72,9 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> {
 	public List findByTitleAndPId(String title,Long pId){
 		return dao.find("select * from s_taxonomy where title=? and dAt is null and parentId=?",title,pId);
 	}
+	public Taxonomy findByModuleAndPId(String title,Long pId){
+		return dao.findFirst("select * from s_taxonomy where module=? and dAt is null and parentId=?",title,pId);
+	}
 
 	public List findByTitleAndPIdAndNEId(String title,Long pId,Long id){
 		return dao.find("select * from s_taxonomy where title=? and dAt is null and parentId=? and id<>?",title,pId,id);
@@ -82,10 +85,15 @@ public class Taxonomy extends BaseTaxonomy<Taxonomy> {
 		return dao.find(sql,cId);
 
 	}
+	public List findTaxsByCIdAndModule(Long cId,String module){
+		String sql="select st.*,'true' as checked  from s_taxonomy st left join s_mapping sm on st.id=sm.tid where st.parentId<>0 and sm.cid=? and st.module=?";
+		return dao.find(sql,cId,module);
 
-	public boolean getExpand(){
-		return children.size()>0?true:false;
 	}
+
+//	public boolean getExpand(){
+//		return children.size()>0?true:false;
+//	}
 
 	public List<Taxonomy> findAllModule(){
 		String sql="select distinct(module) from s_taxonomy";

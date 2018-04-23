@@ -106,12 +106,12 @@ public abstract class BasePostInfo<M extends BasePostInfo<M>> extends CoreModel<
 		return get("lastReply");
 	}
 
-	public void setReplyCount(Integer replyCount) {
-		set("replyCount", replyCount);
+	public void setCommentCount(Integer commentCount) {
+		set("commentCount", commentCount);
 	}
 	
-	public Integer getReplyCount() {
-		return getInt("replyCount");
+	public Integer getCommentCount() {
+		return getInt("commentCount");
 	}
 
 	public void setIfTop(Integer ifTop) {

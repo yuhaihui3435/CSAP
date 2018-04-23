@@ -86,6 +86,34 @@
                 }))
             ])]);
     }
+    const tagViewBtn = (vm, h, param) => {
+        return h('Poptip', {
+            props: {
+                trigger: 'hover',
+                title: param.row.tagList.length + "个标签",
+                placement: 'bottom',
+
+            },
+            style: {
+                marginRight: '5px'
+            },
+
+        }, [h('Tag', param.row.tagList.length),
+            h('div', {
+
+                slot: 'content'
+
+            }, [
+                h('ul', vm.artList[param.index].tagList.map(item => {
+                    return h('li', {
+                        style: {
+                            textAlign: 'center',
+                            padding: '4px'
+                        }
+                    }, item.title)
+                }))
+            ])]);
+    }
 
 
     const editBtn = (vm, h, param) => {
@@ -225,7 +253,14 @@
                         }
                     }
                     ,
-
+                    {
+                        title: '标签',
+                        key: 'tagList',
+                        render: (h, param) => {
+                            return tagViewBtn(this, h, param)
+                        }
+                    }
+                    ,
                     {
                         title: '创建时间',
                         key: 'cAtTxt',

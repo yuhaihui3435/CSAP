@@ -84,7 +84,10 @@ public class ExceptionInterceptor implements Interceptor {
             message = ResKit.getMsg("NumberFormatException_msg");
         }else if (e instanceof CoreException) {
             message = "["+((CoreException) e).getCode()+"]" + e.getMessage();
-        }else if(e instanceof RuntimeException){
+        }else if(eClassName.contains("com.alibaba.druid")){
+            message = "数据操作出现错误，请稍后重试";
+        }
+        else if(e instanceof RuntimeException){
             message=e.toString();
         }
 

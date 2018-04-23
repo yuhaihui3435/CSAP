@@ -41,6 +41,9 @@ public interface  Consts {
      String ROLE_PATIENT="patient";
 
      String _SECTION="section";
+     String _TAG="tag";
+
+     String CHAR_WU="无";
 
      BigDecimal BD_ZERO=new BigDecimal(0);
 
@@ -129,7 +132,7 @@ public interface  Consts {
     }
 
      enum CACHE_NAMES {
-       index,content,paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans,postInfo
+       index,content,paramCache,ssq,userRoles,user,userReses,taxonomy,art,carouselsetting,doctorTax,doctorInfo,login,doctorVisit,userMedicalrecords,fans,postInfo,userOps
     }
 
     enum SECTION{

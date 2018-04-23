@@ -2,8 +2,10 @@ package com.yhh.csap.core;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
+import com.alibaba.fastjson.JSON;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.json.FastJsonFactory;
@@ -27,13 +29,16 @@ import com.yhh.csap.admin.user.UserCtr;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
 import com.yhh.csap.interceptors.ExceptionInterceptor;
 import com.yhh.csap.interceptors.WwwInterceptor;
+import com.yhh.csap.kits.AppKit;
 import com.yhh.csap.kits.DateKit;
 import com.yhh.csap.kits.ResKit;
 import com.yhh.csap.mt.doctor.DoctorCtr;
 import com.yhh.csap.mt.doctor.VisitApiCtr;
 import com.yhh.csap.mt.doctor.VisitCtr;
+import com.yhh.csap.mt.patient.MedicalrecordsCtr;
 import com.yhh.csap.www.IndexCtr;
 import com.yhh.csap.www.carouselsetting.ClsCtr;
+import com.yhh.csap.www.replys.ReplysCtr;
 import com.yhh.csap.www.rss.RssCtr;
 
 import javax.sql.DataSource;
@@ -47,6 +52,8 @@ public class CoreConfig extends JFinalConfig{
     static{
         Consts.MAPPING_TO_TBL.put("postInfo","www_post_info");
         Consts.MAPPING_TO_TBL.put("replys","www_replys");
+        Consts.MAPPING_TO_TBL.put("content","s_content");
+        Consts.MAPPING_TO_TBL.put("dr","mt_doctor_info");
     }
 
     @Override
@@ -95,6 +102,7 @@ public class CoreConfig extends JFinalConfig{
                 add("/mt00", DoctorCtr.class);
                 add("/mt01", VisitCtr.class);
                 add("/mt02", VisitApiCtr.class);
+                add("/mt03", MedicalrecordsCtr.class);
             }
         });
 
@@ -113,6 +121,7 @@ public class CoreConfig extends JFinalConfig{
                 setBaseViewPath("/WEB-INF/template/www/");
                 addInterceptor(new WwwInterceptor());
                 add("/", IndexCtr.class);
+                add("/reply", ReplysCtr.class);
             }
         });
 
@@ -122,6 +131,7 @@ public class CoreConfig extends JFinalConfig{
     public void configEngine(Engine engine) {
         engine.addSharedObject("ctx", JFinal.me().getContextPath());
         engine.addSharedMethod( new StrUtil());
+        engine.addSharedObject("appKit", new AppKit());
         engine.addSharedObject("cKit",new CollectionUtil());
         engine.setDevMode(ResKit.getConfigBoolean("devMode", true));
         //使用JF模板渲染通用页面

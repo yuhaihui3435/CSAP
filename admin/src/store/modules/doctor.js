@@ -11,6 +11,7 @@ const  doctorInfo={
         opModelList:[],
         drTitleList:[],
         rApiList:[],
+        hospList:[],
     },
     mutations: {
         set_doctorInfo_list(state,page){
@@ -28,13 +29,17 @@ const  doctorInfo={
             state.drTitleList=obj.drTitleList.map((val,key,arr)=>{
                 return {value:val.id,label:val.title}
             })
-            state.opModelList=obj.opModelList
+            state.opModeList=obj.opModeList
             state.diseaseList=obj.diseaseList
+            state.hospList=obj.hospList
 
         },
         set_rApi_list(state,list){
             state.rApiList=list
 
+        },
+        set_dr_introduction(state,txt){
+          state.doctorInfo.introduction=txt;
         }
         
     },

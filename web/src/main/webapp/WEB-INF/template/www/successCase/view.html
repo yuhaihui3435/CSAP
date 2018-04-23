@@ -1,0 +1,54 @@
+#@layout()
+#define content()
+#include("/WEB-INF/template/www/section_view_header.html")
+<main class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="single-article">
+                    <!--<div class="blog-thumb">-->
+                    <!--#if(isNotBlank(art.thumbnail))<img src="#(qn_url)#(art.thumbnail)">#end-->
+                    <!--</div>-->
+                    <div class="s-article-details">
+                        <h3 class="blog-headline">
+                            #(art.title)
+                        </h3>
+                        <div class="blog-meta">
+                            <span><i class="fa fa-user"></i><a href="#">#(art.author)</a></span>
+                            <span><i class="fa fa-clock-o"></i><a href="#">#(art.pAtTxt)</a></span>
+                            <span>
+                                        #for(tag:art.tagList)
+                                        #if(for.index==0)
+                                        <a href="#(ctx)/getByTag/#(tag.id)" target="_blank">#(tag.title)</a>
+                                        #else
+                                        ,<a href="#(ctx)/getByTag/#(tag.id)"  target="_blank">#(tag.title)</a>
+                                        #end
+                                        #end
+
+                                    </span>
+                        </div>
+                        <p>#(art.text)</p>
+
+                    </div>
+                </div>
+                <div class="article-share">
+                    <div class="article-love pull-left hidden-xs">
+                        <span><i class="fa fa-heart-o"></i> #(art.collectCount)</span>
+                        &nbsp;
+                        <span><i class="fa fa-thumbs-o-up"></i> #(art.laudCount)</span>
+                    </div>
+                    #include("/WEB-INF/template/www/share.html")
+                </div>
+                <div class="article-pagination">
+
+                </div>
+                #include("/WEB-INF/template/www/reply.html")
+
+            </div>
+            <div class="col-md-4 col-sm-12">
+                #include("/WEB-INF/template/www/sidebar.html")
+            </div>
+        </div>
+    </div>
+</main>
+#end

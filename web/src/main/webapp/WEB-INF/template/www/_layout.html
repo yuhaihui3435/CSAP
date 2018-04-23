@@ -16,11 +16,19 @@
 
 <body >
 <input type="hidden" id="ctx" value="#(ctx)">
+
 #include("/WEB-INF/template/www/header.html")
 
 #include("/WEB-INF/template/www/js.html")
+<div id="preloader-container" style="display: none;">
+    <div class="preloader">
+        <span></span>
+    </div>
+</div>
 #@content()
+
 #include("/WEB-INF/template/www/footer.html")
+
 
 </body>
 </html>

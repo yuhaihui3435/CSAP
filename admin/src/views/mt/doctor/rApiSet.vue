@@ -69,6 +69,7 @@
                 this.modalLoading = true;
                 this.$refs['formValidate'].validate((valid) => {
                     if (valid) {
+                        this.rApi.url=this.select1+this.rApi.url
                         this.$store.dispatch('rApi_save',vm.rApi).then((res) => {
                             this.modalLoading = false;
                             if (res && res.resCode == 'success') {

@@ -66,12 +66,12 @@ public abstract class BaseDoctorInfo<M extends BaseDoctorInfo<M>> extends CoreMo
 		return getStr("email");
 	}
 
-	public void setHospital(String hospital) {
+	public void setHospital(Integer hospital) {
 		set("hospital", hospital);
 	}
 	
-	public String getHospital() {
-		return getStr("hospital");
+	public Integer getHospital() {
+		return getInt("hospital");
 	}
 
 	public void setLicenseNo(String licenseNo) {

@@ -105,9 +105,9 @@ public class ArtCtr extends CoreController {
                 mapping.setTid(new Long(s));
                 mapping.save();
                 taxonomy=Taxonomy.dao.findById(mapping.getTid());
-                if(taxonomy!=null&&taxonomy.getText().equals(Consts.SECTION.science.name()))
+                if(taxonomy!=null&&taxonomy.getText()!=null&&taxonomy.getText().equals(Consts.SECTION.science.name()))
                     CacheKit.remove(Consts.CACHE_NAMES.index.name(),"scienceList");//删除index页面上关于文章的缓存内容
-                else if(taxonomy!=null&&taxonomy.getText().equals(Consts.SECTION.successCase.name()))
+                else if(taxonomy!=null&&taxonomy.getText()!=null&&taxonomy.getText().equals(Consts.SECTION.successCase.name()))
                     CacheKit.remove(Consts.CACHE_NAMES.index.name(),"successCaseList");//删除index页面上关于文章的缓存内容
 
             }
@@ -152,18 +152,30 @@ public class ArtCtr extends CoreController {
     @Clear(AdminAAuthInterceptor.class)
     public void get(){
         Long id=getParaToLong("id");
-        List<Taxonomy> all=Taxonomy.dao.findAllListByModule("section");
-        List<Taxonomy> own=Taxonomy.dao.findTaxsByCId(id);
-        if(!all.isEmpty()) {
-            all.get(0).getChildren().removeAll(own);
-            for(Taxonomy taxonomy:own){
+        List<Taxonomy> sectionAll=Taxonomy.dao.findByModuleExcept(Consts._SECTION);
+        List<Taxonomy> tagAll=Taxonomy.dao.findByModuleExcept(Consts._TAG);
+
+        List<Taxonomy> sectionOwn=Taxonomy.dao.findTaxsByCIdAndModule(id,Consts._SECTION);
+        List<Taxonomy> tagOwn=Taxonomy.dao.findTaxsByCIdAndModule(id,Consts._TAG);
+
+        sectionAll.removeAll(sectionOwn);
+        for(Taxonomy taxonomy:sectionOwn){
                 taxonomy.setChecked(true);
-            }
-            all.get(0).getChildren().addAll(own);
         }
+        sectionAll.addAll(sectionOwn);
+
+        tagAll.removeAll(tagOwn);
+        for(Taxonomy taxonomy:tagOwn){
+            taxonomy.setChecked(true);
+        }
+        tagAll.addAll(tagOwn);
+
+
+
         Map<String,Object> map=new HashMap<>();
         map.put("art", Content.dao.findById(id));
-        map.put("artTaxList",all);
+        map.put("sectionList",sectionAll);
+        map.put("tagList",tagAll);
         renderJson(map);
     }
 
@@ -173,6 +185,21 @@ public class ArtCtr extends CoreController {
         renderJson(Taxonomy.dao.findTaxsByCId(cId));
     }
 
+    @Clear(AdminAAuthInterceptor.class)
+    public void dr(){
+        List<Taxonomy> sectionList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"sectionList");
+        List<Taxonomy> tagList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"tagList");
+//        Taxonomy tagTax=Taxonomy.dao.findByModuleAndPId("tag",0L);
+//        tagTax.getChildren().addAll(tagList);
+//        Taxonomy sectionTax=Taxonomy.dao.findByModuleAndPId("section",0L);
+//        sectionTax.getChildren().addAll(sectionList);
+        List<Taxonomy> catalogList=Taxonomy.dao.findByModuleExcept(Consts._SECTION);
+        Map<String,Object> ret=new HashMap<>();
+        ret.put("tagList",tagList);
+        ret.put("sectionList",sectionList);
+        ret.put("catalogList",catalogList);
+        renderJson(ret);
+    }
 
 
     public void publish(){

@@ -6,6 +6,7 @@ import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.core.CoreController;
+import com.yhh.csap.www.model.Rss;
 
 import java.util.List;
 
@@ -31,8 +32,15 @@ public class WwwInterceptor implements Interceptor {
         //当前路径，处理点击过的菜单激活问题
         controller.setAttr("currPath",ak);
         //栏目的title的获取
-        Taxonomy taxonomy=getSectionIdFromCacheByText(ak.replaceAll("/",""));
+        Taxonomy taxonomy=getSectionIdFromCacheByText(ak.replaceAll("/","").replaceAll("View",""));
         controller.setAttr("currTitle",taxonomy==null?"":taxonomy.getTitle());
+
+        //rss
+        List<Rss> rssList=Rss.dao.findByCache(Consts.CACHE_NAMES.index.name(),"rssList","select * from www_rss where status='0' and dAt is null ");
+        controller.setAttr("rssList",rssList);
+
+        //友情了链接
+        controller.setAttr("fsLinkList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(), "fsLinkList"));
         invocation.invoke();
 
 

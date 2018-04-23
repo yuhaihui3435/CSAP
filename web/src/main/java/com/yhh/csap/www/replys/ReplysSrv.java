@@ -24,15 +24,15 @@ public class ReplysSrv {
     public void replysAddSave(Replys replys){
         replys.save();
         StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append("update ").append(replys.getTargetObj()).append(" set replyCount=replyCount+1,lastReply=now() where id=?");
-        Db.update(stringBuilder.toString());
+        stringBuilder.append("update ").append(replys.getTargetObj()).append(" set commentCount=commentCount+1,commentTime=now() where id=?");
+        Db.update(stringBuilder.toString(),replys.getTargetId());
     }
 
     @Before(Tx.class)
     public void replysSubSave(Replys replys){
         replys.save();
         StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append("update ").append(replys.getTargetObj()).append(" set replyCount=replyCount-1 where id=?");
-        Db.update(stringBuilder.toString());
+        stringBuilder.append("update ").append(replys.getTargetObj()).append(" set commentCount=commentCount-1 where id=?");
+        Db.update(stringBuilder.toString(),replys.getTargetId());
     }
 }

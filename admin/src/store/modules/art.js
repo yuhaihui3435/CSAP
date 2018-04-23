@@ -7,7 +7,9 @@ const art = {
         totalRow: 0,
         pageSize:15,
         art: {title: '', flag: '01', top: '1', good: '1', module: 'art'},
-        artTaxList: []
+        artTaxList: [],
+        artTagList:[],
+        catalogList:[]
     },
     mutations: {
         set_art_list(state, page){
@@ -25,7 +27,10 @@ const art = {
             }
         },
         set_art_taxJsonarray(state, obj){
-            state.artTaxList = obj;
+            state.artTaxList = obj.sectionList;
+            state.artTagList=obj.tagList;
+            state.catalogList=obj.catalogList;
+
         },
         set_artTax_list(state, list){
             state.artTaxList = list
@@ -46,7 +51,7 @@ const art = {
             return new Promise(function (resolve, reject) {
                 vm.$axios.post('/ad04/get', param).then((res) => {
                     commit('set_art', res.art)
-                    commit('set_artTax_list', res.artTaxList)
+                    commit('set_art_taxJsonarray', res)
                     resolve()
                 });
             });
@@ -82,7 +87,7 @@ const art = {
         art_tax_jsonArray: function ({commit, state}) {
             let vm = this._vm;
             return new Promise(function (resolve, reject) {
-                vm.$axios.post('/ad05/treeJsonArray', {'module': 'section'}).then((res) => {
+                vm.$axios.post('/ad04/dr', {}).then((res) => {
                     commit('set_art_taxJsonarray', res)
                     resolve()
                 });

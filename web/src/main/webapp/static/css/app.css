@@ -61,6 +61,10 @@ textarea:focus {
     outline: 0 none;
 }
 
+.grey-bg {
+    background-color: #f4f4f4;
+}
+
 /*===================
 2.公共部分
 ===================== */
@@ -979,48 +983,110 @@ icon+文字说明
     background: #f4f4f4 none repeat scroll 0 0;
     padding: 40px 0 60px;
 }
-.blog-content-wrap .blog-item {
-    background: #fff none repeat scroll 0 0;
+.single-article {
     margin-bottom: 30px;
 }
-.blog-area {
-    background: #f4f4f4;
+.single-article {
+    background: #fff none repeat scroll 0 0;
 }
-.blog-thumb img {
-    height: 180px;
+.article-thumb img {
+    height: 320px;
     width: 100%;
 }
-.blog-details {
-    max-width: 320px;
-    margin: 0 auto;
-    text-align: center;
+.s-blog-details {
+    border: 1px solid #ebebeb;
+    padding: 20px 30px 40px;
 }
-.blog-title {
-    font-size: 18px;
-    line-height: 27px;
-    max-width: 301px;
-    margin: 0 auto;
-    padding: 10px 0;
+.blog-headline {
+    font-size: 24px;
 }
-.blog-details > span {
-    font-size: 12px;
+.blog-headline a {
+    color: #333333;
+}
+.blog-meta a {
     color: #666666;
 }
-.blog-details > p {
-    margin-bottom: 27px;
+.blog-meta a:hover,
+.s-blog-details .blog-headline a:hover {
+    color: #66CCFF;
 }
-.blog-item .custom-btn,
-.single-article .custom-btn {
-    color: #f2b33d;
-    font-family: Roboto-Regular;
+.blog-meta > span {
+    color: #666666;
     font-size: 14px;
-    text-transform: inherit;
-    padding: 9px 24px;
+    margin-right: 20px;
+    position: relative;
+}
+.blog-meta > span::after {
+    content: "|";
+    display: inline-block;
+    position: absolute;
+    right: -14px;
+    top: -2px;
+}
+.blog-meta > span:last-child:after {
+    content: "";
+}
+.blog-meta > span i {
+    margin-right: 5px;
+}
+.s-blog-details > p {
+    font-size: 14px;
+    margin: 20px 0 33px;
+}
+.single-article .ztheme-btn.red {
+    padding: 12px 24px;
+}
+.article-s-list li:first-child {
+    color: #353535;
+    font-family: Roboto-Bold;
+    text-transform: uppercase;
+}
+.post-social li {
+    display: inline-block;
+    padding-bottom: 8px;
+    padding-left: 40px;
+    padding-top: 8px;
+    position: relative;
+}
+.post-social li:after {
+    background: #ebebeb none repeat scroll 0 0;
+    content: "";
+    height: 100%;
+    left: 20px;
+    position: absolute;
+    top: 0;
+    width: 1px;
+}
+.post-social li:first-child:after {
+    background: transparent;
+}
+.post-social a {
+    color: #737373;
+}
+.post-social a:hover {
+    color: #66CCFF;
+}
+.post-social a i {
+    margin: 0 5px;
+}
+.blog-meta a:hover, .s-blog-details .blog-headline a:hover {
+    color: #66CCFF;
+}
+.blog-headline a {
+    color: #333333;
 }
 .blog-item .custom-btn:hover,
 .single-article .custom-btn:hover {
     color: #fff;
 }
+.blog-item .custom-btn, .single-article .custom-btn {
+    color: #66CCFF;
+    font-family: Roboto-Regular;
+    font-size: 14px;
+    text-transform: inherit;
+    padding: 9px 24px;
+}
+
 /*========================================
 分页按钮
 ==========================================*/
@@ -1029,7 +1095,7 @@ icon+文字说明
     margin: 0px 0 90px;
 }
 .pager > span {
-    background: #f2b33d none repeat scroll 0 0;
+    background: #18adec none repeat scroll 0 0;
     color: #fff;
     display: inline-block;
     font-size: 14px;
@@ -1050,9 +1116,9 @@ icon+文字说明
     border: 1px solid #e1e1e1;
 }
 .pager span a:hover {
-    background: #f3b33d;
+    background: #18adec;
     color: #fff;
-    border: 1px solid #f3b33d;
+    border: 1px solid #18adec;
 }
 /* =====================================================
 边栏区域
@@ -1064,7 +1130,7 @@ icon+文字说明
     margin-bottom: 30px;
 }
 .search-box > button {
-    background: #f2b33d none repeat scroll 0 0;
+    background: #18adec none repeat scroll 0 0;
     border: medium none;
     color: #fff;
     height: 58px;
@@ -1121,7 +1187,7 @@ icon+文字说明
     font-size: 14px;
 }
 .sidebar-widget > ul > li:hover > a {
-    color: #f2b33d;
+    color: #18adec;
     padding-left: 5px;
 }
 /* ==============================
@@ -1165,7 +1231,7 @@ icon+文字说明
     line-height:30px;
 }
 .popular-txt > h4 a:hover {
-    color: #f2b33d
+    color: #18adec
 }
 .popular-single::after,
 .single-follow::after,
@@ -1250,8 +1316,222 @@ icon+文字说明
     text-transform: capitalize;
 }
 .tagclouds > a:hover {
-    color: #f2b33d;
+    color: #18adec;
 }
 
 
 
+.cause-single {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-transition: .4s;
+    -o-transition: .4s;
+    transition: .4s;
+}
+.cause-single > img {
+    height: 160px;
+    width: 100%;
+}
+.cause-details {
+    padding: 30px 0;
+    max-width: 233px;
+    margin: 0 auto;
+    text-align: center;
+}
+.cause-details p {
+    margin-bottom: 30px;
+}
+
+.s-article-details {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ebebeb;
+}
+.article-share {
+    background: #e1e1e1 none repeat scroll 0 0;
+    margin-top: 30px;
+    padding: 13px 30px 13px;
+}
+.article-s-list {
+    float: right;
+}
+.article-love {
+    margin-top: 5px;
+    position: relative;
+}
+.article-love > span {
+    color: #737373;
+}
+.article-love i {
+    margin-right: 10px;
+}
+.article-love:after {
+    background: #cccccc none repeat scroll 0 0;
+    content: "";
+    height: 33px;
+    position: absolute;
+    right: -23px;
+    top: 0;
+    width: 1px;
+}
+
+.article-pagination {
+    padding: 30px 0;
+}
+.article-pagination li i {
+    display: table-cell;
+    font-weight: bold;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.article-pagination li span {
+    background: #fff none repeat scroll 0 0;
+    display: inline-table;
+    height: 40px;
+    text-align: center;
+    width: 40px;
+    margin-right: 10px;
+    -webkit-transition: .4s;
+    -o-transition: .4s;
+    transition: .4s;
+    color: #18adec;
+}
+.article-pagination li a {
+    color: #666666;
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.article-pagination li:hover a {
+    color: #18adec
+}
+
+.comment-area {
+    margin-bottom: 30px;
+}
+.comment-heading {
+    background: #e1e1e1 none repeat scroll 0 0;
+    color: #353535;
+    /*font-family: Roboto-Bold;*/
+    font-size: 16px;
+    margin-bottom: 0;
+    padding: 20px 30px;
+    position: relative;
+    text-transform: uppercase;
+}
+.comment-heading:after {
+    background: #cccccc none repeat scroll 0 0;
+    content: "";
+    height: 33px;
+    left: 90px;
+    position: absolute;
+    top: 14px;
+    width: 1px;
+}
+.comment-heading > span {
+    color: #737373;
+    /*font-family: Roboto-Medium;*/
+    margin-left: 40px;
+}
+.comment-heading > span i {
+    margin-right: 5px;
+}
+.comment-wrap {
+    border: 1px solid #e1e1e1;
+    list-style: outside none none;
+    margin: 0;
+    padding: 30px 30px 0;
+    background: #fff;
+}
+.single-comment {
+    position: relative;
+    padding-bottom: 30px;
+}
+.comment-thumb {
+    float: left;
+}
+.comment-thumb > img {
+    height: 80px;
+    width: 80px;
+}
+.comment-txt {
+    margin-left: 95px;
+}
+.comment-txt .name {
+    color: #353535;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    line-height: 21px;
+    margin-bottom: 5px;
+}
+.name > a {
+    color: #666666;
+    font-family: Roboto-Regular;
+    font-size: 12px;
+    margin-left: 10px;
+}
+.comment-btn {
+    color: #18adec;
+    font-size: 12px;
+    position: absolute;
+    right: 20px;
+    text-transform: capitalize;
+    top: 0;
+}
+.comment-btn i {
+    margin-right: 8px;
+}
+.comment-txt > p {
+    color: #737373;
+    font-size: 14px;
+    line-height: 21px;
+}
+.comment-area .child {
+    list-style: outside none none;
+    margin: 0;
+}
+/* ================================
+23.5 Add Comment
+===================================*/
+
+.ac-wrap {
+    background: #fff none repeat scroll 0 0;
+    padding: 30px;
+    border: 1px solid #e1e1e1;
+}
+.add-comment .comment-heading:after {
+    background: transparent none repeat scroll 0 0;
+}
+.add-comment .form-group {
+    margin-bottom: 30px;
+}
+.add-comment .form-group > input,
+.add-comment textarea {
+    border: 1px solid #e1e1e1;
+    color: #666666;
+    font-size: 14px;
+}
+.add-comment textarea {
+    height: 209px;
+}
+.add-comment .form-group > input {
+    height: 50px;
+}
+.add-comment .btn-filled {
+    border-radius: 50px;
+    margin-top: 25px;
+    padding: 14px 47px;
+    background: transparent;
+}
+
+/*页面加载遮罩层*/
+preloader {
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -31px;
+}

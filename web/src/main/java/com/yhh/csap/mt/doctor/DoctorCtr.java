@@ -9,7 +9,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.activerecord.tx.Tx;
-import com.jfinal.plugin.ehcache.CacheInterceptor;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
@@ -24,7 +23,6 @@ import com.yhh.csap.kits.ext.BCrypt;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorTax;
 
-import javax.print.Doc;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,23 +56,26 @@ public class DoctorCtr extends CoreController {
         //疾病列表
         List<Taxonomy> diseaseList= CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"diseaseList");
         //手术方式
-        List<Taxonomy> opModelList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"opModelList");
+        List<Taxonomy> opModeList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"opModeList");
         //职称
         List<Taxonomy> drTitleList=CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"drTitleList");
         Map<String,List<Taxonomy>> map=new HashMap<>();
         map.put("diseaseList",diseaseList);
-        map.put("opModelList",opModelList);
+        map.put("opModeList",opModeList);
         map.put("drTitleList",drTitleList);
+        map.put("hospList", (List<Taxonomy>) CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"visitHospList"));
         renderJson(map);
     }
 
 
     public void list(){
+
         String name=getPara("name");
         String email=getPara("email");
         String sex=getPara("sex");
         String tel=getPara("tel");
         String status=getPara("status");
+        String hosp=getPara("hosp");
         Page page=null;
         Kv kv= Kv.create();
         if(StrUtil.isNotBlank(name))
@@ -83,6 +84,8 @@ public class DoctorCtr extends CoreController {
             kv.put("email",email);
         if(StrUtil.isNotBlank(sex))
             kv.put(" di.sex=",sex);
+        if(StrUtil.isNotBlank(hosp))
+            kv.put(" di.hospital=",hosp);
         if(StrUtil.isNotBlank(tel))
             kv.put("tel",tel);
         if(StrUtil.isNotBlank(status))
@@ -160,7 +163,7 @@ public class DoctorCtr extends CoreController {
         userSrv.addDr(user);
         doctorInfo.setUserId(user.getId().intValue());
         doctorInfo.setStatus(Consts.STATUS.enable.getVal());
-        doctorInfo.save();
+        doctorInfo.saveWithoutClean();
 
         addDrTax(opModels,Consts.DR_TAX.opModel.getVal(),doctorInfo.getId());
         addDrTax(diseases,Consts.DR_TAX.disease.getVal(),doctorInfo.getId());
@@ -203,7 +206,7 @@ public class DoctorCtr extends CoreController {
         }
         doctorInfo.setMAt(new Date());
         doctorInfo.setOperId(currUser()==null?null:currUser().getId().intValue());
-        doctorInfo.update();
+        doctorInfo.updateWithoutClean();
         DoctorTax.dao.delByDId(doctorInfo.getId());
         addDrTax(opModels,Consts.DR_TAX.opModel.getVal(),doctorInfo.getId());
         addDrTax(diseases,Consts.DR_TAX.disease.getVal(),doctorInfo.getId());

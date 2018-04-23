@@ -5,6 +5,7 @@ import com.yhh.csap.Consts;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorVisit;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,10 @@ public class DoctorSrv {
         }else{
             return DoctorInfo.dao.findByCache(Consts.CACHE_NAMES.doctorInfo.name(),"findByNameLike",sql.toString());
         }
+    }
+
+    public List<DoctorVisit> findByDIdAndLimitRecentCache(int dId,int limit){
+       return DoctorVisit.dao.findByDIdAndLimitRecentCache(dId,limit);
     }
 
 

@@ -1,0 +1,71 @@
+#@layout()
+#define content()
+<script src="#(ctx)/static/js/jquery.dotdotdot.js"></script>
+#include("/WEB-INF/template/www/section_header.html")
+
+<main class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-12">
+                <div class="article-wrap">
+                    #for(item : page.list)
+                        <div class="single-article">
+                            <div class="article-thumb">
+                                <a href="#(ctx)/successCaseView/#(item.id)"><img src="#(qn_url)#(item.thumbnail)"></a>
+                            </div>
+                            <div class="s-blog-details">
+                                <h3 class="blog-headline">
+                                    #(item.title)
+                                </h3>
+                                <div class="blog-meta">
+                                    <span><i class="fa fa-user"></i><a href="#">#(item.author)</a></span>
+                                    <span><i class="fa fa-clock-o"></i><a href="#">#(item.pAtTxt)</a></span>
+                                    <span>
+                                        #for(tag:item.tagList)
+                                        #if(for.index==0)
+                                        <a href="#(ctx)/getByTag/#(tag.id)" target="_blank">#(tag.title)</a>
+                                        #else
+                                        ,<a href="#(ctx)/getByTag/#(tag.id)"  target="_blank">#(tag.title)</a>
+                                        #end
+                                        #end
+
+                                    </span>
+                                </div>
+
+                                <p name="dotdotdot">#(item.summary)</p>
+                                <script>
+                                    $('[name="dotdotdot"]').dotdotdot({
+                                        height:80,
+                                        wrap: 'letter'
+                                    });
+                                </script>
+                                <div class="post-button-social">
+                                    <a href="#(ctx)/successCaseView/#(item.id)" class="custom-btn pull-left">
+                                        查看详细
+                                        <i class="fa fa-long-arrow-right"></i>
+                                    </a>
+                                    <div class="post-social pull-right">
+                                        <ul>
+                                            <li><a href="#"><i class="fa fa-heart"></i> #(item.collectCount)</a>
+                                            </li>
+                                            <li><a href="#"><i class="fa fa-comment-o"></i> #(item.commentCount)</a>
+                                            </li>
+                                            <li><a href="#"><i class="fa fa-thumbs-o-up"></i> #(item.laudCount)</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    #end
+                </div>
+                #include("/WEB-INF/template/www/main_pager.html")
+            </div>
+            <div class="col-md-4 col-sm-12">
+                #include("/WEB-INF/template/www/sidebar.html")
+            </div>
+        </div>
+    </div>
+</main>
+#end

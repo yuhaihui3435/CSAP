@@ -9,76 +9,52 @@ import com.yhh.csap.core.CoreModel;
 @SuppressWarnings("serial")
 public abstract class BaseUserMedicalrecords<M extends BaseUserMedicalrecords<M>> extends CoreModel<M> implements IBean {
 
-    public void setId(Integer id) {
+    public void setId(java.lang.Integer id) {
         set("id", id);
     }
 
-    public Integer getId() {
+    public java.lang.Integer getId() {
         return getInt("id");
     }
 
-    public void setMrNo(String mrNo) {
-        set("mrNo", mrNo);
-    }
-
-    public String getMrNo() {
-        return getStr("mrNo");
-    }
-
-    public void setTel(String tel) {
+    public void setTel(java.lang.String tel) {
         set("tel", tel);
     }
 
-    public String getTel() {
+    public java.lang.String getTel() {
         return getStr("tel");
     }
 
-    public void setIfCure(Integer ifCure) {
+    public void setIfCure(java.lang.String ifCure) {
         set("ifCure", ifCure);
     }
 
-    public Integer getIfCure() {
-        return getInt("ifCure");
+    public java.lang.String getIfCure() {
+        return getStr("ifCure");
     }
 
-    public void setDiseaseDesc(String diseaseDesc) {
+    public void setDiseaseDesc(java.lang.String diseaseDesc) {
         set("diseaseDesc", diseaseDesc);
     }
 
-    public String getDiseaseDesc() {
+    public java.lang.String getDiseaseDesc() {
         return getStr("diseaseDesc");
     }
 
-    public void setIdCard(String idCard) {
+    public void setTreatEffect(java.lang.Integer treatEffect) {
+        set("treatEffect", treatEffect);
+    }
+
+    public java.lang.Integer getTreatEffect() {
+        return getInt("treatEffect");
+    }
+
+    public void setIdCard(java.lang.String idCard) {
         set("idCard", idCard);
     }
 
-    public String getIdCard() {
+    public java.lang.String getIdCard() {
         return getStr("idCard");
-    }
-
-    public void setHospital(String hospital) {
-        set("hospital", hospital);
-    }
-
-    public String getHospital() {
-        return getStr("hospital");
-    }
-
-    public void setFee(String fee) {
-        set("fee", fee);
-    }
-
-    public String getFee() {
-        return getStr("fee");
-    }
-
-    public void setHDays(String hDays) {
-        set("hDays", hDays);
-    }
-
-    public String getHDays() {
-        return getStr("hDays");
     }
 
     public void setCAt(java.util.Date cAt) {
@@ -105,44 +81,108 @@ public abstract class BaseUserMedicalrecords<M extends BaseUserMedicalrecords<M>
         return get("mAt");
     }
 
-    public void setIfPublic(String ifPublic) {
+    public void setIfPublic(java.lang.String ifPublic) {
         set("ifPublic", ifPublic);
     }
 
-    public String getIfPublic() {
+    public java.lang.String getIfPublic() {
         return getStr("ifPublic");
     }
 
-    public void setSurgeryAt(java.util.Date surgeryAt) {
-        set("surgeryAt", surgeryAt);
-    }
-
-    public java.util.Date getSurgeryAt() {
-        return get("surgeryAt");
-    }
-
-    public void setSurgeryDuration(String surgeryDuration) {
-        set("surgeryDuration", surgeryDuration);
-    }
-
-    public String getSurgeryDuration() {
-        return getStr("surgeryDuration");
-    }
-
-    public void setRemark(String remark) {
-        set("remark", remark);
-    }
-
-    public String getRemark() {
-        return getStr("remark");
-    }
-
-    public void setUserId(Integer userId) {
+    public void setUserId(java.lang.Integer userId) {
         set("userId", userId);
     }
 
-    public Integer getUserId() {
+    public java.lang.Integer getUserId() {
         return getInt("userId");
+    }
+
+    public void setName(java.lang.String name) {
+        set("name", name);
+    }
+
+    public java.lang.String getName() {
+        return getStr("name");
+    }
+
+    public void setSex(java.lang.String sex) {
+        set("sex", sex);
+    }
+
+    public java.lang.String getSex() {
+        return getStr("sex");
+    }
+
+    public void setAge(java.lang.Integer age) {
+        set("age", age);
+    }
+
+    public java.lang.Integer getAge() {
+        return getInt("age");
+    }
+
+    public void setSheng(java.lang.String sheng) {
+        set("sheng", sheng);
+    }
+
+    public java.lang.String getSheng() {
+        return getStr("sheng");
+    }
+
+    public void setShi(java.lang.String shi) {
+        set("shi", shi);
+    }
+
+    public java.lang.String getShi() {
+        return getStr("shi");
+    }
+
+    public void setQu(java.lang.String qu) {
+        set("qu", qu);
+    }
+
+    public java.lang.String getQu() {
+        return getStr("qu");
+    }
+
+    public void setAddress(java.lang.String address) {
+        set("address", address);
+    }
+
+    public java.lang.String getAddress() {
+        return getStr("address");
+    }
+
+    public void setAcne(java.lang.Integer acne) {
+        set("acne", acne);
+    }
+
+    public java.lang.Integer getAcne() {
+        return getInt("acne");
+    }
+
+    public void setTreatmentMhd(java.lang.Integer treatmentMhd) {
+        set("treatmentMhd", treatmentMhd);
+    }
+
+    public java.lang.Integer getTreatmentMhd() {
+        return getInt("treatmentMhd");
+    }
+
+    public void setEmail(java.lang.String email) {
+        set("email", email);
+    }
+
+    public java.lang.String getEmail() {
+        return getStr("email");
+    }
+
+    public void setWeixin(java.lang.String weixin) {
+        set("weixin", weixin);
+    }
+
+    public java.lang.String getWeixin() {
+        return getStr("weixin");
     }
 
 }

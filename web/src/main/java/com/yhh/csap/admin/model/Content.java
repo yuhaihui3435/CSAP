@@ -28,7 +28,10 @@ public class Content extends BaseContent<Content> {
 	}
 
 	public List<Taxonomy> getTaxList(){
-		return Taxonomy.dao.findTaxsByCId(getId());
+		return Taxonomy.dao.findTaxsByCIdAndModule(getId(),Consts._SECTION);
+	}
+	public List<Taxonomy> getTagList(){
+		return Taxonomy.dao.findTaxsByCIdAndModule(getId(),Consts._TAG);
 	}
 
 	public String getThumbnailImgUrl(){
@@ -48,16 +51,40 @@ public class Content extends BaseContent<Content> {
 		return Content.dao.find(sql.toString(),module,text);
 	}
 
+	public List<Content> findByTextAndModuleAndOrderby(String text,String module,boolean ifTop,int limit,String[] ob){
+		StringBuilder sql=new StringBuilder();
+		sql.append("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st on sm.tid=st.id where sc.dAt is null and st.module=? and sc.flag='00' and st.text=?");
+		if(ifTop){
+			sql.append(" and top ='0' ");
+		}
+
+		if(ob!=null&&ob.length>0){
+			StringBuilder stringBuilder=new StringBuilder();
+			for (String s:ob){
+				if (stringBuilder.length()==0)
+					stringBuilder.append("sc.").append(s);
+				else
+					stringBuilder.append(",").append("sc.").append(s);
+			}
+			sql.append("  order by ").append(stringBuilder.toString()).append(" desc");
+		}
+
+		if(limit>0){
+			sql.append(" limit "+limit);
+		}
+		return Content.dao.find(sql.toString(),module,text);
+	}
+
 	public Page<Content> pageByTextAndModule(int pn,int ps,String text,String module,String searchKey){
 		StringBuilder sql=new StringBuilder();
-		sql.append("select sc.* from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st on sm.tid=st.id left join s_user su sc.userid=su.id where sc.dAt is null and st.module=? and sc.flag='00' and st.text=?");
+		sql.append(" from  s_content sc left join s_mapping sm on sc.id=sm.cid left join s_taxonomy st on sm.tid=st.id left join s_user su on sc.userid=su.id where sc.dAt is null and st.module=? and sc.flag='00' and st.text=?");
 		if(StrUtil.isNotBlank(searchKey)){
 			sql.append(" and (sc.title like  CONCAT('%',?,'%') or su.nickname like CONCAT('%',?,'%'))");
 			sql.append("  order by sc.pAt desc");
-			return Content.dao.paginate(pn,ps,sql.toString(),module,text,searchKey,searchKey);
+			return Content.dao.paginate(pn,ps,"select sc.*",sql.toString(),module,text,searchKey,searchKey);
 		}else{
 			sql.append("  order by sc.pAt desc");
-			return Content.dao.paginate(pn,ps,sql.toString(),module,text);
+			return Content.dao.paginate(pn,ps,"select sc.*",sql.toString(),module,text);
 		}
 	}
 

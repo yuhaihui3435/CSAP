@@ -1,0 +1,51 @@
+#@layout()
+#define content()
+#include("/WEB-INF/template/www/section_view_header.html")
+<main class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="single-article">
+                    <!--<div class="blog-thumb">-->
+                    ###if(isNotBlank(dr.avatar))<img src="#(dr.avatar)">#end
+                    <!--</div>-->
+                    <div class="s-article-details">
+                        <h3 class="blog-headline">
+                            #(dr.name)
+                        </h3>
+
+                        <p>#(dr.introduction)</p>
+                        <div class="blog-meta">
+                            <span><i class="ali-icon ali-zhicheng-icon" style="color: #EEC710;font-size: 20px"></i>
+                                        #for(tag:dr.dT_C)
+                                        #if(for.index==0)
+                                        <a href="javascript:void (0)" >#(tag.tax.title)</a>
+                                        #else
+                                        ,<a href="javascript:void (0)"  >#(tag.tax.title)</a>
+                                        #end
+                                        #end
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-share">
+                    #include("/WEB-INF/template/www/share.html")
+                </div>
+                <div class="article-pagination">
+
+                </div>
+                ###include("/WEB-INF/template/www/reply.html")
+
+            </div>
+            <div class="col-md-4 col-sm-12">
+
+                <div  style="margin-bottom: 30px">
+                    #if(isNotBlank(dr.avatar))<img   src="#(dr.avatar)" class="img-thumbnail">#end
+                </div>
+                ###include("/WEB-INF/template/www/sidebar.html")
+            </div>
+        </div>
+    </div>
+</main>
+#end

@@ -8,14 +8,16 @@
                     医生列表
                 </p>
                 <Row>
-                    <Col span="8">
+                    <Col span="4">
                     <Button type="primary" icon="android-add" @click="add">新增医生</Button>
                     </Col>
-                    <Col span="16"  align="right">
+                    <Col span="20"  align="right">
                     <Input v-model="param.name" placeholder="请输入姓名..." style="width: 200px"/>
                     <Input v-model="param.email" placeholder="请输入EMAIL..." style="width: 200px"/>
                     <Input v-model="param.tel" placeholder="请输入电话..." style="width: 200px"/>
-
+                    <Select v-model="param.hosp" placeholder="请选择医院..." style="width: 300px" :clearable="true">
+                        <Option v-for="item in hospList" :value="item.id" :key="item.id">{{ item.title }}</Option>
+                    </Select>
                         <Select v-model="param.sex" placeholder="请选择性别..." style="width: 100px" :clearable="true">
                             <Option v-for="item in sexList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
@@ -155,6 +157,7 @@
                 'pageNumber': state => state.doctorInfo.pageNumber,
                 'pageSize': state => state.doctorInfo.pageSize,
                 'doctorInfo': state => state.doctorInfo.doctorInfo,
+                'hospList': state => state.doctorInfo.hospList,
             })
         },
         methods: {
@@ -212,7 +215,7 @@
         },
         data () {
             return {
-                param:{name:'',email:'',tel:'',sex:'',status:''},
+                param:{name:'',email:'',tel:'',sex:'',status:'',hosp:''},
                 self: this,
                 sexList:consts.sexList,
                 statusList:consts.status,
@@ -240,7 +243,7 @@
                     },
                     {
                         title: '医院',
-                        key: 'hospital',
+                        key: 'hospTxt',
                     },
                     {
                         title: '执照号',
