@@ -210,4 +210,12 @@ public abstract class BaseDoctorInfo<M extends BaseDoctorInfo<M>> extends CoreMo
 	public java.lang.Integer getLaudCount() {
 		return getInt("laudCount");
 	}
+
+	public void setViewCount(java.lang.Integer viewCount) {
+		set("viewCount", viewCount);
+	}
+
+	public java.lang.Integer getViewCount() {
+		return getInt("viewCount");
+	}
 }

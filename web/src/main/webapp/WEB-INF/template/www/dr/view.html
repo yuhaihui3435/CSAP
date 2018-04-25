@@ -15,18 +15,7 @@
                         </h3>
 
                         <p>#(dr.introduction)</p>
-                        <div class="blog-meta">
-                            <span><i class="ali-icon ali-zhicheng-icon" style="color: #EEC710;font-size: 20px"></i>
-                                        #for(tag:dr.dT_C)
-                                        #if(for.index==0)
-                                        <a href="javascript:void (0)" >#(tag.tax.title)</a>
-                                        #else
-                                        ,<a href="javascript:void (0)"  >#(tag.tax.title)</a>
-                                        #end
-                                        #end
 
-                            </span>
-                        </div>
                     </div>
                 </div>
                 <div class="article-share">
@@ -39,10 +28,64 @@
 
             </div>
             <div class="col-md-4 col-sm-12">
+                <aside class="sidebar" style="margin-bottom: 30px">
+                    <div  style="margin-bottom: 30px">
+                        #if(isNotBlank(dr.avatar))<img   src="#(dr.avatar)" class="img-thumbnail">#end
+                    </div>
+                    #if(cKit.isNotEmpty(dr.dT_C))
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title"><i class="ali-icon ali-zhicheng-icon" style="color: #EEC710;font-size: 20px"></i>&nbsp;职称</h3>
+                        <div class="tagclouds">
+                            #for(tag:dr.dT_C)
+                            #if(for.index==0)
+                            #(tag.tax.title)
+                            #else
+                            ,#(tag.tax.title)
+                            #end
+                            #end
+                        </div>
+                    </div>
+                    #end
+                    #if(cKit.isNotEmpty(dr.dT_A))
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title"><i class="ali-icon ali-techang-icon" style="color: #EEC710;font-size: 20px"></i>&nbsp;擅长疾病</h3>
+                        <div class="tagclouds">
+                            #for(tag:dr.dT_A)
+                            #if(for.index==0)
+                            #(tag.tax.title)
+                            #else
+                            ,#(tag.tax.title)
+                            #end
+                            #end
+                        </div>
+                    </div>
+                    #end
+                    #if(cKit.isNotEmpty(dr.visitObjTop5))
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title"><i class="ali-icon ali-czsj-icon" style="color: #EEC710;font-size: 20px"></i> &nbsp;近期出诊安排</h3>
+                        <ul>
+                            #for(visit:dr.visitObjTop5)
+                                <li>#(visit.hospTxt)：#(visit.visitDateTxt)&nbsp;#(visit.visitBAt)~#(visit.visitEAt)&nbsp;</li>
+                            #end
+                        </ul>
+                    </div>
+                    #end
+                    #if(cKit.isNotEmpty(dr.visitApi))
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title"><i class="ali-icon ali-yygh-icon" style="color: #EEC710;font-size: 20px"></i>&nbsp;预约挂号</h3>
+                        <div class="tagclouds">
+                            #for(api:dr.visitApi)
+                            #if(for.index==0)
+                            <a href="#(api.url)" target="_blank">#(api.name)</a>
+                            #else
+                            ,<a href="#(api.url)" target="_blank">#(api.name)</a>
+                            #end
+                            #end
+                        </div>
+                    </div>
+                    #end
 
-                <div  style="margin-bottom: 30px">
-                    #if(isNotBlank(dr.avatar))<img   src="#(dr.avatar)" class="img-thumbnail">#end
-                </div>
+                </aside>
                 ###include("/WEB-INF/template/www/sidebar.html")
             </div>
         </div>

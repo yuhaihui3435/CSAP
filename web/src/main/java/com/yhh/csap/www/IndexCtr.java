@@ -1,7 +1,9 @@
 package com.yhh.csap.www;
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
@@ -9,6 +11,7 @@ import com.yhh.csap.admin.model.Content;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminIAuthInterceptor;
+import com.yhh.csap.interceptors.WwwHelperInterceptor;
 import com.yhh.csap.interceptors.WwwwSidebarInterceptor;
 import com.yhh.csap.mt.DoctorInfo;
 import com.yhh.csap.mt.DoctorTax;
@@ -23,7 +26,7 @@ import java.util.List;
 /**
  * Created by yuhaihui8913 on 2017/12/26.
  */
-@Clear(AdminIAuthInterceptor.class)
+//@Clear(AdminIAuthInterceptor.class)
 public class IndexCtr extends CoreController {
 
     private LikeRecordsSrv likeRecordsSrv=enhance(LikeRecordsSrv.class.getCanonicalName(),LikeRecordsSrv.class);
@@ -61,15 +64,20 @@ public class IndexCtr extends CoreController {
         setAttr("page",page);
         render(Consts.SECTION.science.name().concat("/main.html"));
     }
-    @Before({WwwwSidebarInterceptor.class})
+    @Before({WwwHelperInterceptor.class,WwwwSidebarInterceptor.class})
     public void scienceView(){
         int id=getParaToInt(0);
+        Db.update("update s_content set viewCount=viewCount+1 where id=?",id);
         Content content=Content.dao.findById(id);
         setAttr("art",content);
         setAttr("currSectionName",getAttrForStr("currTitle"));
         setAttr("currTitle",content.getTitle());
         setAttr("currSection",Consts.SECTION.science.name());
-        setAttr("replyObjName","content");
+        setAttr("targetObjName","content");
+        setAttr("targetObjId",content.getId());
+        setAttr("laudCount",content.getLaudCount());
+        setAttr("collectCount",content.getCollectCount());
+        setAttr("pageTitle",content.getTitle());
         render(Consts.SECTION.science.name().concat("/view.html"));
     }
     @Before({WwwwSidebarInterceptor.class})
@@ -78,15 +86,20 @@ public class IndexCtr extends CoreController {
         setAttr("page",page);
         render(Consts.SECTION.successCase.name().concat("/main.html"));
     }
-    @Before({WwwwSidebarInterceptor.class})
+    @Before({WwwHelperInterceptor.class,WwwwSidebarInterceptor.class})
     public void successCaseView(){
         int id=getParaToInt(0);
+        Db.update("update s_content set viewCount=viewCount+1 where id=?",id);
         Content content=Content.dao.findById(id);
         setAttr("art",content);
         setAttr("currSectionName",getAttrForStr("currTitle"));
         setAttr("currTitle",content.getTitle());
         setAttr("currSection",Consts.SECTION.science.name());
-        setAttr("replyObjName","content");
+        setAttr("targetObjName","content");
+        setAttr("targetObjId",content.getId());
+        setAttr("laudCount",content.getLaudCount());
+        setAttr("collectCount",content.getCollectCount());
+        setAttr("pageTitle",content.getTitle());
         render(Consts.SECTION.science.name().concat("/view.html"));
     }
     @Before({WwwwSidebarInterceptor.class})
@@ -95,20 +108,26 @@ public class IndexCtr extends CoreController {
         setAttr("page",page);
         render(Consts.SECTION.dr.name().concat("/main.html"));
     }
-    @Before({WwwwSidebarInterceptor.class})
+    @Before({WwwHelperInterceptor.class,WwwwSidebarInterceptor.class})
     public void drView(){
         int id=getParaToInt(0);
+        Db.update("update mt_doctor_info set viewCount=viewCount+1 where id=?",id);
         DoctorInfo doctorInfo=DoctorInfo.dao.findById(id);
         setAttr("dr",doctorInfo);
         setAttr("currSectionName",getAttrForStr("currTitle"));
         setAttr("currTitle",doctorInfo.getName());
         setAttr("currSection",Consts.SECTION.dr.name());
-        setAttr("replyObjName","dr");
+        setAttr("targetObjName","dr");
+        setAttr("targetObjId",doctorInfo.getId());
+        setAttr("laudCount",doctorInfo.getLaudCount());
+        setAttr("collectCount",doctorInfo.getCollectCount());
+        setAttr("pageTitle","医生："+doctorInfo.getName());
         render(Consts.SECTION.dr.name().concat("/view.html"));
     }
 
     public void communicate(){
-
+        setAttr("plateList",CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),"plateList"));
+        render(Consts.SECTION.communicate.name().concat("/main.html"));
     }
 
     public void about(){
@@ -132,8 +151,10 @@ public class IndexCtr extends CoreController {
      */
     public void thumbUp(){
         LikeRecords likeRecords=getModel(LikeRecords.class,"",true);
+        likeRecords.setUserId(currUser().getId().intValue());
         likeRecordsSrv.LikeAddSave(likeRecords);
-        renderSuccessJSON("点赞成功");
+        long laudCount=Db.queryLong("select laudCount from "+likeRecords.getTargetObj() +" where id=?",likeRecords.getTargetId());
+        renderSuccessJSON("点赞成功",String.valueOf(laudCount));
     }
 
     /**
@@ -142,8 +163,11 @@ public class IndexCtr extends CoreController {
      */
     public void thumbDown(){
         LikeRecords likeRecords=getModel(LikeRecords.class,"",true);
+        likeRecords.setUserId(currUser().getId().intValue());
         likeRecordsSrv.LikeSubSave(likeRecords);
-        renderSuccessJSON("点赞取消成功");
+        long laudCount=Db.queryLong("select laudCount from "+likeRecords.getTargetObj() +" where id=?",likeRecords.getTargetId());
+        CacheKit.remove(Consts.CACHE_NAMES.hold.name(),"likeRecords_".concat(likeRecords.getUserId().toString()).concat(StrUtil.UNDERLINE).concat(likeRecords.getTargetObj()).concat(StrUtil.UNDERLINE).concat(likeRecords.getTargetId().toString()));
+        renderSuccessJSON("点赞成功",String.valueOf(laudCount));
     }
 
 

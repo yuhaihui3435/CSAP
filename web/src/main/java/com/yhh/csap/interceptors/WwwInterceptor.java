@@ -41,9 +41,8 @@ public class WwwInterceptor implements Interceptor {
 
         //友情了链接
         controller.setAttr("fsLinkList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(), "fsLinkList"));
+
         invocation.invoke();
-
-
     }
     //根据栏目的标识符号 查找缓存中的栏目数据
     private Taxonomy getSectionIdFromCacheByText(String txt){

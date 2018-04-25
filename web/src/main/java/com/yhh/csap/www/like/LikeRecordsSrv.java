@@ -3,6 +3,7 @@ package com.yhh.csap.www.like;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.yhh.csap.Consts;
 import com.yhh.csap.www.model.LikeRecords;
 
 import java.util.Date;
@@ -24,6 +25,8 @@ import java.util.Date;
 public class LikeRecordsSrv {
     @Before(Tx.class)
     public void LikeAddSave(LikeRecords likeRecords){
+        if(findByTId_TObj_UId(likeRecords)!=null)return;
+        likeRecords.setTargetObj(Consts.MAPPING_TO_TBL.get(likeRecords.getTargetObj()));
         likeRecords.setCAt(new Date());
         likeRecords.save();
         StringBuilder stringBuilder=new StringBuilder();
@@ -32,10 +35,15 @@ public class LikeRecordsSrv {
     }
     @Before(Tx.class)
     public void LikeSubSave(LikeRecords likeRecords){
-        likeRecords.delete();
+        likeRecords.setTargetObj(Consts.MAPPING_TO_TBL.get(likeRecords.getTargetObj()));
+        Db.delete("delete from www_like_records where targetId=? and targetObj=? and userId=? ",likeRecords.getTargetId(),likeRecords.getTargetObj(),likeRecords.getUserId());
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("update ").append(likeRecords.getTargetObj()).append(" set laudCount=laudCount-1 where id=?");
         Db.update(stringBuilder.toString(),likeRecords.getTargetId());
+    }
+
+    public LikeRecords findByTId_TObj_UId(LikeRecords obj){
+       return LikeRecords.dao.findFirst("select * from www_like_records where targetId=? and targetObj=? and userId=?",obj.getTargetId(),obj.getTargetObj(),obj.getUserId());
     }
 
 }

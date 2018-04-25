@@ -1,0 +1,89 @@
+<div class="layui-container" style="padding-bottom: 30px" id="postList">
+    <div class="layui-row layui-col-space15" id="post-area">
+        <div class="layui-col-md8"></div>
+        <div class="layui-col-md4"></div>
+    </div>
+</div>
+<script id="post_tmpl" type="text/x-jquery-tmpl">
+
+            {%if topList!=undefined&&topList!=''%}
+            <div class="fly-panel">
+                <div class="fly-panel-title fly-filter">
+                    <a>置顶</a>
+                    <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
+                </div>
+                <ul class="fly-list">
+                    {%each(i,tPost) topList%}
+                    <li>
+                        <a href="#(ctx)/userHome/${tPost.oper.id}" class="fly-avatar">
+                            <img src="${tPost.oper.avatar}" alt="${tPost.oper.nickname}">
+                        </a>
+                        <h2>
+                            <a class="layui-badge">${tPost.tax.title}</a>
+                            <a href="#(ctx)/postView/${tPost.id}">${tPost.title}</a>
+                        </h2>
+                        <div class="fly-list-info">
+                            <a href="#(ctx)/userHome/${tPost.oper.id}" link>
+                                <cite>${tPost.oper.nickname}</cite>
+
+                            </a>
+                            <span>${tPost.cAtTxt}</span>
+
+                            {%if tPost.postStatus=='0'%}<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>{%/if%}
+                            <span class="fly-list-nums"><i class="iconfont icon-pinglun1" title="回答">${tPost.commentCount}</i></span>
+                        </div>
+                        <div class="fly-list-badge">
+                            {%if tPost.ifEssence=='0'%}<span class="layui-badge layui-bg-red">精帖</span>{%/if%}
+                        </div>
+                    </li>
+                    {%/each%}
+                    </ul>
+                    </div>
+                    {%/if%}
+                <div class="fly-panel" style="margin-bottom: 0;">
+                    <div class="fly-panel-title fly-filter">
+                        <a href="" class="layui-this">综合</a>
+                        <span class="fly-mid"></span>
+                        <a href="">未结</a>
+                        <span class="fly-mid"></span>
+                        <a href="">已结</a>
+                        <span class="fly-mid"></span>
+                        <a href="">精华</a>
+                        <span class="fly-filter-right layui-hide-xs">
+                        <a href="" class="layui-this">按最新</a>
+                        <span class="fly-mid"></span>
+                        <a href="">按热议</a>
+                        </span>
+                    </div>
+
+                    <ul class="fly-list">
+                     {%each(i,post) page.list%}
+                        <li>
+                            <a href="#(ctx)/userHome/${post.oper.id}" class="fly-avatar">
+                                <img src="${post.oper.avatar}" alt="${post.oper.nickname}">
+                            </a>
+                            <h2>
+                                <a class="layui-badge">${post.tax.title}</a>
+                                <a href="#(ctx)/postView/${post.id}">${post.title}</a>
+                            </h2>
+                            <div class="fly-list-info">
+                                <a href="#(ctx)/userHome/${post.oper.id}" link>
+                                    <cite>${post.oper.nickname}</cite>
+                                </a>
+                                <span>${post.cAtTxt}</span>
+                                {%if post.postStatus=='0'%}<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>{%/if%}
+                                <span class="fly-list-nums"><i class="iconfont icon-pinglun1" title="回答">${post.commentCount}</i></span>
+                            </div>
+                            <div class="fly-list-badge">
+                                {%if post.postStatus=='0'%}<span class="layui-badge layui-bg-black">置顶</span>{%/if%}
+                                {%if post.ifEssence=='0'%}<span class="layui-badge layui-bg-red">精帖</span>{%/if%}
+                            </div>
+                        </li>
+                        {%/each%}
+                     </ul>
+                     <div style="text-align: center">
+                        <div class="laypage-main">
+                        </div>
+                     </div>
+                </div>
+</script>

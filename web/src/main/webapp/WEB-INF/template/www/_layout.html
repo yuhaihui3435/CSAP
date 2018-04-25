@@ -9,7 +9,7 @@
     <meta name="language" content="en-us" />
     <meta name="description" content="#(siteDescription)">
     <meta name="keywords" content="#(siteSEO)" />
-    <title>#(siteTitle)</title>
+    <title>#if(isNotBlank(pageTitle))#(pageTitle)#else #(siteTitle) #end</title>
     #include("/WEB-INF/template/www/css.html")
 
 </head>

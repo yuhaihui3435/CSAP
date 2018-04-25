@@ -38,6 +38,8 @@ import com.yhh.csap.mt.doctor.VisitCtr;
 import com.yhh.csap.mt.patient.MedicalrecordsCtr;
 import com.yhh.csap.www.IndexCtr;
 import com.yhh.csap.www.carouselsetting.ClsCtr;
+import com.yhh.csap.www.collect.CollectCtr;
+import com.yhh.csap.www.postInfo.PostInfoCtr;
 import com.yhh.csap.www.replys.ReplysCtr;
 import com.yhh.csap.www.rss.RssCtr;
 
@@ -54,6 +56,8 @@ public class CoreConfig extends JFinalConfig{
         Consts.MAPPING_TO_TBL.put("replys","www_replys");
         Consts.MAPPING_TO_TBL.put("content","s_content");
         Consts.MAPPING_TO_TBL.put("dr","mt_doctor_info");
+        Consts.MAPPING_TO_TBL.put("science","s_content");
+        Consts.MAPPING_TO_TBL.put("successCase","s_content");
     }
 
     @Override
@@ -122,6 +126,8 @@ public class CoreConfig extends JFinalConfig{
                 addInterceptor(new WwwInterceptor());
                 add("/", IndexCtr.class);
                 add("/reply", ReplysCtr.class);
+                add("/collect", CollectCtr.class);
+                add("/post", PostInfoCtr.class);
             }
         });
 

@@ -87,7 +87,7 @@ public class User extends BaseUser<User>  {
 
 	public List<Role> findUserOwnRoles(){
 
-			return  Role.dao.find("select sr.* from s_role sr,s_user_role sur where sr.id=sur.rId and sur.uId=?", getId());
+			return  Role.dao.findByCache(Consts.CACHE_NAMES.userRoles.name(),"findUserOwnRoles_"+getId(),"select sr.* from s_role sr,s_user_role sur where sr.id=sur.rId and sur.uId=?", getId());
 
 	}
 

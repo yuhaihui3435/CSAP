@@ -29,13 +29,13 @@ public class Replys extends BaseReplys<Replys> {
 
 	public List<Replys> getSubReplys(){
 		String sql="select * from "+getTableName()+" where dAt is null and rootReplyId=?";
-		return dao.find(sql,getId());
+		return dao.findByCache(Consts.CACHE_NAMES.replys.name(),"subReplys_"+getId(),sql,getId());
 	}
 
 	public String getReplyTarget(){
 		StringBuilder stringBuilder=new StringBuilder();
 		if (getRootReplyId()!=getReplyId()){
-			Replys replys=dao.findById(getReplyId());
+			Replys replys=dao.findFirstByCache(Consts.CACHE_NAMES.replys.name(),"findById_"+getReplyId(),"select * from "+getTableName()+" where id=?",getReplyId());
 			User user=replys.getReplyer();
 			String targetNickname=user!=null?user.getNickname():"";
 			stringBuilder.append(getReplyer()!=null?getReplyer().getNickname():"").append(":回复").append("@").append(targetNickname);

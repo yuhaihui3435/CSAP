@@ -11,12 +11,11 @@
             #for(top:top5List_science)
             <div class="popular-single">
                 <div class="popular-thumb">
-                    <a href="#(ctx)/science/#(top.id)"><img src="#(qn_url)#(top.thumbnail)" alt=""></a>
+                    <a href="#(ctx)/scienceView/#(top.id)"><img src="#(qn_url)#(top.thumbnail)" alt=""></a>
                 </div>
                 <div class="popular-txt">
-                    <h4><a href="#(ctx)/science/#(top.id)">#(top.title)</a></h4>
-                    <span><i class="fa fa-eye"></i> #(top.viewCount) |</span>
-                    <span><i class="fa fa-thumbs-o-up"></i> #(top.laudCount)</span>
+                    <h4><a href="#(ctx)/scienceView/#(top.id)">#(top.title)</a></h4>
+
                 </div>
             </div>
             #end
@@ -32,8 +31,7 @@
                 </div>
                 <div class="popular-txt">
                     <h4><a href="#(ctx)/successCaseView/#(top.id)">#(top.title)</a></h4>
-                    <span><i class="fa fa-eye"></i> #(top.viewCount) |</span>
-                    <span><i class="fa fa-thumbs-o-up"></i> #(top.laudCount)</span>
+
                 </div>
             </div>
             #end

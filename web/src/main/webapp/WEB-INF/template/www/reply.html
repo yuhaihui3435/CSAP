@@ -4,12 +4,12 @@
 
 </div>
 <div class="add-comment">
-    <h3 class="comment-heading">添加评论</h3>
+    <h3 class="comment-heading">请文明评论，勿谈政治。</h3>
     <div class="ac-wrap">
             <div class="row">
                 <div class="col-sm-12">
-                    <input type="hidden" id="replyObjName" value="#(replyObjName)" >
-                    <input type="hidden" id="replyObjId" value="#(art.id)">
+                    <input type="hidden" id="replyObjName" value="#(targetObjName)" >
+                    <input type="hidden" id="replyObjId" value="#(targetObjId)">
                     <input type="hidden" id="replyId" value="0">
                     <div id="replyMsg" >
 
@@ -85,7 +85,7 @@
                     {%if reply.replyer%}<img src="${reply.replyer.avatar}" alt="">{%/if%}
                 </div>
                 <div class="comment-txt">
-                    {%if reply.replyer%}<h4 class="name">${reply.replyer.nickname} <a href="#">${reply.cAtTxt}</a></h4>{%/if%}
+                    {%if reply.replyer%}<h4 class="name">${reply.replyer.nickname} <a href="javascript:void(0)">${reply.cAtTxt}</a></h4>{%/if%}
                     <p>{{html reply.content}}</p>
                     <a href="javascript:void(0)" onclick="fastReply(${reply.id}{%if reply.replyer%},'${reply.replyer.nickname}'{%/if%})" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
                 </div>
@@ -101,7 +101,9 @@
                            {%if subReply.replyer%} <img src="${subReply.replyer.avatar}" alt="">{%/if%}
                         </div>
                         <div class="comment-txt">
-                            {%if subReply.replyer%}<h4 class="name">${subReply.replyer.nickname} <a href="#">${subReply.cAtTxt}</a></h4>{%/if%}
+                            {%if subReply.replyTarget==''%}
+                            {%if subReply.replyer%}<h4 class="name">${subReply.replyer.nickname} <a href="javascript:void(0)">${subReply.cAtTxt}</a></h4>{%/if%}{%/if%}
+                            {%if subReply.replyTarget!=''%}<h4 class="name">${subReply.replyTarget} <a href="javascript:void(0)">${subReply.cAtTxt}</a></h4>{%/if%}
                             <p>{{html subReply.content}}</p>
                             <a onclick="fastReply(${subReply.id}{%if subReply.replyer%},'${subReply.replyer.nickname}'{%/if%})" href="javascript:void(0)" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
                         </div>

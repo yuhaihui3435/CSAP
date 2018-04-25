@@ -6,12 +6,12 @@
                     #if(cKit.isNotEmpty(rssList))
                     <div class="rss-feed">
                         <div id="rss-item" class="ticker">
-                            <ul>
+                            <ul >
                                 #for(rss : rssList)
                                 <li>
-                                    #if(isNotBlank(rss.url))<a href="#(rss.url)" target="_blank">#end
+                                    #if(isNotBlank(rss.url))<a href="#(rss.url)" style="color: #9c9e9e" target="_blank">#end
                                     #(rss.content)
-                                    #if(isNotBlank(rss.url))</a>#end
+                                    #if(isNotBlank(rss.url))<i class="fa fa-link"></i></a>#end
                                 </li>
                                 #end
                             </ul>

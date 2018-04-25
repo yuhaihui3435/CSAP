@@ -11,12 +11,13 @@ import java.util.List;
 public class WwwwSidebarInterceptor implements Interceptor {
     @Override
     public void intercept(Invocation inv) {
-        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
-        List<Content> top5List_successCase=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.successCase.name(),Consts._SECTION,true,5,new String[]{"viewCount"});
+        inv.invoke();
+        List<Content> top5List=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.science.name(),Consts._SECTION,true,5,new String[]{"laudCount"});
+        List<Content> top5List_successCase=Content.dao.findByTextAndModuleAndOrderby(Consts.SECTION.successCase.name(),Consts._SECTION,true,5,new String[]{"laudCount"});
         inv.getController().setAttr("top5List_science",top5List);
         inv.getController().setAttr("top5List_successCase",top5List_successCase);
         inv.getController().setAttr("tagList", CacheKit.get(Consts.CACHE_NAMES.taxonomy.name(),Consts._TAG.concat("List")));
         inv.getController().setAttr("queryAction", inv.getActionKey());
-        inv.invoke();
+
     }
 }

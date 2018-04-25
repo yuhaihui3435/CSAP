@@ -1,3 +1,16 @@
+<div class="article-love pull-left hidden-xs">
+    <span id="collect_span" style="cursor:pointer" onclick="collect('#(targetObjId)','#(targetObjName)','#(collectToken)')">
+        #if(collectToken=='yes')<i class="fa fa-heart"></i> #end
+        #if(collectToken!='yes')<i class="fa fa-heart-o"></i> #end
+        #(collectCount)
+    </span>
+    &nbsp;
+    <span id="thumb_span" style="cursor:pointer" onclick="thumb('#(targetObjId)','#(targetObjName)','#(thumbUpToken)')">
+                            #if(thumbUpToken=='yes')<i class="fa fa-thumbs-up"></i>#end
+                            #if(thumbUpToken!='yes')<i class="fa fa-thumbs-o-up"></i>#end
+                            #(laudCount)
+    </span>
+</div>
 <div class="article-s-list jiathis_style_32x32 ">
     <a class="jiathis_button_weixin"></a>
     <a class="jiathis_button_tsina"></a>

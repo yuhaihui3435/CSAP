@@ -1,6 +1,8 @@
 package com.yhh.csap.www.postInfo;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.Kv;
 import com.jfinal.kit.LogKit;
@@ -20,10 +22,7 @@ import com.yhh.csap.www.model.LikeRecords;
 import com.yhh.csap.www.model.PostInfo;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,11 +33,14 @@ public class PostInfoCtr extends CoreController {
     private final PostInfoSrv postSrv=enhance(PostInfoSrv.class.getSimpleName(),PostInfoSrv.class);
     private final AtMeSrv atMeSrv=enhance(AtMeSrv.class.getSimpleName(),AtMeSrv.class);
 
-    public void List(){
-        int taxId=getParaToInt("taxId");
+    public void list(){
+        String taxId=getPara("taxId");
         String search=getPara("search");
         String ifTop=getPara("ifTop");
         Kv kv=Kv.create();
+        SqlPara sqlPara=null;
+        List<PostInfo> topList=null;
+        Map<String,Object> ret=new HashMap<>();
         if(isNotBlank(ifTop)){
             kv.put("p.ifTop=",ifTop);
         }
@@ -48,12 +50,21 @@ public class PostInfoCtr extends CoreController {
             map.put(" or u.nickname like",StrUtil.join("%",search,"%",")"));
             kv.set(map);
         }
-        if(taxId!=0){
+
+        if(isNotBlank(taxId)){
             kv.put("p.taxId=",taxId);
+        }else{
+            Kv kv1=Kv.create();
+            kv1.put("p.ifTop=",Consts.YORN_STR.yes.getVal());
+            sqlPara= Db.getSqlPara("postInfo.findPage",Kv.by("cond",kv1));
+            topList= PostInfo.dao.find(sqlPara);
+            ret.put("topList",topList);
         }
-        SqlPara sqlPara= Db.getSqlPara("postInfo.findPage",Kv.by("cond",kv));
+
+        sqlPara= Db.getSqlPara("postInfo.findPage",Kv.by("cond",kv));
         Page page= PostInfo.dao.paginate(getPN(),getPS(),sqlPara);
-        renderJson(page);
+        ret.put("page",page);
+        renderJson(JSON.toJSONString(ret, SerializerFeature.DisableCircularReferenceDetect));
     }
     @Before({Tx.class})
     public void save(){

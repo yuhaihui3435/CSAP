@@ -154,4 +154,28 @@ public abstract class BasePostInfo<M extends BasePostInfo<M>> extends CoreModel<
 		return getLong("taxId");
 	}
 
+	public void setCommentStatus(java.lang.String commentStatus) {
+		set("commentStatus", commentStatus);
+	}
+
+	public java.lang.String getCommentStatus() {
+		return getStr("commentStatus");
+	}
+
+	public void setPostStatus(java.lang.String postStatus) {
+		set("postStatus", postStatus);
+	}
+
+	public java.lang.String getPostStatus() {
+		return getStr("postStatus");
+	}
+
+	public void setIfEssence(java.lang.String ifEssence) {
+		set("ifEssence", ifEssence);
+	}
+
+	public java.lang.String getIfEssence() {
+		return getStr("ifEssence");
+	}
+
 }

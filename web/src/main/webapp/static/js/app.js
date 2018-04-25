@@ -118,6 +118,7 @@
         
         $("#replyBtn").on("click",function (e) {
             let msg=editor2.txt.html();
+            msg=filterXSS(msg);
             let objId=$("#replyObjId").val();
             let objName=$("#replyObjName").val();
             let replyId=$("#replyId").val();
@@ -161,6 +162,43 @@
     });
 
 }(jQuery));
+
+
+$.fn.code_Obj = function(o) {
+    var _this = $(this);
+    var options = {
+        code_l: o.codeLength,//验证码长度
+        codeChars: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ],
+        codeColors: ['#f44336', '#009688', '#cddc39', '#03a9f4', '#9c27b0', '#5e4444', '#9ebf9f', '#ffc8c4', '#2b4754', '#b4ced9', '#835f53', '#aa677e'],
+        code_Init: function() {
+            var code = "";
+            var codeColor = "";
+            var checkCode = _this.find("#data_code");
+            for(var i = 0; i < this.code_l; i++) {
+                var charNum = Math.floor(Math.random() * 52);
+                code += this.codeChars[charNum];
+            }
+            for(var i = 0; i < this.codeColors.length; i++) {
+                var charNum = Math.floor(Math.random() * 12);
+                codeColor = this.codeColors[charNum];
+            }
+            if(checkCode) {
+                checkCode.css('color', codeColor);
+                checkCode.className = "code";
+                checkCode.text(code);
+                checkCode.attr('data-value', code);
+            }
+        }
+    };
+
+    options.code_Init();//初始化验证码
+    _this.find("#data_code").bind('click', function() {
+        options.code_Init();
+    });
+};
 
 function loadReplys(pageNum) {
     pageNum=pageNum==undefined?1:pageNum
@@ -283,4 +321,91 @@ async function fastReply(replyId,nickname) {
     })
 
 }
+
+/**
+ * 
+ * 点赞处理
+ * 
+ * @param targetId
+ * @param targetObj
+ * @param thumbToken
+ */
+function thumb(targetId,targetObj,thumbToken) {
+    let action=thumbToken=='yes'?'thumbDown':'thumbUp'
+    thumbToken=thumbToken=='yes'?'no':'yes';
+    $.ajax({
+        type:'POST',
+        url:$('#ctx').val()+'/'+action,
+        data:{'targetId':targetId,'targetObj':targetObj},
+        dataType:'json',
+        success:function (data) {
+            if(data&&data.resCode=='success'){
+
+                if(action=='thumbUp'){
+                    $('#thumb_span').html('<i class="fa fa-thumbs-up"></i>'+data.resData);
+
+                    $('#thumb_span').removeAttr('onClick');
+                    $('#thumb_span').off();
+                    $('#thumb_span').on("click",function () {
+                        thumb(targetId,targetObj,thumbToken)
+                    })
+                }else{
+                    $('#thumb_span').removeAttr('onClick');
+                    $('#thumb_span').off();
+                    $('#thumb_span').html('<i class="fa fa-thumbs-o-up"></i>'+data.resData);
+                    $('#thumb_span').on("click",function () {
+                        thumb(targetId,targetObj,thumbToken)
+                    })
+                }
+
+            }else{
+                sweetAlert2Error(data.resMsg)
+            }
+        },
+        error:function () {
+            sweetAlert2Error('网络异常，请重试！');
+        }
+    })
+}
+
+function collect(targetId,targetObj,collectToken) {
+    let action=collectToken=='yes'?'del':'save'
+    collectToken=collectToken=='yes'?'no':'yes';
+    let url=window.location.href;
+    $.ajax({
+        type:'POST',
+        url:$('#ctx').val()+'/collect/'+action,
+        data:{'targetId':targetId,'targetObj':targetObj,'title':$(document).attr("title"),'url':url},
+        dataType:'json',
+        success:function (data) {
+            if(data&&data.resCode=='success'){
+
+                if(action=='save'){
+                    $('#collect_span').html('<i class="fa fa-heart"></i>'+data.resData);
+
+                    $('#collect_span').removeAttr('onClick');
+                    $('#collect_span').off();
+                    $('#collect_span').on("click",function () {
+                        collect(targetId,targetObj,collectToken)
+                    })
+                }else{
+                    $('#collect_span').removeAttr('onClick');
+                    $('#collect_span').off();
+                    $('#collect_span').html('<i class="fa fa-heart-o"></i>'+data.resData);
+                    $('#collect_span').on("click",function () {
+                        collect(targetId,targetObj,collectToken)
+                    })
+                }
+
+            }else{
+                sweetAlert2Error(data.resMsg)
+            }
+        },
+        error:function () {
+            sweetAlert2Error('网络异常，请重试！');
+        }
+    })
+}
+
+
 

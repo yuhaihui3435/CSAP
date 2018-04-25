@@ -29,11 +29,21 @@
                                 });
                             </script>
                             </div>
-                            <div  style="padding-right: 20px">
-                                <a href="#(ctx)/drView/#(item.id)" class="custom-btn pull-right " >
+                            <div class="post-button-social" style="margin-right: 20px">
+                                <a href="#(ctx)/drView/#(item.id)" class="custom-btn pull-left">
                                     查看详细
                                     <i class="fa fa-long-arrow-right"></i>
                                 </a>
+                                <div class="post-social pull-right">
+                                    <ul>
+                                        <li><i class="fa fa-heart"></i> #(item.collectCount)
+                                        </li>
+                                        <li><i class="fa fa-comment"></i> #(item.commentCount)
+                                        </li>
+                                        <li><i class="fa fa-thumbs-up"></i> #(item.laudCount)
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
 

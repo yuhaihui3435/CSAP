@@ -1,0 +1,75 @@
+<div class="layui-container fly-marginTop" id="addPost" style="padding-bottom: 30px;display: none">
+    <div class="fly-panel" pad20 style="padding-top: 5px;">
+        <div class="layui-form layui-form-pane">
+            <div class="layui-tab layui-tab-brief" lay-filter="user">
+                <ul class="layui-tab-title" style="margin: 0;padding: 0">
+                    <li class="layui-this">发表新帖</li>
+                </ul>
+                <div class="layui-form layui-tab-content"  style="padding: 20px 0;">
+                    <div class="layui-tab-item layui-show">
+                        <form action="" method="post">
+                            <div class="layui-row layui-col-space15 layui-form-item">
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">所在专栏</label>
+                                    <div class="layui-input-block">
+                                        <select lay-verify="required" id="postTax" lay-filter="column">
+                                            <option></option>
+                                            #for(tax:plateList)
+
+                                                #if(tax.text.indexOf('readOnly')==-1)
+                                                <option value="#(tax.id)">#(tax.title)</option>
+                                                #end
+                                            #end
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md9">
+                                    <label for="postTitle" class="layui-form-label">标题</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="postTitle" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="layui-input-block">
+                                    <div id="postContent"></div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="verCode" class="layui-form-label">输入验证码</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="verCode"  required lay-verify="required" placeholder="请回输入验证码" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid" style="padding: 0px 0!important;">
+                                    <div class="layui-input-inline">
+                                        <div id="check-code" style="overflow: hidden;">
+                                            <div class="code" id="data_code"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-filter="*" lay-submit>立即发布</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.js"></script>
+<script src="https://cdn.bootcss.com/js-xss/0.3.3/xss.min.js"></script>
+<script>
+    var editor2=null;
+    $(function () {
+        var E = window.wangEditor
+        editor2= new E('#postContent')
+        editor2.customConfig.uploadImgShowBase64 = true
+        editor2.customConfig.zIndex = 100
+        editor2.create()
+
+    })
+
+</script>

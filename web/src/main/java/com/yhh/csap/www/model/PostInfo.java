@@ -5,6 +5,7 @@ import com.jfinal.plugin.ehcache.CacheKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Taxonomy;
 import com.yhh.csap.admin.model.User;
+import com.yhh.csap.kits.DateKit;
 import com.yhh.csap.www.model.base.BasePostInfo;
 
 /**
@@ -32,4 +33,7 @@ public class PostInfo extends BasePostInfo<PostInfo> {
 	}
 
 
+	public String getCAtTxt(){
+		return DateKit.dateToStr(getCAt(),DateKit.STR_DATEFORMATE);
+	}
 }

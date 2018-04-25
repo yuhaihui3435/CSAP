@@ -1535,3 +1535,27 @@ preloader {
     margin-left: -50px;
     margin-top: -31px;
 }
+
+/**发表帖子的验证码样式**/
+.upload-awrp {
+    overflow: hidden;
+    margin: 120px 0;
+}
+
+.code {
+    font-family: Arial;
+    font-style: italic;
+    font-size: 30px;
+    border: 0;
+    padding: 2px 3px;
+    letter-spacing: 3px;
+    font-weight: bolder;
+    float: left;
+    cursor: pointer;
+    width: 150px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #6D6D72;
+}

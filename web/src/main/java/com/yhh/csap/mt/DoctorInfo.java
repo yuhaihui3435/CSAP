@@ -159,6 +159,11 @@ public class DoctorInfo extends BaseDoctorInfo<DoctorInfo> {
 		return JSON.toJSONString(ret,SerializerFeature.WriteNullStringAsEmpty);
 	}
 
+	public List<DoctorVisit> getVisitObjTop5(){
+		List<DoctorVisit> list=DoctorVisit.dao.findByDIdAndLimitRecentCache(getId(),5);
+		return list;
+	}
+
 	public String getStatusTxt(){
 		return getStatus().equals(Consts.STATUS.enable.getVal())?Consts.STATUS.enable.getValTxt():Consts.STATUS.forbidden.getValTxt();
 	}

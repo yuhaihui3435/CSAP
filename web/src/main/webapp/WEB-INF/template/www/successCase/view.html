@@ -14,6 +14,7 @@
                             #(art.title)
                         </h3>
                         <div class="blog-meta">
+                            <span><i class="fa fa-eye"></i><a href="#">#(art.viewCount)</a></span>
                             <span><i class="fa fa-user"></i><a href="#">#(art.author)</a></span>
                             <span><i class="fa fa-clock-o"></i><a href="#">#(art.pAtTxt)</a></span>
                             <span>
@@ -32,11 +33,6 @@
                     </div>
                 </div>
                 <div class="article-share">
-                    <div class="article-love pull-left hidden-xs">
-                        <span><i class="fa fa-heart-o"></i> #(art.collectCount)</span>
-                        &nbsp;
-                        <span><i class="fa fa-thumbs-o-up"></i> #(art.laudCount)</span>
-                    </div>
                     #include("/WEB-INF/template/www/share.html")
                 </div>
                 <div class="article-pagination">

@@ -1,6 +1,7 @@
 package com.yhh.csap.www.replys;
 
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.aop.Before;
@@ -10,6 +11,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheInterceptor;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.plugin.ehcache.CacheName;
 import com.jfinal.plugin.ehcache.EvictInterceptor;
 import com.sun.org.apache.regexp.internal.RE;
@@ -58,8 +60,8 @@ public class ReplysCtr extends CoreController {
         String targetObj=getPara("targetObj");
         targetObj=Consts.MAPPING_TO_TBL.get(targetObj);
         String sql=" from www_replys where targetId=? and replyId='0' and targetObj=? and dAt is null order by bestReply,cAt desc ";
-        Page page= Replys.dao.paginate(getPN(),getPS(),"select * ",sql,targetId,targetObj);
-        Record record=Db.findFirst("select * from ".concat(targetObj).concat(" where id=?"),targetId);
+        Page page= Replys.dao.paginateByCache(Consts.CACHE_NAMES.replys.name(),"list_"+getPN()+ StrUtil.UNDERLINE+getPS()+StrUtil.UNDERLINE+targetId+StrUtil.UNDERLINE+targetObj,getPN(),getPS(),"select * ",sql,targetId,targetObj);
+        Record record=Db.findFirstByCache(Consts.CACHE_NAMES.replys.name(),"commentCount_"+targetObj+StrUtil.UNDERLINE+targetId,"select * from ".concat(targetObj).concat(" where id=?"),targetId);
         Map<String,Object> map=new HashMap<>();
         map.put("page",page);
         map.put("commentCount",record!=null?record.getInt("commentCount"):0);
@@ -73,7 +75,7 @@ public class ReplysCtr extends CoreController {
     @Before({ Tx.class})
     public void save(){
         Replys replys=getModel(Replys.class,"",true);
-        Integer userId=(ResKit.getConfigBoolean("userAuth"))?currUser().getId().intValue():null;
+        Integer userId=currUser().getId().intValue();
         Integer replyId=replys.getReplyId();
         Integer rootReplyId=replys.getReplyId();
         if(replyId!=0) {
@@ -141,6 +143,7 @@ public class ReplysCtr extends CoreController {
 //        }
 //        replys.setContent(_txt);
 //        replys.update();
+        CacheKit.removeAll(Consts.CACHE_NAMES.replys.name());
         renderSuccessJSON("回复成功");
     }
     @Before({Tx.class})
@@ -150,6 +153,7 @@ public class ReplysCtr extends CoreController {
         replys.setDAt(new Date());
         atMeSrv.delAtMeByTarget("replys",replys.getId());//删除之前的atme数据
         replysSrv.replysSubSave(replys);
+        CacheKit.removeAll(Consts.CACHE_NAMES.replys.name());
         renderSuccessJSON("回复删除成功");
     }
     public void setBestReply(){
@@ -157,6 +161,7 @@ public class ReplysCtr extends CoreController {
         Replys replys=Replys.dao.findById(id);
         replys.setBestReply(Consts.YORN_STR.yes.getVal());
         replys.update();
+        CacheKit.removeAll(Consts.CACHE_NAMES.replys.name());
         renderSuccessJSON("最佳答案设置成功");
     }
 
