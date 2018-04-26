@@ -106,6 +106,11 @@ public class User extends BaseUser<User>  {
 		return list;
 	}
 
+	public boolean getIfWwwAdmin(){
+		List<String> list=getRolesName();
+		return list.contains(Consts.WWW_ADMIN);
+	}
+
 	public String getRolesDescStr(){
 		return CollUtil.join(getRolesDesc(),",");
 	}

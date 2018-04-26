@@ -114,12 +114,12 @@ public abstract class BasePostInfo<M extends BasePostInfo<M>> extends CoreModel<
 		return getInt("commentCount");
 	}
 
-	public void setIfTop(Integer ifTop) {
+	public void setIfTop(String ifTop) {
 		set("ifTop", ifTop);
 	}
 	
-	public Integer getIfTop() {
-		return getInt("ifTop");
+	public String getIfTop() {
+		return getStr("ifTop");
 	}
 
 	public void setOperId(Long operId) {

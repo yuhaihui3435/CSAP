@@ -1,3 +1,5 @@
+
+
 (function($) {
     "use strict";
     jQuery(document).ready(function($) {
@@ -155,9 +157,6 @@
     });
 
     jQuery(window).on('load',function(e) {
-        /*-------------------------------
-        PRELOADER
-        ---------------------------------*/
         $('#preloader-container').fadeOut('slow');
     });
 
@@ -265,10 +264,40 @@ function sweetAlert2Loading(msg) {
         }
     })
 }
+const wangEditor_terse_menu=[
+    'fontSize',  // 字号
+    'bold',  // 粗体
+    'underline',  // 下划线
+    'strikeThrough',  // 删除线
+    'justify',  // 对齐方式
+    'link',  // 插入链接
+    'emoticon',  // 表情
+    'image',  // 插入图片
+    'video',  // 插入视频
+]
 
+const wangEditor_only_font=[
+    'bold',  // 粗体
+    'fontSize',  // 字号
+    'fontName',  // 字体
+    'italic',  // 斜体
+    'underline',  // 下划线
+    'strikeThrough',  // 删除线
+    'foreColor',  // 文字颜色
+    'link',  // 插入链接
+    'list',  // 列表
+    'justify',  // 对齐方式
+    'quote',  // 引用
+    'emoticon',  // 表情
+    'undo',  // 撤销
+    'redo'  // 重复
+
+]
 async function fastReply(replyId,nickname) {
+    let fastReplyEditor=null;
     await swal({
-        input: 'textarea',
+        // input: 'textarea',
+        html:'<div id="fastReplyDiv"></div>',
         title:nickname!=undefined?"回复："+nickname:'',
         inputPlaceholder: '请输入回复的内容,长度不超过200字。',
         showCancelButton: true,
@@ -276,6 +305,15 @@ async function fastReply(replyId,nickname) {
         showLoaderOnConfirm: true,
         cancelButtonText:'取消',
         allowOutsideClick:false,
+        width:'37rem',
+        onOpen:function () {
+            var E = window.wangEditor
+            fastReplyEditor= new E('#fastReplyDiv')
+            fastReplyEditor.customConfig.uploadImgShowBase64 = true
+            fastReplyEditor.customConfig.zIndex = 100
+            fastReplyEditor.customConfig.menus =wangEditor_only_font
+            fastReplyEditor.create();
+        },
         preConfirm: (text) => {
             return new Promise((resolve) => {
                     if(text=='') {
@@ -406,6 +444,8 @@ function collect(targetId,targetObj,collectToken) {
         }
     })
 }
+
+
 
 
 

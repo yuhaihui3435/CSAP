@@ -1,6 +1,6 @@
 <div class="layui-container" style="padding-bottom: 30px" id="postList">
     <div class="layui-row layui-col-space15" id="post-area">
-        <div class="layui-col-md8"></div>
+        <div class="layui-col-md8" ></div>
         <div class="layui-col-md4"></div>
     </div>
 </div>
@@ -10,7 +10,6 @@
             <div class="fly-panel">
                 <div class="fly-panel-title fly-filter">
                     <a>置顶</a>
-                    <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
                 </div>
                 <ul class="fly-list">
                     {%each(i,tPost) topList%}
@@ -82,7 +81,7 @@
                         {%/each%}
                      </ul>
                      <div style="text-align: center">
-                        <div class="laypage-main">
+                        <div  id="pageDiv">
                         </div>
                      </div>
                 </div>

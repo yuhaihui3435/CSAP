@@ -359,7 +359,16 @@
 		//获取最小值
 		getMinValue: function(arr) {
 			return Math.min.apply(Math, arr);
-		}
+		},
+		exist:function contains(arr, obj) {
+            var i = arr.length;
+            while (i--) {
+                if (arr[i] === obj) {
+                    return true;
+                }
+            }
+            return false;
+        }
 	};
 	//DateUtils命名空间
 	Bee.DateUtils = {

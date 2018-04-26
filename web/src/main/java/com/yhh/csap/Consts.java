@@ -53,6 +53,8 @@ public interface  Consts {
 
      String COLLECT_TOKEN="collectToken";
 
+     String WWW_ADMIN="wwwAdmin";//web端管理员固定的角色名字
+
      enum YORN {
         yes(true), no(false);
         boolean val;

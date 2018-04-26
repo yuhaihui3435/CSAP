@@ -73,52 +73,59 @@ public class PostInfoCtr extends CoreController {
         long userId=currUser().getId().longValue();
         postInfo.setOperId(userId);
         postInfo.setStatus(Consts.STATUS.enable.getVal());
-        postInfo.setCheckStatus(Consts.CHECK_STATUS.waitingCheck.getVal());
+        postInfo.setCheckStatus(Consts.CHECK_STATUS.normal.getVal());
+        postInfo.setCommentCount(0);
+        postInfo.setIfEssence(Consts.YORN_STR.no.getVal());
+        postInfo.setIfTop(Consts.YORN_STR.no.getVal());
+        postInfo.setCommentStatus(Consts.STATUS.forbidden.getVal());
+        postInfo.setPostStatus(Consts.YORN_STR.no.getVal());
+        postInfo.setViewCount(0L);
+        postInfo.setLikeCount(0L);
+        postInfo.setScore(Consts.BD_ZERO);
         postInfo.setCAt(new Date());
-        postInfo.save();
+//        postInfo.save();
         String txt = postInfo.getContent();
         if (isNotBlank(txt)) {
             txt = WordFilter.doFilter(txt);
             LogKit.info("文本敏感词检查结果为:"+txt);
         }
 
-        Pattern pattern = Pattern.compile("@[^\\s]+\\s?");
-        Matcher m = pattern.matcher(txt);
-        ArrayList<String> strs = new ArrayList<String>();
-        while (m.find()) {
-            if (!strs.contains(m.group()))
-                strs.add(m.group());
-        }
+//        Pattern pattern = Pattern.compile("@[^\\s]+\\s?");
+//        Matcher m = pattern.matcher(txt);
+//        ArrayList<String> strs = new ArrayList<String>();
+//        while (m.find()) {
+//            if (!strs.contains(m.group()))
+//                strs.add(m.group());
+//        }
 
 
-        User user = null;
-        AtMe at = null;
-        String _s = null;
-        String _txt = txt;
-        String author = null;
-        for (String s : strs) {
-            _s = s;
-            s = s.replace("@", "");
-            s = s.trim();
-            user = User.dao.findByNickname(s);
-            if(user==null)continue;
-            _txt = _txt.replaceAll(_s, "<a href=\"" + getRequest().getContextPath() + "/userInfo/" + user.getId().intValue() + "\" target=\"_blank\">" + _s + "</a>");
+//        User user = null;
+//        AtMe at = null;
+//        String _s = null;
+//        String _txt = txt;
+//        String author = null;
+//        for (String s : strs) {
+//            _s = s;
+//            s = s.replace("@", "");
+//            s = s.trim();
+//            user = User.dao.findByNickname(s);
+//            if(user==null)continue;
+//            _txt = _txt.replaceAll(_s, "<a href=\"" + getRequest().getContextPath() + "/userInfo/" + user.getId().intValue() + "\" target=\"_blank\">" + _s + "</a>");
+//
+//            if (user != null && user.getId().intValue() != userId) {
+//                at = new AtMe();
+//                at.setCAt(new Date());
+//                at.setTargetId(postInfo.getId());
+//                at.setTargetObj("postInfo");
+//                at.setUserId(user.getId().intValue());
+//                at.save();
+//            } else {
+//                author = _s;
+//            }
+//        }
 
-            if (user != null && user.getId().intValue() != userId) {
-                at = new AtMe();
-                at.setCAt(new Date());
-                at.setTargetId(postInfo.getId());
-                at.setTargetObj("postInfo");
-                at.setUserId(user.getId().intValue());
-                at.save();
-            } else {
-                author = _s;
-            }
-        }
-
-        postInfo.setContent(_txt);
-        postInfo.update();
-        CacheKit.remove(Consts.CACHE_NAMES.postInfo.name(),"id_"+postInfo.getId());
+        postInfo.setContent(txt);
+        postInfo.save();
         renderSuccessJSON("发布成功");
     }
 
@@ -201,7 +208,7 @@ public class PostInfoCtr extends CoreController {
                 return true;
             }
         });
-        renderJson(PostInfo.dao.findByCache(Consts.CACHE_NAMES.postInfo.name(),"id_"+id,"select * from www_post_info where id=? and dAt is null",id));
+        renderJson(JSON.toJSONString(PostInfo.dao.findByCache(Consts.CACHE_NAMES.postInfo.name(),"id_"+id,"select * from www_post_info where id=? and dAt is null",id),SerializerFeature.DisableCircularReferenceDetect));
     }
     @Before(Tx.class)
     public void laud(){
