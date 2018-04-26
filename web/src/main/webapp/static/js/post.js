@@ -72,7 +72,7 @@
 
         let taxId=$("#postTax").val();
         let title=$("#postTitle").val();
-        let content=editor2.txt.html();
+        let content=postAddEditor.txt.html();
 
 
         if(content==''||content=='<p><br></p>'){

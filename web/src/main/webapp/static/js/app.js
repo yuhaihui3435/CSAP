@@ -265,15 +265,19 @@ function sweetAlert2Loading(msg) {
     })
 }
 const wangEditor_terse_menu=[
-    'fontSize',  // 字号
     'bold',  // 粗体
+    'fontSize',  // 字号
     'underline',  // 下划线
     'strikeThrough',  // 删除线
     'justify',  // 对齐方式
+    'list',  // 列表
     'link',  // 插入链接
+    'quote',  // 引用
     'emoticon',  // 表情
     'image',  // 插入图片
     'video',  // 插入视频
+    'undo',  // 撤销
+    'redo'  // 重复
 ]
 
 const wangEditor_only_font=[
@@ -291,7 +295,6 @@ const wangEditor_only_font=[
     'emoticon',  // 表情
     'undo',  // 撤销
     'redo'  // 重复
-
 ]
 async function fastReply(replyId,nickname) {
     let fastReplyEditor=null;
