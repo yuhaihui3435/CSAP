@@ -21,7 +21,7 @@ public class Replys extends BaseReplys<Replys> {
 	}
 
 	public User getReplyer(){
-		return getUserId()!=null?User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+getUserId(),"select * from s_user where id=?",getUserId()):null;
+		return getUserId()!=null?User.dao.findSectUser(getUserId()):null;
 	}
 	public String getCAtTxt(){
 		return getCAt()!=null?DateKit.dateToStr(getCAt(),DateKit.STR_DATEFORMATE):"";

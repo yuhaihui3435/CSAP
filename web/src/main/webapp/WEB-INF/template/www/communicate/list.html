@@ -11,14 +11,14 @@
                 <div class="fly-panel-title fly-filter">
                     <a>置顶</a>
                 </div>
-                <ul class="fly-list">
+                <ul class="fly-list" style="margin: 0;padding: 0;">
                     {%each(i,tPost) topList%}
                     <li>
-                        <a href="#(ctx)/userHome/${tPost.oper.id}" class="fly-avatar">
+                        <a href="#(ctx)/userHome/${tPost.oper.id}" target="_blank" class="fly-avatar">
                             <img src="${tPost.oper.avatar}" alt="${tPost.oper.nickname}">
                         </a>
                         <h2>
-                            <a class="layui-badge">${tPost.tax.title}</a>
+                            <a class="layui-badge" href="javascript:Post.view('${tPost.id}')">${tPost.tax.title}</a>
                             <a href="#(ctx)/postView/${tPost.id}">${tPost.title}</a>
                         </h2>
                         <div class="fly-list-info">
@@ -55,15 +55,15 @@
                         </span>
                     </div>
 
-                    <ul class="fly-list">
+                    <ul class="fly-list" style="margin: 0;padding: 0;">
                      {%each(i,post) page.list%}
                         <li>
-                            <a href="#(ctx)/userHome/${post.oper.id}" class="fly-avatar">
+                            <a href="#(ctx)/userHome/${post.oper.id}" target="_blank" class="fly-avatar">
                                 <img src="${post.oper.avatar}" alt="${post.oper.nickname}">
                             </a>
                             <h2>
                                 <a class="layui-badge">${post.tax.title}</a>
-                                <a href="#(ctx)/postView/${post.id}">${post.title}</a>
+                                <a href="javascript:Post.view('${post.id}')">${post.title}</a>
                             </h2>
                             <div class="fly-list-info">
                                 <a href="#(ctx)/userHome/${post.oper.id}" link>

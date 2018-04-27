@@ -7,6 +7,7 @@ import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.base.BaseUser;
 import com.yhh.csap.kits.DateKit;
 import com.yhh.csap.kits._StrKit;
+import org.omg.PortableInterceptor.Interceptor;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -194,6 +195,18 @@ public class User extends BaseUser<User>  {
 
 	public User findUserByIdWithCache(int id){
 		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+id,"select * from s_user where id=? ",id);
+	}
+
+	public User findSectUser(Integer id){
+		User user=User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+id,"select * from s_user where id=?",id);
+		if (user==null)return null;
+		User ret=new User();
+		ret.setId(user.getId());
+		ret.setAvatar(user.getAvatar());
+		ret.setStatus(user.getStatus());
+		ret.setDAt(user.getDAt());
+		ret.setNickname(user.getNickname());
+		return ret;
 	}
 
 }

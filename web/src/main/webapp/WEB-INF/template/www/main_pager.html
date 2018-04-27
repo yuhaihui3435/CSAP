@@ -1,0 +1,23 @@
+<div class="pager">
+    ###if(page.pageNumber>1)
+    <!--<a href="#(ctx)/a/#(cId)-#(page.pageNumber-1)">上一页</a>-->
+    ###end
+    #set(begin=1)
+    #set(end=page.pageNumber+9)
+    #if(page.pageNumber>=11)
+    #set(begin=page.pageNumber-10)
+    #end
+    #if(end>=page.totalPage)
+    #set(end=page.totalPage)
+    #end
+    #for(i=begin;i<=end;i++)
+    #if(i==page.pageNumber)
+    <span>#(i)</span>
+    #else
+    <span><a href="#(ctx)/#(queryAction)?pn=#(i)" >#(i)</a></span>
+    #end
+    #end
+    ###if(page.pageNumber<page.totalPage)
+    <!--<a href="#(ctx)/a/#(cId)-#(page.pageNumber+1)">下一页</a>-->
+    ###end
+</div>

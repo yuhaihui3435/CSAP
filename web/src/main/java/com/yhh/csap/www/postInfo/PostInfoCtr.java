@@ -208,7 +208,9 @@ public class PostInfoCtr extends CoreController {
                 return true;
             }
         });
-        renderJson(JSON.toJSONString(PostInfo.dao.findByCache(Consts.CACHE_NAMES.postInfo.name(),"id_"+id,"select * from www_post_info where id=? and dAt is null",id),SerializerFeature.DisableCircularReferenceDetect));
+        Map<String,Object> map=getMapWithUserInfo();
+        map.put("postInfo",PostInfo.dao.findFirstByCache(Consts.CACHE_NAMES.postInfo.name(),"id_"+id,"select * from www_post_info where id=? and dAt is null",id));
+        renderJson(JSON.toJSONString(map,SerializerFeature.DisableCircularReferenceDetect));
     }
     @Before(Tx.class)
     public void laud(){

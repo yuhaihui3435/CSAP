@@ -25,11 +25,11 @@ public class PostInfo extends BasePostInfo<PostInfo> {
 	}
 
 	public User getOper(){
-		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+getOperId(),"select * from s_user where id=?",getOperId());
+		return getOperId()!=null?User.dao.findSectUser(getOperId().intValue()):null;
 	}
 
 	public User getChecker(){
-		return User.dao.findFirstByCache(Consts.CACHE_NAMES.user.name(),"id_"+getCheckOperId(),"select * from s_user where id=?",getCheckOperId());
+		return getCheckOperId()!=null?User.dao.findSectUser(getCheckOperId()):null;
 	}
 
 	public Taxonomy getTax(){
@@ -44,5 +44,7 @@ public class PostInfo extends BasePostInfo<PostInfo> {
 	public String getPostStatusTxt(){
 		return getPostStatus().equals("0")?"已结":"未结";
 	}
+
+
 
 }

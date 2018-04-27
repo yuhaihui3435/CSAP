@@ -59,28 +59,3 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.js"></script>
-<script src="https://cdn.bootcss.com/js-xss/0.3.3/xss.min.js"></script>
-<script>
-    var postAddEditor=null;
-    $(function () {
-        var E = window.wangEditor
-        postAddEditor= new E('#postContent')
-        postAddEditor.customConfig.uploadImgShowBase64 = true
-        postAddEditor.customConfig.zIndex = 100
-        postAddEditor.customConfig.menus =wangEditor_terse_menu
-        postAddEditor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024
-        postAddEditor.create()
-
-
-        let form=layui.form;
-        form.on('submit(*)', function(data){
-            Post.addPost();
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-        })
-
-    })
-
-
-
-</script>

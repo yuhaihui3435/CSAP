@@ -6,11 +6,15 @@ import com.alibaba.fastjson.serializer.ValueFilter;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Model;
 import com.yhh.csap.Consts;
+import com.yhh.csap.admin.model.Res;
 import com.yhh.csap.admin.model.Role;
 import com.yhh.csap.admin.model.User;
 import org.apache.poi.ss.formula.functions.T;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by 于海慧（125227112@qq.com） on 2016/12/1.
@@ -112,6 +116,37 @@ public class CoreController extends Controller {
         getResponse().setHeader("customData",str);
         renderFailJSON("您没有权限访问该资源。");
         return;
+    }
+
+    /**
+     *
+     * 获取带有用户信息的map结合，用户携带其他的数据信息，进行json的返回。
+     *
+     *
+     * @return
+     */
+    protected Map getMapWithUserInfo(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("user",User.dao.findSectUser(currUser().getId().intValue()));
+        List<Role> roles=currUserRoles();
+        StringBuilder stringBuilder=new StringBuilder();
+        for (Role role:currUserRoles()){
+            if (stringBuilder.length()==0)
+                stringBuilder.append(role.getName());
+            else
+                stringBuilder.append(",").append(role.getName());
+        }
+        map.put("userRoles",stringBuilder.toString());
+        stringBuilder.delete(0,stringBuilder.length());
+        Set<String> resList=getAttr(Consts.CURR_USER_RESES);
+        for (String res:resList){
+            if (stringBuilder.length()==0)
+                stringBuilder.append(res);
+            else
+                stringBuilder.append(",").append(res);
+        }
+        map.put("userReses",stringBuilder.toString());
+        return map;
     }
 
 
