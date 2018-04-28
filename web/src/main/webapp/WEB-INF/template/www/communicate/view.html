@@ -1,3 +1,8 @@
+<style>
+    fieldset{padding:.35em .625em .75em;margin:0 2px;border:1px solid silver}
+
+    legend{padding:.5em;border:0;width:auto}
+</style>
 <div class="layui-container" style="display: none" id="post-view">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md8 content detail">
@@ -27,12 +32,12 @@
 <script id="post_view_tmpl" type="text/x-jquery-tmpl">
 
 
-
+<h1>${postInfo.title}</h1>
                 <div class="fly-detail-info">
                 <input type="hidden" id="replyObjName" value="postInfo">
                 <input type="hidden" id="replyObjId" value="${postInfo.id}">
                 <input type="hidden" id="replyId" value="${postInfo.id}">
-                <h1>${postInfo.title}</h1>
+
 
                     <span class="layui-badge layui-bg-green fly-detail-column">${postInfo.tax.title}</span>
 
@@ -43,7 +48,7 @@
                     {%if postInfo.ifEssence=='0'%}<span class="layui-badge layui-bg-red">精帖</span>{%/if%}
 
                     <div class="fly-admin-box" data-id="123">
-                        {%if Post.hasDel(${postInfo.oper.nickname}) %}<span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>{%/if%}
+                        {%if Post.hasDel(postInfo.oper.nickname)%}<span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>{%/if%}
                         {%if Post.hasSetTop()%}
                         {%if postInfo.ifTop=='1'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>{%/if%}
                         {%if postInfo.ifTop=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>{%/if%}
@@ -53,7 +58,7 @@
                         {%if postInfo.ifEssence=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> {%/if%}
                         {%/if%}
 
-                        {%if Post.hasSetCommentStatus(${postInfo.oper.nickname})%}
+                        {%if Post.hasSetCommentStatus(postInfo.oper.nickname)%}
                         {%if postInfo.commentStatus=='1'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">开启评论</span>{%/if%}
                         {%if postInfo.commentStatus=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">关闭评论</span> {%/if%}
                         {%/if%}
@@ -85,48 +90,15 @@
 
 <script id="post_view_replys_tmpl" type="text/x-jquery-tmpl">
 
-        <fieldset class="layui-elem-field layui-field-title" style="text-align: center;"><legend>回帖</legend></fieldset>
-        <ul class="jieda">
+        <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+            <legend>回帖</legend>
+        </fieldset>
+        <ul class="jieda" style="padding:0">
         {%if page.totalRow>0%}
-    {%each(i,reply) page.list%}
-        <li  class="jieda-daan">
-        <div class="detail-about detail-about-reply">
-            <a class="fly-avatar" href="#(ctx)/userHome/${reply.userId}">
-            <img src="${reply.replyer.avatar}" alt=" ">
-            </a>
-            <div class="fly-detail-user">
-            <a href="#(ctx)/userHome/${reply.userId}" class="fly-link">
-            <cite>${reply.replyer.nickname}</cite>
-            </a>
-            {%if $item.isLZ(reply.replyer.nickname)%}<span>(楼主)</span>{%/if%}
-            {%if reply.replyer.ifWwwAdmin}<span style="color:#5FB878">(管理员)</span>{%/if%}
-            {%if reply.replyer.status=='1' || reply.replyer.dAt!=''}<span style="color:#999">（该号已被封）</span>{%/if%}
-            </div>
-            <div class="detail-hits">
-                <span>${reply.cAtTxt}</span>
-            </div>
-            {%if reply.replyer.bestReply=='0'%}<i class="iconfont icon-caina" title="最佳答案"></i>{%/if%}
-        </div>
-        <div class="detail-body jieda-body photos" id="postReplyContent_${reply.id}">
-            ${reply.content}
-        </div>
-        <div class="jieda-reply">
-            <span type="reply">
-            <i class="iconfont icon-svgmoban53" onclick="Post.replySomeone('${reply.id}','{reply.replyer.nickname}')"></i>
-                回复
-            </span>
-            <div class="jieda-admin">
-                {%if $item.isLZ(reply.replyer.nickname)%}<span type="edit">编辑</span>{%/if%}
-                {%if $item.hasDel(${postInfo.oper.nickname})%}<span type="del">删除</span>{%/if%}
-                {%if $item.isLZ(reply.replyer.nickname)%}<span class="jieda-accept" type="accept">采纳</span>{%/if%}
-            </div>
-        </div>
-        </li>
 
-    <%/each%>
     {%else%}
         <!-- 无数据时 -->
-        <!-- <li class="fly-none">消灭零回复</li> -->
+         <li class="fly-none ali-icon ali-empty-icon">&nbsp;回复为空</li>
         </ul>
     {%/if%}
 

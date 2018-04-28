@@ -1144,6 +1144,35 @@
 			return pattern.test(input);
 		}
 	};
+
+	Bee.JSONUtils={
+        isJSONStr:function(str) {
+        if (typeof str == 'string') {
+            try {
+                var obj=JSON.parse(str);
+                if(typeof obj == 'object' && obj ){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            } catch(e) {
+                console.log('error：'+str+'!!!'+e);
+                return false;
+            }
+        }
+    },
+		isJSONObj:function (data) {
+            if(typeof(data) == "object" &&
+                Object.prototype.toString.call(data).toLowerCase() == "[object object]" && !data.length){
+                return true
+            }else{
+            	return false
+			}
+        }
+
+
+	}
 	//暴露给window
 	window['Bee'] = Bee;
 })();

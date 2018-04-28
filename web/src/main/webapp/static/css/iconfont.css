@@ -1,11 +1,10 @@
-
 @font-face {
     font-family: 'iconfont';  /* project id 615778 */
-    src: url('//at.alicdn.com/t/font_615778_2l064n24706bt9.eot');
-    src: url('//at.alicdn.com/t/font_615778_2l064n24706bt9.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_615778_2l064n24706bt9.woff') format('woff'),
-    url('//at.alicdn.com/t/font_615778_2l064n24706bt9.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_615778_2l064n24706bt9.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_615778_bvfg3nqcr8f9wwmi.eot');
+    src: url('//at.alicdn.com/t/font_615778_bvfg3nqcr8f9wwmi.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_615778_bvfg3nqcr8f9wwmi.woff') format('woff'),
+    url('//at.alicdn.com/t/font_615778_bvfg3nqcr8f9wwmi.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_615778_bvfg3nqcr8f9wwmi.svg#iconfont') format('svg');
 }
 
 .ali-icon{
@@ -18,7 +17,7 @@
 }
 /*出诊时间*/
 .ali-czsj-icon:before{
-    content: '\e60c;';
+    content: '\e60c';
 }
 /*预约挂号*/
 .ali-yygh-icon:before{
@@ -31,4 +30,7 @@
 /*特长*/
 .ali-techang-icon:before{
     content: '\e65f';
+}
+.ali-empty-icon:before{
+    content: '\e609';
 }

@@ -177,7 +177,7 @@ public class PostInfoCtr extends CoreController {
         }
         postInfo.setContent(_txt);
         postInfo.update();
-        CacheKit.remove(Consts.CACHE_NAMES.postInfo.name(),"id_"+postInfo.getId());
+//        CacheKit.remove(Consts.CACHE_NAMES.postInfo.name(),"id_"+postInfo.getId());
         renderSuccessJSON("发布更新成功");
     }
 
@@ -187,14 +187,14 @@ public class PostInfoCtr extends CoreController {
         PostInfo postInfo=PostInfo.dao.findById(id);
         postInfo.setDAt(new Date());
         postInfo.update();
-        CacheKit.remove(Consts.CACHE_NAMES.postInfo.name(),"id_"+postInfo.getId());
+//        CacheKit.remove(Consts.CACHE_NAMES.postInfo.name(),"id_"+postInfo.getId());
         renderSuccessJSON("发布内容删除成功");
     }
 
     public void clean(){
         int id=getParaToInt("id");
         PostInfo.dao.deleteById(id);
-        CacheKit.remove(Consts.CACHE_NAMES.postInfo.name(),"id_"+id);
+//        CacheKit.remove(Consts.CACHE_NAMES.postInfo.name(),"id_"+id);
         renderSuccessJSON("发布内容清除成功");
     }
 
@@ -209,7 +209,7 @@ public class PostInfoCtr extends CoreController {
             }
         });
         Map<String,Object> map=getMapWithUserInfo();
-        map.put("postInfo",PostInfo.dao.findFirstByCache(Consts.CACHE_NAMES.postInfo.name(),"id_"+id,"select * from www_post_info where id=? and dAt is null",id));
+        map.put("postInfo",PostInfo.dao.findFirst("select * from www_post_info where id=? and dAt is null",id));
         renderJson(JSON.toJSONString(map,SerializerFeature.DisableCircularReferenceDetect));
     }
     @Before(Tx.class)

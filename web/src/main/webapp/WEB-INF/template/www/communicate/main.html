@@ -13,7 +13,7 @@
         <ul class="layui-clear ">
             <li class="layui-hide-xs layui-this"><a href="javascript:void(0) " onclick="Post.loadByPlate();Post.titleFocus(this)">首页</a></li>
             #for(tax:plateList)
-            <li><a href="javascript:void(0)" onclick="Post.loadByPlate('#(tax.id)');Post.titleFocus(this)">#(tax.title)</a>#if(tax.text=='dot')<span
+            <li><a href="javascript:void(0)" id="plate_#(tax.id)" onclick="Post.loadByPlate('#(tax.id)');Post.titleFocus(this)">#(tax.title)</a>#if(tax.text=='dot')<span
                     class="layui-badge-dot"></span>#end
             </li>
             #end
@@ -38,6 +38,10 @@
         let postViewEditor=null;
         let postAddEditor=null;
         $(function () {
+            let locationUrl=window.location.href;
+            if(locationUrl.indexOf('#')>-1){
+                Post.isRefresh='yes';
+            }
             Post.loadByPlate();
             var E = window.wangEditor
             postAddEditor= new E('#postContent')
@@ -48,7 +52,7 @@
             postAddEditor.create()
             postViewEditor = new E('#postReplyContent')
             postViewEditor.customConfig.uploadImgShowBase64 = true
-            postViewEditor.customConfig.menus = wangEditor_only_font
+            postViewEditor.customConfig.menus = wangEditor_terse_menu
             postViewEditor.customConfig.zIndex = 100
             postViewEditor.create()
 
@@ -57,10 +61,37 @@
                 Post.addPost();
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             })
+
+            form.on('submit(goBack)', function(data){
+                Post.addPost();
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            })
             form.on('submit(postViewReply)', function(data){
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             })
             form.render();
+
+            pushHistory();
+            window.addEventListener("popstate", function(e) {
+                if($('#post-view').is(':visible')){
+                    $("#post-view").hide()
+                    $("#postList").show()
+                }
+
+                if($('#addPost').is(':visible')){
+                    $("#addPost").hide()
+                    $("#postList").show()
+                }
+            }, false);
         })
+
+
+        function pushHistory() {
+            var state = {
+                title: window.title,
+                url: "#"
+            };
+            window.history.pushState(state, window.title, "#");
+        }
     </script>
 #end

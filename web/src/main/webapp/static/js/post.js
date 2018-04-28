@@ -1,12 +1,21 @@
 ;(function ( ){
     var Post=Post||{}
+    Post.isRefresh="no";
     Post.loadByPlate=function (taxId,searchKey,pn) {
         $("#postList").show();
         $("#addPost").hide();
-        $("#postView").hide();
+        $("#post-view").hide();
         searchKey=searchKey==undefined?'':searchKey;
         pn=pn==undefined?1:pn;
         let param={'taxId':taxId,'search':searchKey,'pn':pn};
+        if(Post.isRefresh=='yes'){
+            let cacheData=getJSONLocalCache("post_load_param");
+            param=cacheData!=''?cacheData:param
+            Post.resetTitleFocus(param.taxId);
+        }else{
+            setJSONLocalCache("post_load_param",param)
+        }
+
         sweetAlert2Loading('数据加载中...');
         $.ajax({
             type:'POST',
@@ -40,6 +49,8 @@
                 sweetAlert2Error('网络异常，请重试！');
             }
         })
+
+        if(Post.isRefresh=='yes')Post.isRefresh='no';
     }
 
     Post.toAddPost=function () {
@@ -55,6 +66,12 @@
         $(elem).parent().addClass("layui-this");
         $(elem).parent().siblings().removeClass("layui-this");
     }
+
+    Post.resetTitleFocus=function (plateId) {
+        $('#plate_'+plateId).parent().addClass("layui-this");
+        $('#plate_'+plateId).parent().siblings().removeClass("layui-this");
+    }
+
 
     Post.addPost=function(){
         let verCode=$("#verCode").val();
@@ -119,16 +136,11 @@
                     $("#replyDiv").empty();
                     $("#postList").hide();
                     $("#post-view").show();
-                    User.setInfo(data.user)
-                    if(data.userReses&&data.userReses!='')
-                        User.setReses(data.userReses.split(","))
-                    if(data.userRoles&&data.userRoles!='')
-                        User.setRoles(data.userRoles.split(","))
+                    User.bindData(data.user,data.userReses,data.userRoles)
 
                     $("#post_view_tmpl").tmpl(data).appendTo("#viewDiv");
                     //加载回复数据
-                    //Post.loadReplys(1,data.id)
-
+                    Post.loadReplys(1,postId)
                 }
 
             },
@@ -140,7 +152,7 @@
     }
 
     Post.loadReplys=function (pageNum,postId) {
-        function loadReplys(pageNum) {
+
             pageNum=pageNum==undefined?1:pageNum
             let param={'targetObj':'postInfo','targetId':postId,'pn':pageNum};
             sweetAlert2Loading('评论数据加载中...');
@@ -151,9 +163,8 @@
                 dataType:'json',
                 success:function (data) {
                     swal.close();
-                    let userRes=Cookies.get('userRes');
-                    if(userRes!=undefined)userRes= eval ("(" + userRes+ ")")
-                    let userName=Cookies.get('userName');
+                    $("#replyDiv").empty();
+                    User.bindData(data.user,data.userReses,data.userRoles)
                     $("#post_view_replys_tmpl").tmpl(data).appendTo("#replyDiv");
                     if(data.page.totalRow>0){
                         $("#page").paging({
@@ -161,7 +172,7 @@
                             totalPage: data.page.totalPage,
                             totalSize: data.page.totalRow,
                             callback: function(num) {
-                                loadReplys(num)
+                                Post.loadReplys(num)
                             }
                         })
                     }
@@ -172,7 +183,7 @@
                     sweetAlert2Error('网络异常，请重试！');
                 }
             })
-        }
+
     }
     
     
@@ -220,6 +231,7 @@
             })
         }
     })
+
 
 
     Post.hasDel=function (nickname) {

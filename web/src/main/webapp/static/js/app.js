@@ -226,6 +226,13 @@ $.fn.code_Obj = function (o) {
         if(User.roles==undefined||User.roles.length==0)return false;
         else return Bee.ArrayUtils.exist(User.roles,tRole);
     }
+    User.bindData=function (info,userReses,userRoles) {
+        User.setInfo(info)
+        if(userReses&&userReses!='')
+            User.setReses(userReses.split(","))
+        if(userRoles&&userRoles!='')
+            User.setRoles(userRoles.split(","))
+    }
 
     window['User']=User;
 })()
@@ -479,7 +486,32 @@ function collect(targetId, targetObj, collectToken) {
     })
 }
 
+var setJSONLocalCache=function (key,val) {
+    if(Bee.JSONUtils.isJSONObj(val)){
+        let jsonStr=JSON.stringify(val)
+        setLocalCache(key,jsonStr)
+    }
+}
 
+var getJSONLocalCache=function (key) {
+    let jsonStr=getLocalCache(key)
+    return jsonStr&&jsonStr!=''?JSON.parse(jsonStr):''
+}
+
+var setLocalCache=function (key,val) {
+
+    if(window.Storage && window.localStorage && window.localStorage instanceof Storage){
+        let storage=window.localStorage;
+        storage.setItem(key,val);
+    }
+}
+
+var getLocalCache=function (key) {
+    if(window.Storage && window.localStorage && window.localStorage instanceof Storage){
+        let storage=window.localStorage;
+        return storage.getItem(key);
+    }
+}
 
 
 

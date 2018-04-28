@@ -62,7 +62,7 @@ public class ReplysCtr extends CoreController {
         String sql=" from www_replys where targetId=? and replyId='0' and targetObj=? and dAt is null order by bestReply,cAt desc ";
         Page page= Replys.dao.paginateByCache(Consts.CACHE_NAMES.replys.name(),"list_"+getPN()+ StrUtil.UNDERLINE+getPS()+StrUtil.UNDERLINE+targetId+StrUtil.UNDERLINE+targetObj,getPN(),getPS(),"select * ",sql,targetId,targetObj);
         Record record=Db.findFirstByCache(Consts.CACHE_NAMES.replys.name(),"commentCount_"+targetObj+StrUtil.UNDERLINE+targetId,"select * from ".concat(targetObj).concat(" where id=?"),targetId);
-        Map<String,Object> map=new HashMap<>();
+        Map<String,Object> map=getMapWithUserInfo();
         map.put("page",page);
         map.put("commentCount",record!=null?record.getInt("commentCount"):0);
         renderJson(JSON.toJSONString(map, SerializerFeature.DisableCircularReferenceDetect));
