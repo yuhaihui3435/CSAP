@@ -5,7 +5,7 @@
 </style>
 <div class="layui-container" style="display: none" id="post-view">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md8 content detail">
+        <div class="layui-col-md12 content detail">
             <div class="fly-panel detail-box" id="viewDiv">
             </div>
             <div class="fly-panel detail-box" id="replyDiv">
@@ -19,7 +19,8 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <button id="postReplyBtn" class="layui-btn" lay-filter="postViewReply" lay-submit="">提交回复</button>
+                        <button type="button" id="postReplyBtn" class="layui-btn" data-loading-text="数据提交中...">提交回复</button>
+                        <button type="button" class="layui-btn layui-btn-danger" id="view_return_btn"  >返回</button>
                     </div>
                 </form>
             </div>
@@ -36,7 +37,7 @@
                 <div class="fly-detail-info">
                 <input type="hidden" id="replyObjName" value="postInfo">
                 <input type="hidden" id="replyObjId" value="${postInfo.id}">
-                <input type="hidden" id="replyId" value="${postInfo.id}">
+                <input type="hidden" id="replyId" value="0">
 
 
                     <span class="layui-badge layui-bg-green fly-detail-column">${postInfo.tax.title}</span>
@@ -48,7 +49,7 @@
                     {%if postInfo.ifEssence=='0'%}<span class="layui-badge layui-bg-red">精帖</span>{%/if%}
 
                     <div class="fly-admin-box" data-id="123">
-                        {%if Post.hasDel(postInfo.oper.nickname)%}<span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>{%/if%}
+                        {%if Post.hasDel()%}<span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>{%/if%}
                         {%if Post.hasSetTop()%}
                         {%if postInfo.ifTop=='1'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>{%/if%}
                         {%if postInfo.ifTop=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>{%/if%}
@@ -58,7 +59,7 @@
                         {%if postInfo.ifEssence=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> {%/if%}
                         {%/if%}
 
-                        {%if Post.hasSetCommentStatus(postInfo.oper.nickname)%}
+                        {%if Post.hasSetCommentStatus()%}
                         {%if postInfo.commentStatus=='1'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">开启评论</span>{%/if%}
                         {%if postInfo.commentStatus=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">关闭评论</span> {%/if%}
                         {%/if%}
@@ -95,7 +96,40 @@
         </fieldset>
         <ul class="jieda" style="padding:0">
         {%if page.totalRow>0%}
-
+        {%each(i,reply) page.list%}
+        <li  class="jieda-daan">
+        <div class="detail-about detail-about-reply">
+            <a class="fly-avatar" href="#(ctx)/userHome/${reply.userId}" target="_blank">
+            <img src="${reply.replyer.avatar}" alt=" ">
+            </a>
+            <div class="fly-detail-user">
+            <a href="#(ctx)/userHome/${reply.userId}"  target="_blank" class="fly-link">
+            <cite>${reply.replyer.nickname}</cite>
+            </a>
+            {%if Post.isLZ()%}<span>(楼主)</span>{%/if%}
+            {%if reply.replyer.ifWwwAdmin%}<span style="color:#5FB878">(管理员)</span>{%/if%}
+            {%if reply.replyer.status=='1' || reply.replyer.dAt!=undefined%}<span style="color:#999">（该号已被封）</span>{%/if%}
+            </div>
+            <div class="detail-hits">
+                <span>${reply.cAtTxt}</span>
+            </div>
+            {%if reply.bestReply=='0'%}<i class="iconfont icon-caina" title="最佳答案"></i>{%/if%}
+        </div>
+        <div class="detail-body jieda-body photos" id="postReplyContent_${reply.id}">
+            {%html reply.content%}
+        </div>
+        <div class="jieda-reply">
+            <span type="reply" onClick="Post.replySomeone(${reply.id},'${reply.replyer.nickname}','${reply.replyer.id}')">
+            <i class="iconfont icon-svgmoban53" ></i>
+                回复
+            </span>
+            <div class="jieda-admin">
+                {%if Post.hasDel()%}<span type="del">删除</span>{%/if%}
+                {%if Post.isLZ()%}<span class="jieda-accept" data="${reply.id}" type="accept">采纳</span>{%/if%}
+            </div>
+        </div>
+        </li>
+    {%/each%}
     {%else%}
         <!-- 无数据时 -->
          <li class="fly-none ali-icon ali-empty-icon">&nbsp;回复为空</li>

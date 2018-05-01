@@ -38,23 +38,14 @@
         let postViewEditor=null;
         let postAddEditor=null;
         $(function () {
+
             let locationUrl=window.location.href;
             if(locationUrl.indexOf('#')>-1){
                 Post.isRefresh='yes';
             }
             Post.loadByPlate();
-            var E = window.wangEditor
-            postAddEditor= new E('#postContent')
-            postAddEditor.customConfig.uploadImgShowBase64 = true
-            postAddEditor.customConfig.zIndex = 100
-            postAddEditor.customConfig.menus =wangEditor_terse_menu
-            postAddEditor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024
-            postAddEditor.create()
-            postViewEditor = new E('#postReplyContent')
-            postViewEditor.customConfig.uploadImgShowBase64 = true
-            postViewEditor.customConfig.menus = wangEditor_terse_menu
-            postViewEditor.customConfig.zIndex = 100
-            postViewEditor.create()
+            createPostAddEditor()
+            createPostViewEditor()
 
             let form=layui.form;
             form.on('submit(*)', function(data){
@@ -62,12 +53,50 @@
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             })
 
-            form.on('submit(goBack)', function(data){
-                Post.addPost();
+            $("#add_return_btn").on('click', function(evt){
+                $("#addPost").hide();
+                $("#postList").show();
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             })
-            form.on('submit(postViewReply)', function(data){
+            $("#view_return_btn").on('click', function(evt){
+                $("#post-view").hide();
+                $("#postList").show();
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            })
+            $("#postReplyBtn").on("click",function (e) {
+                let msg=postViewEditor.txt.html();
+//                msg=filterXSS(msg);
+                let objId=$("#replyObjId").val();
+                let objName=$("#replyObjName").val();
+                let replyId=$("#replyId").val();
+                $(this).button('loading');
+                let btn=this;
+                if(Bee.StringUtils.isBlank(msg)||msg=='<p><br></p>'){
+                    $(this).button('reset');
+                    sweetAlert2Error('评论内容不能为空');
+                    return false;
+                }else{
+                    let param={'content':msg,'targetId':objId,'targetObj':objName,'replyId':replyId}
+                    $.ajax({
+                        type:'POST',
+                        url:$('#ctx').val()+'/reply/save',
+                        data:param,
+                        dataType:'json',
+                        success:function (data) {
+                            $(btn).button('reset');
+                            if(data&&data.resCode=='success'){
+                                sweetAlert2Success(data.resMsg)
+                                Post.loadReplys(1,objId)
+                            }else{
+                                sweetAlert2Error(data.resMsg)
+                            }
+                        },
+                        error:function () {
+                            $(btn).button('reset');
+                            sweetAlert2Error('网络异常，请重试！');
+                        }
+                    })
+                }
             })
             form.render();
 
@@ -84,6 +113,32 @@
                 }
             }, false);
         })
+
+        function createPostViewEditor() {
+            var E = window.wangEditor
+            postViewEditor = new E('#postReplyContent')
+            postViewEditor.customConfig.menus = wangEditor_terse_menu
+            postViewEditor.customConfig.uploadImgHooks = wangEditor_upload_hooks
+            postViewEditor.customConfig.zIndex = 100
+            postViewEditor.customConfig.uploadFileName = 'file'
+            postViewEditor.customConfig.uploadImgMaxSize = 0.3 * 1024 * 1024
+            postViewEditor.customConfig.uploadImgServer = '#(ctx)/cmn/act01'
+            postViewEditor.customConfig.showLinkImg = false
+            postViewEditor.create()
+        }
+
+        function createPostAddEditor() {
+            var E = window.wangEditor
+            postAddEditor= new E('#postContent')
+            postAddEditor.customConfig.zIndex = 100
+            postAddEditor.customConfig.menus =wangEditor_terse_menu
+            postAddEditor.customConfig.uploadImgMaxSize = 0.3 * 1024 * 1024
+            postAddEditor.customConfig.uploadImgServer = '#(ctx)/cmn/act01'
+            postAddEditor.customConfig.uploadImgHooks = wangEditor_upload_hooks
+            postAddEditor.customConfig.uploadFileName = 'file'
+            postAddEditor.customConfig.showLinkImg = false
+            postAddEditor.create()
+        }
 
 
         function pushHistory() {

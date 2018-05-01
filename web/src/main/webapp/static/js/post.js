@@ -1,6 +1,7 @@
 ;(function ( ){
     var Post=Post||{}
     Post.isRefresh="no";
+    Post.info={}
     Post.loadByPlate=function (taxId,searchKey,pn) {
         $("#postList").show();
         $("#addPost").hide();
@@ -132,10 +133,14 @@
                 if(data==undefined||data==''){
                     sweetAlert2Error('没有查询到数据!')
                 }else{
+                    postViewEditor.txt.clear()
                     $("#viewDiv").empty();
                     $("#replyDiv").empty();
                     $("#postList").hide();
                     $("#post-view").show();
+
+                    Post.info=Object.assign({},data.postInfo)
+
                     User.bindData(data.user,data.userReses,data.userRoles)
 
                     $("#post_view_tmpl").tmpl(data).appendTo("#viewDiv");
@@ -172,7 +177,7 @@
                             totalPage: data.page.totalPage,
                             totalSize: data.page.totalRow,
                             callback: function(num) {
-                                Post.loadReplys(num)
+                                Post.loadReplys(num,postId)
                             }
                         })
                     }
@@ -187,55 +192,19 @@
     }
     
     
-    Post.replySomeone=function (replyTargetId,nickname) {
+    Post.replySomeone=function (replyTargetId,nickname,userId) {
         let replyTargetTxt=$("#postReplyContent_"+replyTargetId).html();
-        let text="<pre>回复："+nickname+"<br>";
+        let text="<pre>回复：<a href=\""+$('#ctx').val()+"/userHome/"+userId+"\" target=\"_blank\">"+nickname+"</a><br>";
         text=text+replyTargetTxt+"</pre>";
         postViewEditor.txt.append(text);
-
+        //$('html, body').animate({scrollTop: $('#postReplyContent').offset().top}, 1000)
+        document.getElementById('postReplyContent').scrollIntoView();
     }
 
-    $("#postReplyBtn").on("click",function (e) {
-        let msg=postViewEditor.txt.html();
-        msg=filterXSS(msg);
-        let objId=$("#replyObjId").val();
-        let objName=$("#replyObjName").val();
-        let replyId=$("#replyId").val();
-        $(this).button('loading');
-        let btn=this;
-        if(Bee.StringUtils.isBlank(msg)||msg=='<p><br></p>'){
-            $(this).button('reset');
-            sweetAlert2Error('评论内容不能为空');
-            return false;
-        }else{
-            let param={'content':msg,'targetId':objId,'targetObj':objName,'replyId':replyId}
-            $.ajax({
-                type:'POST',
-                url:$('#ctx').val()+'/reply/save',
-                data:param,
-                dataType:'json',
-                success:function (data) {
-                    $(btn).button('reset');
-                    if(data&&data.resCode=='success'){
-                        sweetAlert2Success(data.resMsg)
-                        editor2.txt.clear();
-                        loadReplys();
-                    }else{
-                        sweetAlert2Error(data.resMsg)
-                    }
-                },
-                error:function () {
-                    $(btn).button('reset');
-                    sweetAlert2Error('网络异常，请重试！');
-                }
-            })
-        }
-    })
 
 
-
-    Post.hasDel=function (nickname) {
-        return User.hasRes('/post/del')||User.getInfo().nickname==nickname;
+    Post.hasDel=function () {
+        return User.hasRes('/post/del')||Post.isLZ();
     },
     Post.hasSetTop=function () {
         return User.hasRes('/post/setTop');
@@ -243,11 +212,11 @@
     Post.hasSetEssence=function () {
         return User.hasRes('/post/setEssence');
     },
-    Post.hasSetCommentStatus=function (nickname) {
-        return User.getInfo().nickname==nickname||User.hasRes('/post/setCommentStatus');
+    Post.hasSetCommentStatus=function () {
+        return Post.isLZ()||User.hasRes('/post/setCommentStatus');
     },
-    Post.isLZ=function (nickname) {
-        return User.getInfo().nickname==nickname;
+    Post.isLZ=function () {
+        return User.getInfo().nickname==Post.info.oper.nickname;
     }
 
     //暴露给window

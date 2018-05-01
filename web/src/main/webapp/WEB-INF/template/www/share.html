@@ -1,5 +1,6 @@
 <div class="article-love pull-left hidden-xs">
-    <span id="collect_span" style="cursor:pointer" onclick="collect('#(targetObjId)','#(targetObjName)','#(collectToken)')">
+    <span id="collect_span" style="cursor:pointer"
+          onclick="collect('#(targetObjId)','#(targetObjName)','#(collectToken)')">
         #if(collectToken=='yes')<i class="fa fa-heart"></i> #end
         #if(collectToken!='yes')<i class="fa fa-heart-o"></i> #end
         #(collectCount)
@@ -11,17 +12,20 @@
                             #(laudCount)
     </span>
 </div>
-<div class="article-s-list jiathis_style_32x32 ">
-    <a class="jiathis_button_weixin"></a>
-    <a class="jiathis_button_tsina"></a>
-    <a class="jiathis_button_cqq"></a>
-    <a class="jiathis_button_qzone"></a>
-    <a class="jiathis_button_tqq"></a>
-    <a class="jiathis_button_copy"></a>
-    <a class="jiathis_button_fav"></a>
-    <a class="jiathis_button_print"></a>
-
-    <!--<a class="jiathis_counter_style"></a>-->
+<div class=" article-s-list bshare-custom icon-medium-plus">
+    <div class="bsPromo bsPromo2"></div>
+    <a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"
+                                                                             href="javascript:void(0);"></a><a
+        title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到QQ好友" class="bshare-qqim"
+                                                    href="javascript:void(0);"></a><a title="分享到腾讯微博"
+                                                                                      class="bshare-qqmb"></a><a title="分享到打印"
+                                                                                          class="bshare-printer"
+                                                                                          href="javascript:void(0);"></a><a
+        title="分享到复制网址" class="bshare-clipboard" href="javascript:void(0);"></a><a title="分享到电子邮件" class="bshare-email"
+                                                                                   href="javascript:void(0);"></a>
+    <!--<a-->
+        <!--title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>-->
 </div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
-<!-- JiaThis Button END -->
+<script type="text/javascript" charset="utf-8"
+        src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>

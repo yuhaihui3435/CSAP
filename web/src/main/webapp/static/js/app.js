@@ -151,7 +151,14 @@
                     }
                 })
             }
+        });
+
+         $(".jieda-accept").on("click",function (e) {
+            let replyId=$(this).attr("data");
+            alert(replyId)
         })
+
+
     });
 
     jQuery(window).on('load', function (e) {
@@ -334,7 +341,32 @@ const wangEditor_only_font = [
     'undo',  // 撤销
     'redo'  // 重复
 ]
-
+const wangEditor_upload_hooks={
+    before: function (xhr, editor, files) {
+        sweetAlert2Loading('图片上传处理中，请等待...')
+    },
+    success: function (xhr, editor, result) {
+        swal.close();
+        // 图片上传并返回结果，图片插入成功之后触发
+        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+    },
+    fail: function (xhr, editor, result) {
+        swal.close();
+        sweetAlert2Error('图片上传成功，但插入失败')
+    },
+    error: function (xhr, editor) {
+        swal.close();
+        sweetAlert2Error('图片上传失败')
+    },
+    timeout: function (xhr, editor) {
+        swal.close();
+        sweetAlert2Error('图片上传超时')
+    },
+    customInsert: function (insertImg, result, editor) {
+        var url = result.resData
+        insertImg(url)
+    }
+}
 async function fastReply(replyId, nickname) {
     let fastReplyEditor = null;
     await swal({
@@ -351,9 +383,13 @@ async function fastReply(replyId, nickname) {
         onOpen: function () {
             var E = window.wangEditor
             fastReplyEditor = new E('#fastReplyDiv')
-            fastReplyEditor.customConfig.uploadImgShowBase64 = true
+            fastReplyEditor.customConfig.showLinkImg = false
+            fastReplyEditor.customConfig.menus = wangEditor_terse_menu
+            fastReplyEditor.customConfig.uploadImgHooks = wangEditor_upload_hooks
             fastReplyEditor.customConfig.zIndex = 100
-            fastReplyEditor.customConfig.menus = wangEditor_only_font
+            fastReplyEditor.customConfig.uploadFileName = 'file'
+            fastReplyEditor.customConfig.uploadImgMaxSize = 0.3 * 1024 * 1024
+            fastReplyEditor.customConfig.uploadImgServer = '#(ctx)/cmn/act01'
             fastReplyEditor.create();
         },
         preConfirm: (text) => {
