@@ -162,12 +162,12 @@ public abstract class BasePostInfo<M extends BasePostInfo<M>> extends CoreModel<
 		return getStr("commentStatus");
 	}
 
-	public void setPostStatus(java.lang.String postStatus) {
-		set("postStatus", postStatus);
+	public void setIssueStatus(java.lang.String issueStatus) {
+		set("issueStatus", issueStatus);
 	}
 
-	public java.lang.String getPostStatus() {
-		return getStr("postStatus");
+	public java.lang.String getIssueStatus() {
+		return getStr("issueStatus");
 	}
 
 	public void setIfEssence(java.lang.String ifEssence) {

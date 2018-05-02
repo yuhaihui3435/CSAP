@@ -170,6 +170,7 @@
                     swal.close();
                     $("#replyDiv").empty();
                     User.bindData(data.user,data.userReses,data.userRoles)
+                    data.postInfo=Post.info;
                     $("#post_view_replys_tmpl").tmpl(data).appendTo("#replyDiv");
                     if(data.page.totalRow>0){
                         $("#page").paging({
@@ -194,11 +195,162 @@
     
     Post.replySomeone=function (replyTargetId,nickname,userId) {
         let replyTargetTxt=$("#postReplyContent_"+replyTargetId).html();
-        let text="<pre>回复：<a href=\""+$('#ctx').val()+"/userHome/"+userId+"\" target=\"_blank\">"+nickname+"</a><br>";
+        let text="<pre>回复：<a href=\""+$('#ctx').val()+"/userHome/"+userId+"\" target=\"_blank\">"+nickname+"</a>";
         text=text+replyTargetTxt+"</pre>";
-        postViewEditor.txt.append(text);
+        text=text.replace('<p><br></p>','');
+        text=text+'<p><br></p>'
+        $("#replyId").val(replyTargetId)
+        postViewEditor.txt.clear();
+        postViewEditor.txt.html(text);
+        console.info(postViewEditor.txt.html())
         //$('html, body').animate({scrollTop: $('#postReplyContent').offset().top}, 1000)
         document.getElementById('postReplyContent').scrollIntoView();
+    }
+
+
+    Post.fastReply=async function fastReply(replyId, nickname) {
+        let fastReplyEditor = null;
+        await swal({
+            // input: 'textarea',
+            html: '<div id="fastReplyDiv" style="text-align: left"></div>',
+            title: nickname != undefined ? "回复：" + nickname : '',
+            inputPlaceholder: '请输入回复的内容',
+            showCancelButton: true,
+            confirmButtonText: '提交',
+            showLoaderOnConfirm: true,
+            cancelButtonText: '取消',
+            allowOutsideClick: false,
+            width: '37rem',
+            onOpen: function () {
+                var E = window.wangEditor
+                fastReplyEditor = new E('#fastReplyDiv')
+                fastReplyEditor.customConfig.showLinkImg = false
+                fastReplyEditor.customConfig.menus = wangEditor_only_font
+                fastReplyEditor.customConfig.uploadImgHooks = wangEditor_upload_hooks
+                fastReplyEditor.customConfig.zIndex = 100
+                fastReplyEditor.customConfig.uploadFileName = 'file'
+                fastReplyEditor.customConfig.uploadImgMaxSize = 0.3 * 1024 * 1024
+                fastReplyEditor.customConfig.uploadImgServer = $('#ctx').val()+'/cmn/act01'
+                fastReplyEditor.create();
+            },
+            preConfirm: (text) => {
+                return new Promise((resolve) => {
+                    let text = fastReplyEditor.txt.html();
+                    if (text == '<p><br></p>') {
+                        swal.showValidationError(
+                            '回复内容不能为空'
+                        )
+                    }
+                    resolve()
+                })
+            },
+            allowOutsideClick: () => !swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                let objName = $("#replyObjName").val();
+                let objId = $("#replyObjId").val();
+                let text = fastReplyEditor.txt.html();
+                text = filterXSS(text);
+                let param = {'content': text, 'targetId': objId, 'targetObj': objName, 'replyId': replyId}
+                $.ajax({
+                    type: 'POST',
+                    url: $('#ctx').val() + '/reply/save',
+                    data: param,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data && data.resCode == 'success') {
+                            // sweetAlert2Success()
+                            swal(
+                                data.resMsg
+                            ).then((result) => {
+                                Post.loadReplys(1,Post.info.id)
+                            })
+                        } else {
+                            sweetAlert2Error(data.resMsg)
+                        }
+                    },
+                    error: function () {
+                        sweetAlert2Error('网络异常，请重试！');
+                    }
+                })
+            }
+        })
+
+    }
+
+
+    Post.setBestReply=function (replyId) {
+            swal({
+                    title: "确定要设置该回复为最佳答案吗？",
+                    text: "设置后无法取消",
+                    type: "warning",
+                    showCancelButton: true,
+                    cconfirmButtonColor: "#3085d6",
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: "确定",
+                    cancelButtonText:'取消',
+
+                }).then((result) => {
+                if (result.value) {
+                    sweetAlert2Loading('数据处理中...')
+                    $.ajax({
+                        type: 'POST',
+                        url: $('#ctx').val() + '/reply/setBestReply'  ,
+                        data: {'id': replyId},
+                        dataType: 'json',
+                        success: function (data) {
+                            swal.close()
+                            if (data && data.resCode == 'success') {
+                                Post.view(Post.info.id)
+                                // sweetAlert2Error(data.resMsg)
+                            } else {
+                                sweetAlert2Error(data.resMsg)
+                            }
+                        },
+                        error: function () {
+                            swal.close()
+                            sweetAlert2Error('网络异常，请重试！');
+                        }
+                    })
+                }
+            });
+    }
+
+
+    Post.delReply=function (replyId) {
+        swal({
+                title: "确定要删除该回复吗？",
+                text: "删除后无法恢复！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: '#d33',
+                confirmButtonText: "确定",
+                cancelButtonText:'取消',
+
+            }).then((result) => {
+            if (result.value) {
+                sweetAlert2Loading('数据处理中...')
+                $.ajax({
+                    type: 'POST',
+                    url: $('#ctx').val() + '/reply/del/'+replyId  ,
+                    data: {},
+                    dataType: 'json',
+                    success: function (data) {
+                        swal.close()
+                        if (data && data.resCode == 'success') {
+                            Post.view(Post.info.id)
+                            // sweetAlert2Error(data.resMsg)
+                        } else {
+                            sweetAlert2Error(data.resMsg)
+                        }
+                    },
+                    error: function () {
+                        swal.close()
+                        sweetAlert2Error('网络异常，请重试！');
+                    }
+                })
+            }})
     }
 
 

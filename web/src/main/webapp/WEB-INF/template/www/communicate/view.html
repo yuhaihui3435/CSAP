@@ -12,7 +12,7 @@
             </div>
             <div class="layui-form layui-form-pane">
                 <form action="" method="post">
-                    <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item layui-form-text" style="background-color: #ffffff">
                         <a name="comment"></a>
                         <div class="layui-input-block">
                             <div id="postReplyContent"></div>
@@ -42,8 +42,8 @@
 
                     <span class="layui-badge layui-bg-green fly-detail-column">${postInfo.tax.title}</span>
 
-                    {%if postInfo.postStatus=='1'%}<span class="layui-badge" style="background-color: #999;">未结</span>{%/if%}
-                    {%if postInfo.postStatus=='0'%}<span class="layui-badge" style="background-color: #5FB878;">已结</span> {%/if%}
+                    {%if postInfo.issueStatus=='1'%}<span class="layui-badge" style="background-color: #999;">未结</span>{%/if%}
+                    {%if postInfo.issueStatus=='0'%}<span class="layui-badge" style="background-color: #5FB878;">已结</span> {%/if%}
 
                     {%if postInfo.ifTop=='0'%}<span class="layui-badge layui-bg-black">置顶</span>{%/if%}
                     {%if postInfo.ifEssence=='0'%}<span class="layui-badge layui-bg-red">精帖</span>{%/if%}
@@ -117,15 +117,62 @@
         </div>
         <div class="detail-body jieda-body photos" id="postReplyContent_${reply.id}">
             {%html reply.content%}
-        </div>
-        <div class="jieda-reply">
-            <span type="reply" onClick="Post.replySomeone(${reply.id},'${reply.replyer.nickname}','${reply.replyer.id}')">
+            {%if reply.subReplys&&reply.subReplys.length>0%}
+            <div style="margin-left:90px;border:1px dashed #000;border-color:#DFDFDF">
+
+            <ul class="jieda" style="padding:0">
+
+                {%each(i,subReply) reply.subReplys%}
+                <li  class="jieda-daan" style="    margin: 20px;">
+                <div class="detail-about detail-about-reply">
+                    <a  href="#(ctx)/userHome/${subReply.replyer.id}" target="_blank" class="fly-avatar">
+                    <img src="${subReply.replyer.avatar}" alt=" " style="cursor: pointer;">
+                    </a>
+                    <div class="fly-detail-user">
+                    {%if subReply.replyTarget==''%}
+                    <a href="#(ctx)/userHome/${subReply.replyer.id}"  target="_blank" class="fly-link">
+                        <cite>${subReply.replyer.nickname}</cite>
+                    </a>
+                    {%else%}
+                        ${subReply.replyTarget}
+                    {%/if%}
+                    {%if Post.isLZ()%}<span>(楼主)</span>{%/if%}
+                    {%if subReply.replyer.ifWwwAdmin%}<span style="color:#5FB878">(管理员)</span>{%/if%}
+                    {%if subReply.replyer.status=='1' || reply.replyer.dAt!=undefined%}<span style="color:#999">（该号已被封）</span>{%/if%}
+                    </div>
+                    <div class="detail-hits">
+                        <span>${subReply.cAtTxt}</span>
+                    </div>
+                    {%if subReply.bestReply=='0'%}<i class="iconfont icon-caina" title="最佳答案"></i>{%/if%}
+
+                </div>
+
+                <div class="detail-body jieda-body photos" id="postReplyContent_${subReply.id}">
+                    {%html subReply.content%}
+                </div>
+                <div class="jieda-reply">
+            <span type="reply" onClick="Post.fastReply(${subReply.id},'${subReply.replyer.nickname}')">
             <i class="iconfont icon-svgmoban53" ></i>
                 回复
             </span>
             <div class="jieda-admin">
-                {%if Post.hasDel()%}<span type="del">删除</span>{%/if%}
-                {%if Post.isLZ()%}<span class="jieda-accept" data="${reply.id}" type="accept">采纳</span>{%/if%}
+                {%if Post.hasDel()%}<span type="del" onClick="Post.delReply('${subReply.id}')">删除</span>{%/if%}
+                {%if Post.isLZ()&&postInfo.issueStatus=='1'%}<span class="jieda-accept" onClick="Post.setBestReply('${subReply.id}')" type="accept">采纳</span>{%/if%}
+            </div>
+        </div>
+        </li>
+    {%/each%}
+        </ul></div>
+                    {%/if%}
+        </div>
+        <div class="jieda-reply">
+            <span type="reply" onClick="Post.fastReply(${reply.id},'${reply.replyer.nickname}')">
+            <i class="iconfont icon-svgmoban53" ></i>
+                回复
+            </span>
+            <div class="jieda-admin">
+                {%if Post.hasDel()%}<span type="del" onClick="Post.delReply('${reply.id}')">删除</span>{%/if%}
+                {%if Post.isLZ()&&postInfo.issueStatus=='1'%}<span class="jieda-accept" onClick="Post.setBestReply('${reply.id}')" type="accept">采纳</span>{%/if%}
             </div>
         </div>
         </li>

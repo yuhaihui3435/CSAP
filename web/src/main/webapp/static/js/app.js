@@ -152,13 +152,6 @@
                 })
             }
         });
-
-         $(".jieda-accept").on("click",function (e) {
-            let replyId=$(this).attr("data");
-            alert(replyId)
-        })
-
-
     });
 
     jQuery(window).on('load', function (e) {
@@ -384,12 +377,12 @@ async function fastReply(replyId, nickname) {
             var E = window.wangEditor
             fastReplyEditor = new E('#fastReplyDiv')
             fastReplyEditor.customConfig.showLinkImg = false
-            fastReplyEditor.customConfig.menus = wangEditor_terse_menu
+            fastReplyEditor.customConfig.menus = wangEditor_only_font
             fastReplyEditor.customConfig.uploadImgHooks = wangEditor_upload_hooks
             fastReplyEditor.customConfig.zIndex = 100
             fastReplyEditor.customConfig.uploadFileName = 'file'
             fastReplyEditor.customConfig.uploadImgMaxSize = 0.3 * 1024 * 1024
-            fastReplyEditor.customConfig.uploadImgServer = '#(ctx)/cmn/act01'
+            fastReplyEditor.customConfig.uploadImgServer = $('#ctx').val()+'/cmn/act01'
             fastReplyEditor.create();
         },
         preConfirm: (text) => {
@@ -436,6 +429,8 @@ async function fastReply(replyId, nickname) {
     })
 
 }
+
+
 
 /**
  *

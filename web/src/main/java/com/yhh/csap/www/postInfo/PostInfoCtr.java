@@ -78,7 +78,7 @@ public class PostInfoCtr extends CoreController {
         postInfo.setIfEssence(Consts.YORN_STR.no.getVal());
         postInfo.setIfTop(Consts.YORN_STR.no.getVal());
         postInfo.setCommentStatus(Consts.STATUS.forbidden.getVal());
-        postInfo.setPostStatus(Consts.YORN_STR.no.getVal());
+        postInfo.setIssueStatus(Consts.YORN_STR.no.getVal());
         postInfo.setViewCount(0L);
         postInfo.setLikeCount(0L);
         postInfo.setScore(Consts.BD_ZERO);

@@ -151,16 +151,18 @@ public class ReplysCtr extends CoreController {
         int id=getParaToInt(0);
         Replys replys=Replys.dao.findById(id);
         replys.setDAt(new Date());
-        atMeSrv.delAtMeByTarget("replys",replys.getId());//删除之前的atme数据
+//        atMeSrv.delAtMeByTarget("replys",replys.getId());//删除之前的atme数据
         replysSrv.replysSubSave(replys);
         CacheKit.removeAll(Consts.CACHE_NAMES.replys.name());
         renderSuccessJSON("回复删除成功");
     }
+    @Before({Tx.class})
     public void setBestReply(){
         int id=getParaToInt("id");
         Replys replys=Replys.dao.findById(id);
         replys.setBestReply(Consts.YORN_STR.yes.getVal());
         replys.update();
+        Db.update("update "+replys.getTargetObj()+" set issueStatus='0' where id=?",replys.getTargetId());
         CacheKit.removeAll(Consts.CACHE_NAMES.replys.name());
         renderSuccessJSON("最佳答案设置成功");
     }

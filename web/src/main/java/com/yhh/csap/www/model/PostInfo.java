@@ -42,7 +42,7 @@ public class PostInfo extends BasePostInfo<PostInfo> {
 	}
 
 	public String getPostStatusTxt(){
-		return getPostStatus().equals("0")?"已结":"未结";
+		return getIssueStatus().equals("0")?"已结":"未结";
 	}
 
 

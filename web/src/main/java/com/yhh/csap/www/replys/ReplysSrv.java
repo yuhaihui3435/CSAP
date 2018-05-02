@@ -30,7 +30,7 @@ public class ReplysSrv {
 
     @Before(Tx.class)
     public void replysSubSave(Replys replys){
-        replys.save();
+        replys.update();
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("update ").append(replys.getTargetObj()).append(" set commentCount=commentCount-1 where id=?");
         Db.update(stringBuilder.toString(),replys.getTargetId());

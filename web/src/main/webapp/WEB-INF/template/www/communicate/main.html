@@ -85,6 +85,7 @@
                         success:function (data) {
                             $(btn).button('reset');
                             if(data&&data.resCode=='success'){
+                                postViewEditor.txt.clear()
                                 sweetAlert2Success(data.resMsg)
                                 Post.loadReplys(1,objId)
                             }else{
