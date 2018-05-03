@@ -280,77 +280,64 @@
 
 
     Post.setBestReply=function (replyId) {
-            swal({
-                    title: "确定要设置该回复为最佳答案吗？",
-                    text: "设置后无法取消",
-                    type: "warning",
-                    showCancelButton: true,
-                    cconfirmButtonColor: "#3085d6",
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: "确定",
-                    cancelButtonText:'取消',
-
-                }).then((result) => {
-                if (result.value) {
-                    sweetAlert2Loading('数据处理中...')
-                    $.ajax({
-                        type: 'POST',
-                        url: $('#ctx').val() + '/reply/setBestReply'  ,
-                        data: {'id': replyId},
-                        dataType: 'json',
-                        success: function (data) {
-                            swal.close()
-                            if (data && data.resCode == 'success') {
-                                Post.view(Post.info.id)
-                                // sweetAlert2Error(data.resMsg)
-                            } else {
-                                sweetAlert2Error(data.resMsg)
-                            }
-                        },
-                        error: function () {
-                            swal.close()
-                            sweetAlert2Error('网络异常，请重试！');
-                        }
-                    })
+        layer.confirm('确定要设置该回复为最佳答案吗吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            sweetAlert2Loading('数据处理中...')
+            $.ajax({
+                type: 'POST',
+                url: $('#ctx').val() + '/reply/setBestReply'  ,
+                data: {'id': replyId},
+                dataType: 'json',
+                success: function (data) {
+                    swal.close()
+                    if (data && data.resCode == 'success') {
+                        Post.view(Post.info.id)
+                        // sweetAlert2Error(data.resMsg)
+                    } else {
+                        sweetAlert2Error(data.resMsg)
+                    }
+                },
+                error: function () {
+                    swal.close()
+                    sweetAlert2Error('网络异常，请重试！');
                 }
-            });
+            })
+        }, function(){
+
+        });
     }
 
 
     Post.delReply=function (replyId) {
-        swal({
-                title: "确定要删除该回复吗？",
-                text: "删除后无法恢复！",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: '#d33',
-                confirmButtonText: "确定",
-                cancelButtonText:'取消',
 
-            }).then((result) => {
-            if (result.value) {
-                sweetAlert2Loading('数据处理中...')
-                $.ajax({
-                    type: 'POST',
-                    url: $('#ctx').val() + '/reply/del/'+replyId  ,
-                    data: {},
-                    dataType: 'json',
-                    success: function (data) {
-                        swal.close()
-                        if (data && data.resCode == 'success') {
-                            Post.view(Post.info.id)
-                            // sweetAlert2Error(data.resMsg)
-                        } else {
-                            sweetAlert2Error(data.resMsg)
-                        }
-                    },
-                    error: function () {
-                        swal.close()
-                        sweetAlert2Error('网络异常，请重试！');
+        layer.confirm('确定要删除该回复吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            sweetAlert2Loading('数据处理中...')
+            $.ajax({
+                type: 'POST',
+                url: $('#ctx').val() + '/reply/del/'+replyId  ,
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    swal.close()
+                    if (data && data.resCode == 'success') {
+                        Post.view(Post.info.id)
+                        // sweetAlert2Error(data.resMsg)
+                    } else {
+                        sweetAlert2Error(data.resMsg)
                     }
-                })
-            }})
+                },
+                error: function () {
+                    swal.close()
+                    sweetAlert2Error('网络异常，请重试！');
+                }
+            })
+        }, function(){
+
+        });
+
     }
 
 
