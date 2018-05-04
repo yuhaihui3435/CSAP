@@ -13,7 +13,7 @@
         <ul class="layui-clear ">
             <li class="layui-hide-xs layui-this"><a href="javascript:void(0) " onclick="Post.loadByPlate();Post.titleFocus(this)">首页</a></li>
             #for(tax:plateList)
-            <li><a href="javascript:void(0)" id="plate_#(tax.id)" onclick="Post.loadByPlate('#(tax.id)');Post.titleFocus(this)">#(tax.title)</a>#if(tax.text=='dot')<span
+            <li><a href="javascript:void(0)" id="plate_#(tax.id)" onclick="Post.query='#(tax.id)';Post.loadByPlate();Post.titleFocus(this)">#(tax.title)</a>#if(tax.text=='dot')<span
                     class="layui-badge-dot"></span>#end
             </li>
             #end
@@ -43,7 +43,18 @@
             if(locationUrl.indexOf('#')>-1){
                 Post.isRefresh='yes';
             }
-            Post.loadByPlate();
+            let currView=getLocalCache('currView');
+            if(currView==undefined||currView=='list'){
+                Post.loadByPlate();
+            }else{
+                if(getLocalCache('postId')==undefined){
+                    Post.loadByPlate();
+                }else{
+                    Post.view(getLocalCache('postId'))
+                }
+
+            }
+
             createPostAddEditor()
             createPostViewEditor()
 
@@ -61,6 +72,7 @@
             $("#view_return_btn").on('click', function(evt){
                 $("#post-view").hide();
                 $("#postList").show();
+                Post.loadByPlate()
                 return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
             })
             $("#postReplyBtn").on("click",function (e) {
@@ -106,6 +118,7 @@
                 if($('#post-view').is(':visible')){
                     $("#post-view").hide()
                     $("#postList").show()
+                    Post.loadByPlate()
                 }
 
                 if($('#addPost').is(':visible')){

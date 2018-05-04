@@ -37,6 +37,9 @@ public class PostInfoCtr extends CoreController {
         String taxId=getPara("taxId");
         String search=getPara("search");
         String ifTop=getPara("ifTop");
+        String issueStatus=getPara("issueStatus");
+        String order=getPara("order");
+        String ifEssence=getPara("ifEssence");
         Kv kv=Kv.create();
         SqlPara sqlPara=null;
         List<PostInfo> topList=null;
@@ -50,18 +53,39 @@ public class PostInfoCtr extends CoreController {
             map.put(" or u.nickname like",StrUtil.join("%",search,"%",")"));
             kv.set(map);
         }
+        if(isNotBlank(issueStatus))
+            kv.put("p.issueStatus=",issueStatus);
+        if(isNotBlank(ifEssence))
+            kv.put("p.ifEssence=",ifEssence);
+
+        Kv kk=null;
+
 
         if(isNotBlank(taxId)){
             kv.put("p.taxId=",taxId);
         }else{
             Kv kv1=Kv.create();
             kv1.put("p.ifTop=",Consts.YORN_STR.yes.getVal());
-            sqlPara= Db.getSqlPara("postInfo.findPage",Kv.by("cond",kv1));
+            kk=Kv.by("cond",kv1);
+            if(isNotBlank(order)) {
+                if(order.equals("heat")) {
+                    order = "p.commentCount DESC";
+                    kk.put("order", order);
+                }
+            }
+            else
+                kk.put("order","p.cAt DESC");
+            sqlPara= Db.getSqlPara("postInfo.findPage",kk);
             topList= PostInfo.dao.find(sqlPara);
             ret.put("topList",topList);
         }
 
-        sqlPara= Db.getSqlPara("postInfo.findPage",Kv.by("cond",kv));
+        kk=Kv.by("cond",kv);
+        if(isNotBlank(order))
+            kk.put("order",order);
+        else
+            kk.put("order","p.cAt DESC");
+        sqlPara= Db.getSqlPara("postInfo.findPage",kk);
         Page page= PostInfo.dao.paginate(getPN(),getPS(),sqlPara);
         ret.put("page",page);
         renderJson(JSON.toJSONString(ret, SerializerFeature.DisableCircularReferenceDetect));

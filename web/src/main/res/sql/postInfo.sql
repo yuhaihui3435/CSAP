@@ -4,5 +4,5 @@
     #for(x : cond)
           and #(x.key) #para(x.value)
     #end
-    ORDER BY p.ifTop ASC,p.cAt DESC
+    ORDER BY p.ifTop ASC,#(order)
 #end
