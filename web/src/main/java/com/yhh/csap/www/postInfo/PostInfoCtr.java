@@ -67,22 +67,19 @@ public class PostInfoCtr extends CoreController {
             Kv kv1=Kv.create();
             kv1.put("p.ifTop=",Consts.YORN_STR.yes.getVal());
             kk=Kv.by("cond",kv1);
-            if(isNotBlank(order)) {
-                if(order.equals("heat")) {
-                    order = "p.commentCount DESC";
-                    kk.put("order", order);
-                }
-            }
-            else
-                kk.put("order","p.cAt DESC");
+            kk.put("order","p.cAt DESC");
             sqlPara= Db.getSqlPara("postInfo.findPage",kk);
             topList= PostInfo.dao.find(sqlPara);
             ret.put("topList",topList);
         }
 
         kk=Kv.by("cond",kv);
-        if(isNotBlank(order))
-            kk.put("order",order);
+        if(isNotBlank(order)) {
+            if(order.equals("heat")) {
+                order = "p.commentCount DESC,p.cAt DESC";
+                kk.put("order", order);
+            }
+        }
         else
             kk.put("order","p.cAt DESC");
         sqlPara= Db.getSqlPara("postInfo.findPage",kk);
@@ -101,7 +98,7 @@ public class PostInfoCtr extends CoreController {
         postInfo.setCommentCount(0);
         postInfo.setIfEssence(Consts.YORN_STR.no.getVal());
         postInfo.setIfTop(Consts.YORN_STR.no.getVal());
-        postInfo.setCommentStatus(Consts.STATUS.forbidden.getVal());
+        postInfo.setCommentStatus(Consts.STATUS.enable.getVal());
         postInfo.setIssueStatus(Consts.YORN_STR.no.getVal());
         postInfo.setViewCount(0L);
         postInfo.setLikeCount(0L);
@@ -255,6 +252,48 @@ public class PostInfoCtr extends CoreController {
         LikeRecords likeRecords=LikeRecords.dao.findFirst("select * from www_like_records where targetObj=? and targetId=?","postInfo",piId);
         likeRecords.delete();
         renderSuccessJSON("点赞取消成功");
+    }
+
+    public void changeCommentStatus(){
+        int id=getParaToInt("id");
+        String status=getPara("status");
+        PostInfo postInfo=PostInfo.dao.findById(id);
+
+        if(currUser().getId().intValue()!=postInfo.getOperId().intValue()&&!postInfo.getOper().getIfWwwAdmin()){
+            renderFailJSON("您不是作者，无法进行此操作");
+            return;
+        }
+        postInfo.setCommentStatus(status);
+        postInfo.update();
+        renderSuccessJSON("评论开启状态更新成功");
+    }
+
+    public void changeIfTop(){
+        int id=getParaToInt("id");
+        String status=getPara("status");
+        PostInfo postInfo=PostInfo.dao.findById(id);
+
+        if(currUser().getId().intValue()!=postInfo.getOperId().intValue()&&!postInfo.getOper().getIfWwwAdmin()){
+            renderFailJSON("您不是作者，无法进行此操作");
+            return;
+        }
+        postInfo.setIfTop(status);
+        postInfo.update();
+        renderSuccessJSON("置顶状态更新成功");
+    }
+
+    public void changeIfEssence(){
+        int id=getParaToInt("id");
+        String status=getPara("status");
+        PostInfo postInfo=PostInfo.dao.findById(id);
+
+        if(currUser().getId().intValue()!=postInfo.getOperId().intValue()&&!postInfo.getOper().getIfWwwAdmin()){
+            renderFailJSON("您不是作者，无法进行此操作");
+            return;
+        }
+        postInfo.setIfEssence(status);
+        postInfo.update();
+        renderSuccessJSON("置顶状态更新成功");
     }
 
 

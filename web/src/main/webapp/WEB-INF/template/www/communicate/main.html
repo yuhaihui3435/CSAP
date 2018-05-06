@@ -2,18 +2,15 @@
 #define content()
 <link rel="stylesheet" href="#(ctx)/static/layui/layui/css/layui.css">
 <link rel="stylesheet" href="#(ctx)/static/layui/css/global.css" charset="utf-8">
-<script src="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.js"></script>
-<script src="https://cdn.bootcss.com/js-xss/0.3.3/xss.min.js"></script>
-<script src="#(ctx)/static/layui/layui/layui.all.js"></script>
 <script src="#(ctx)/static/js/post.js"></script>
 
 <div class="layui-bg-gray">
 <div class="fly-panel fly-column layui-bg-gray">
     <div class="layui-container ">
         <ul class="layui-clear ">
-            <li class="layui-hide-xs layui-this"><a href="javascript:void(0) " onclick="Post.loadByPlate();Post.titleFocus(this)">首页</a></li>
+            <li class="layui-hide-xs layui-this"><a href="javascript:void(0) " onclick="Post.query.taxId='';Post.loadByPlate();Post.titleFocus(this)">首页</a></li>
             #for(tax:plateList)
-            <li><a href="javascript:void(0)" id="plate_#(tax.id)" onclick="Post.query='#(tax.id)';Post.loadByPlate();Post.titleFocus(this)">#(tax.title)</a>#if(tax.text=='dot')<span
+            <li><a href="javascript:void(0)" id="plate_#(tax.id)" onclick="Post.query.taxId='#(tax.id)';Post.loadByPlate();Post.titleFocus(this)">#(tax.title)</a>#if(tax.text=='dot')<span
                     class="layui-badge-dot"></span>#end
             </li>
             #end

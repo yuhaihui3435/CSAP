@@ -3,10 +3,13 @@ package com.yhh.csap.admin.model;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.LogKit;
+import com.jfinal.plugin.activerecord.sql.SqlKit;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.base.BaseRes;
+import com.yhh.csap.kits._SqlKit;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -82,18 +85,17 @@ public class Res extends BaseRes<Res> {
 
 	public List<Res> findResesByUserId(BigInteger userId) {
 		List<Role> roleList = Role.dao.findRolesByUserId(userId);
-		int i = 0;
-		String p = null;
+		List<Integer> ids=new ArrayList<>();
 		for (Role r : roleList) {
-			if (p == null)
-				p = r.getId().toString();
-			else
-				p = p + "," + r.getId().toString();
+			ids.add(r.getId().intValue());
 		}
+		StringBuilder stringBuilder=new StringBuilder();
+		_SqlKit.joinIds(ids,stringBuilder);
+
+
 
 		List<Res> list = Res.dao.findByCache(Consts.CACHE_NAMES.userReses.name(), "findResesByUserId_"+userId,
-				"select r.*,rr.roleId as roleId from s_res r left join s_role_res rr on r.id=rr.resId  where rr.roleId in (?) and r.pid=0 order by r.seq",
-				p);
+				"select r.*,rr.roleId as roleId from s_res r left join s_role_res rr on r.id=rr.resId  where rr.roleId in "+stringBuilder.toString()+" and r.pid=0 order by r.seq");
 
 		return list;
 	}
@@ -101,18 +103,16 @@ public class Res extends BaseRes<Res> {
 	public List<Res> findSecResesByUserId(BigInteger userId, long rId) {
 
 		List<Role> roleList = Role.dao.findRolesByUserId(userId);
-		int i = 0;
-		String p = null;
+
+		List<Integer> ids=new ArrayList<>();
 		for (Role r : roleList) {
-			if (p == null)
-				p = r.getId().toString();
-			else
-				p = p + "," + r.getId().toString();
+			ids.add(r.getId().intValue());
 		}
+		StringBuilder stringBuilder=new StringBuilder();
+		_SqlKit.joinIds(ids,stringBuilder);
 
 		List<Res> list = Res.dao.findByCache(Consts.CACHE_NAMES.userReses.name(), userId + "" + rId,
-				"select r.* from s_res r left join s_role_res rr on r.id=rr.resId  where rr.roleId in (?) and r.pid=? order by r.seq",
-				p, rId);
+				"select r.* from s_res r left join s_role_res rr on r.id=rr.resId  where rr.roleId in "+stringBuilder.toString()+" and r.pid=? order by r.seq", rId);
 		return list;
 	}
 

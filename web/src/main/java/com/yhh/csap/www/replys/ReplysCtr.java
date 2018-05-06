@@ -78,9 +78,9 @@ public class ReplysCtr extends CoreController {
         Integer userId=currUser().getId().intValue();
         Integer replyId=replys.getReplyId();
         Integer rootReplyId=replys.getReplyId();
-        if(replyId!=0) {
+        if(replyId.intValue()!=0) {
             Replys replys1 = Replys.dao.findById(replyId);
-            if(replys1.getReplyId()!=0)
+            if(replys1.getReplyId().intValue()!=0)
                 rootReplyId=replys1.getRootReplyId();
         }
         replys.setRootReplyId(rootReplyId);

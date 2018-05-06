@@ -50,6 +50,7 @@ public class RoleCtr extends CoreController{
         Role role=getModel(Role.class,"",true);
         role.update();
         CacheKit.removeAll(Consts.CACHE_NAMES.userRoles.name());
+
         renderSuccessJSON("角色更新成功","");
     }
     @Before(Tx.class)

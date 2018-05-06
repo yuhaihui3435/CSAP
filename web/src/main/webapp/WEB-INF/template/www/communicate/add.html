@@ -1,9 +1,17 @@
+<style>
+    .layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after {
+        border: none;
+        border-radius: 0;
+        border-bottom: 2px solid #66CCFF;
+    }
+
+</style>
 <div class="layui-container fly-marginTop" id="addPost" style="padding-bottom: 30px;display: none">
     <div class="fly-panel" pad20 style="padding-top: 5px;">
         <div class="layui-form layui-form-pane">
             <div class="layui-tab layui-tab-brief" lay-filter="user">
                 <ul class="layui-tab-title" style="margin: 0;padding: 0">
-                    <li class="layui-this">发表新帖</li>
+                    <li class="layui-this" style="color:#1E9FFF">发表新帖</li>
                 </ul>
                 <div class="layui-form layui-tab-content"  style="padding: 20px 0;">
                     <div class="layui-tab-item layui-show">
@@ -50,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <button class="layui-btn" lay-filter="*" lay-submit data-loading-text="数据提交中...">立即发布</button>
+                                <button class="layui-btn layui-btn-normal" lay-filter="*" lay-submit data-loading-text="数据提交中...">立即发布</button>
                                 <button class="layui-btn layui-btn-danger" id="add_return_btn"  >返回</button>
                             </div>
                         </form>

@@ -15,6 +15,9 @@
 
                     </div>
                     <button class="btn-filled" id="replyBtn" data-loading-text="数据提交中..."  autocomplete="off">提交</button>
+                    <div id="check-code" style="overflow: hidden;">
+                        <div class="code" id="data_code"></div>
+                    </div>
                 </div>
             </div>
     </div>
@@ -76,6 +79,7 @@
     }
 </style>
 <script id="replys_tmpl" type="text/x-jquery-tmpl">
+    {%if page.list&&page.list.length>0%}
     <h3 class="comment-heading">评论 <span><i class="fa fa-comment-o"></i> ${commentCount}</span></h3>
     <ol class="comment-wrap">
         {%each(i,reply) page.list%}
@@ -87,6 +91,7 @@
                 <div class="comment-txt">
                     {%if reply.replyer%}<h4 class="name">${reply.replyer.nickname} <a href="javascript:void(0)">${reply.cAtTxt}</a></h4>{%/if%}
                     <p>{{html reply.content}}</p>
+                    {%if hasDel(reply.replyer.nickname) %}<a href="javascript:void(0)" onclick="delReply(${reply.id},page.pageNumber)" class="comment-btn" style="right:80px"><i class="fa fa-trash" aria-hidden="true"></i>删除</a>{%/if%}
                     <a href="javascript:void(0)" onclick="fastReply(${reply.id}{%if reply.replyer%},'${reply.replyer.nickname}'{%/if%})" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
                 </div>
             </div>
@@ -105,7 +110,9 @@
                             {%if subReply.replyer%}<h4 class="name">${subReply.replyer.nickname} <a href="javascript:void(0)">${subReply.cAtTxt}</a></h4>{%/if%}{%/if%}
                             {%if subReply.replyTarget!=''%}<h4 class="name">${subReply.replyTarget} <a href="javascript:void(0)">${subReply.cAtTxt}</a></h4>{%/if%}
                             <p>{{html subReply.content}}</p>
+                            {%if hasDel(subReply.replyer.nickname) %}<a href="javascript:void(0)" onclick="delReply(${subReply.id},page.pageNumber)" class="comment-btn" style="right:80px"><i class="fa fa-trash" aria-hidden="true"></i>删除</a>{%/if%}
                             <a onclick="fastReply(${subReply.id}{%if subReply.replyer%},'${subReply.replyer.nickname}'{%/if%})" href="javascript:void(0)" class="comment-btn"><i class="fa fa-reply" aria-hidden="true"></i>回复</a>
+
                         </div>
                     </div>
                 </li>
@@ -119,6 +126,7 @@
     <div style="text-align: center;">
         <div id="page" class=" page_div"></div>
     </div>
+    {%/if%}
 </script>
 
 <script>
@@ -127,11 +135,20 @@
         loadReplys();
         var E = window.wangEditor
         editor2= new E('#replyMsg')
-        editor2.customConfig.uploadImgShowBase64 = true
-        editor2.customConfig.menus =wangEditor_only_font
+        editor2.customConfig.menus = wangEditor_terse_menu
+        editor2.customConfig.uploadImgHooks = wangEditor_upload_hooks
         editor2.customConfig.zIndex = 100
+        editor2.customConfig.uploadFileName = 'file'
+        editor2.customConfig.uploadImgMaxSize = 0.3 * 1024 * 1024
+        editor2.customConfig.uploadImgServer = '#(ctx)/cmn/act01'
+        editor2.customConfig.showLinkImg = false
         editor2.create()
-
     })
+
+    function hasDel(nickname) {
+        let ia=#(currUser.ifWwwAdmin);
+        let name='#(currUser.nickname)';
+        return ia||name==nickname;
+    }
 
 </script>

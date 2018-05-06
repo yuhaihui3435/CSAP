@@ -107,6 +107,7 @@ public class UserCtr extends CoreController {
         CacheKit.remove(Consts.CACHE_NAMES.userRoles.name(),user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userRoles.name(),"findUserOwnRoles_"+user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userReses.name(),user.getId());
+        CacheKit.remove(Consts.CACHE_NAMES.userReses.name(),"findResesByUserId_"+user.getId());
         user.update();
         renderSuccessJSON("更新用户信息成功。", "");
     }
@@ -121,6 +122,7 @@ public class UserCtr extends CoreController {
         CacheKit.remove(Consts.CACHE_NAMES.userRoles.name(),user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userRoles.name(),"findUserOwnRoles_"+user.getId());
         CacheKit.remove(Consts.CACHE_NAMES.userReses.name(),user.getId());
+        CacheKit.remove(Consts.CACHE_NAMES.userReses.name(),"findResesByUserId_"+user.getId());
         renderSuccessJSON("删除用户信息成功。");
     }
     /**

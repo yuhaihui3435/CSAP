@@ -271,6 +271,36 @@ function loadReplys(pageNum) {
     })
 }
 
+function delReply(id,pageNumber) {
+    pageNumber=pageNumber==undefined?1:pageNumber
+    let index = layer.confirm('确定要删除该回复吗？', {
+        btn: ['确认', '取消'] //按钮
+    }, function () {
+        layer.close(index)
+        sweetAlert2Loading('数据处理中...')
+        $.ajax({
+            type: 'POST',
+            url: $('#ctx').val() + '/reply/del/' + id,
+            data: {},
+            dataType: 'json',
+            success: function (data) {
+                swal.close()
+                if (data && data.resCode == 'success') {
+                    loadReplys(pageNumber)
+                } else {
+                    sweetAlert2Error(data.resMsg)
+                }
+            },
+            error: function () {
+                swal.close()
+                sweetAlert2Error('网络异常，请重试！');
+            }
+        })
+    }, function () {
+
+    });
+}
+
 
 function sweetAlert2Error(msg) {
     swal({

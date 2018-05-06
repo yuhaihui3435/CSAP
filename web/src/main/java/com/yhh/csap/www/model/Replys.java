@@ -34,7 +34,7 @@ public class Replys extends BaseReplys<Replys> {
 
 	public String getReplyTarget(){
 		StringBuilder stringBuilder=new StringBuilder();
-		if (getRootReplyId()!=getReplyId()){
+		if (getRootReplyId().intValue()!=getReplyId().intValue()){
 			Replys replys=dao.findFirstByCache(Consts.CACHE_NAMES.replys.name(),"findById_"+getReplyId(),"select * from "+getTableName()+" where id=?",getReplyId());
 			User user=replys.getReplyer();
 			String targetNickname=user!=null?user.getNickname():"";

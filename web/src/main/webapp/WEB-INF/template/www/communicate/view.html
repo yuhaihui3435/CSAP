@@ -27,7 +27,7 @@
             </div>
             <div class="fly-panel detail-box" id="replyDiv">
             </div>
-            <div class="layui-form layui-form-pane">
+            <div class="layui-form layui-form-pane" id="replyEditor">
                 <form action="" method="post">
                     <div class="layui-form-item layui-form-text" style="background-color: #ffffff">
                         <a name="comment"></a>
@@ -66,19 +66,19 @@
                     {%if postInfo.ifEssence=='0'%}<span class="layui-badge layui-bg-red">精帖</span>{%/if%}
 
                     <div class="fly-admin-box" data-id="123">
-                        {%if Post.hasDel()%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="del">删除</span>{%/if%}
+                        {%if Post.hasDel()%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="del" onClick='Post.del(${postInfo.id})'>删除</span>{%/if%}
                         {%if Post.hasSetTop()%}
-                        {%if postInfo.ifTop=='1'%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="set" field="stick" rank="1">置顶</span>{%/if%}
-                        {%if postInfo.ifTop=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>{%/if%}
+                        {%if postInfo.ifTop=='1'%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="set" field="stick" rank="1" onClick="Post.changeIfTop(${postInfo.id},'0')">置顶</span>{%/if%}
+                        {%if postInfo.ifTop=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;" onClick="Post.changeIfTop(${postInfo.id},'1')">取消置顶</span>{%/if%}
                         {%/if%}
                         {%if Post.hasSetEssence()%}
-                        {%if postInfo.ifEssence=='1'%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="set" field="status" rank="1">加精</span>{%/if%}
-                        {%if postInfo.ifEssence=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> {%/if%}
+                        {%if postInfo.ifEssence=='1'%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="set" field="status" rank="1" onClick="Post.changeIfEssence(${postInfo.id},'0')">加精</span>{%/if%}
+                        {%if postInfo.ifEssence=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;" onClick="Post.changeIfEssence(${postInfo.id},'1')">取消加精</span> {%/if%}
                         {%/if%}
 
                         {%if Post.hasSetCommentStatus()%}
-                        {%if postInfo.commentStatus=='1'%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="set" field="status" rank="1">开启评论</span>{%/if%}
-                        {%if postInfo.commentStatus=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">关闭评论</span> {%/if%}
+                        {%if postInfo.commentStatus=='1'%}<span class="layui-btn layui-btn-xs layui-btn-danger jie-admin" type="set" onClick="Post.changeCommentStatus(${postInfo.id},'0')" field="status" rank="1">开启评论</span>{%/if%}
+                        {%if postInfo.commentStatus=='0'%}<span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" onClick="Post.changeCommentStatus(${postInfo.id},'1')" rank="0" style="background-color:#ccc;">关闭评论</span> {%/if%}
                         {%/if%}
                     </div>
                     <span class="fly-list-nums">
