@@ -55,6 +55,8 @@ public interface  Consts {
 
      String WWW_ADMIN="wwwAdmin";//web端管理员固定的角色名字
 
+     String ILLEGAL_OPERATION_MSG_KEY="illegal_operation_msg";
+
      enum YORN {
         yes(true), no(false);
         boolean val;

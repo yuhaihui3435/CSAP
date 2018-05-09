@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.filter.stat.StatFilter;
+import com.alibaba.druid.sql.visitor.functions.Ucase;
 import com.alibaba.druid.wall.WallFilter;
 import com.alibaba.fastjson.JSON;
 import com.jfinal.config.*;
@@ -42,6 +43,7 @@ import com.yhh.csap.www.collect.CollectCtr;
 import com.yhh.csap.www.postInfo.PostInfoCtr;
 import com.yhh.csap.www.replys.ReplysCtr;
 import com.yhh.csap.www.rss.RssCtr;
+import com.yhh.csap.www.uc.UcCtr;
 
 import javax.sql.DataSource;
 
@@ -128,8 +130,11 @@ public class CoreConfig extends JFinalConfig{
                 add("/reply", ReplysCtr.class);
                 add("/collect", CollectCtr.class);
                 add("/post", PostInfoCtr.class);
+                add("/uc", UcCtr.class);
             }
         });
+
+
 
     }
 

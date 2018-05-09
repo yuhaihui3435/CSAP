@@ -1,3 +1,16 @@
+<style>
+
+    .dropdown-menu_li_a {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: 400;
+        line-height: 1.42857143;
+        color: #333;
+        white-space: nowrap;
+    }
+
+</style>
 <header class="header-area">
     <div class="header-top">
         <div class="container">
@@ -75,12 +88,35 @@
                                     </div>
                                     <!-- navbar-collapse -->
                                 </div>
-                                <div class="col-md-2 hidden-sm hidden-xs">
-                                    <div class="menu-btn">
-                                        <a href="#" class="btn log-in">登录</a>
-                                        <a href="#" class="btn sign-up">注册</a>
+
+
+                                #if(currUser==null)
+                                    <div class="col-md-2 hidden-sm hidden-xs">
+                                        <div class="menu-btn">
+                                            <a href="#" class="btn log-in">登录</a>
+                                            <a href="#" class="btn sign-up">注册</a>
+                                        </div>
                                     </div>
+                                #else
+                                <div class="col-md-2 hidden-sm hidden-xs">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="smooth-menu">
+                                        <a href="javascript:void(0)" >
+                                            #(currUser.nickname)
+                                            <img   src="http://images.cichlid.cc/image/avatar/dft-avatar.jpg" style="width: 30px;height: 30px;margin-left: 10px;border-radius: 100%;">
+
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li ><a href="#(ctx)/uc/" ><i class="ali-icon ali-setting-icon" style="color:#1E9FFF;padding-right: 20px"></i>基本设置</a></li>
+                                            <li ><a href="#(ctx)/uc/"><i class="ali-icon ali-dyn-icon" style="color:#1E9FFF;padding-right: 20px"></i>动态</a></li>
+                                            <li ><a href="#"><i class="ali-icon ali-message-icon" style="color:#1E9FFF;padding-right: 20px"></i>消息</a></li>
+                                            <li ><a href="#" ><i class="ali-icon ali-logout-icon" style="color:#1E9FFF;padding-right: 20px"></i>退出</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                                 </div>
+                                #end
+
                             </div>
                         </nav>
                     </div><!-- Main Menu End -->
@@ -89,6 +125,8 @@
         </div>
     </div>
 </header>
+
+
 
 
 
