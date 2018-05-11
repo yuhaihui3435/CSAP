@@ -1,0 +1,36 @@
+<ul class="layui-nav layui-nav-tree layui-inline">
+
+
+    <li class="layui-nav-item  #if(sm=='bs') layui-this #end ">
+        <a href="#(ctx)/uc/">
+            <i class="ali-icon ali-setting-icon"></i>
+            基本信息
+        </a>
+    </li>
+
+    <li class="layui-nav-item #if(sm=='dyn') layui-this #end">
+        <a href="#(ctx)/uc/dyn">
+            <i class="ali-icon ali-dyn-icon"></i>
+            动态
+        </a>
+    </li>
+
+    #if(isBlank(qId))
+    <li class="layui-nav-item #if(sm=='msg') layui-this #end">
+        <a href="#(ctx)/uc/msg">
+            <i class="ali-icon ali-message-icon"></i>
+            消息
+        </a>
+    </li>
+    #end
+
+    #if(isBlank(qId))
+    <li class="layui-nav-item #if(sm=='collect') layui-this #end">
+        <a href="#(ctx)/uc/collect">
+            <i class="ali-icon ali-collect-icon"></i>
+            收藏
+        </a>
+    </li>
+    #end
+
+</ul>

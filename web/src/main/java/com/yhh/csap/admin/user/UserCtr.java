@@ -6,17 +6,24 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.jfinal.upload.UploadFile;
+import com.qiniu.common.QiniuException;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.Role;
 import com.yhh.csap.admin.model.User;
 import com.yhh.csap.admin.model.UserRole;
 import com.yhh.csap.core.CoreController;
 import com.yhh.csap.interceptors.AdminAAuthInterceptor;
+import com.yhh.csap.kits.DateKit;
+import com.yhh.csap.kits.QiNiuKit;
+import com.yhh.csap.kits._StrKit;
 import com.yhh.csap.kits.ext.BCrypt;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
@@ -234,7 +241,27 @@ public class UserCtr extends CoreController {
         renderSuccessJSON("新密码为:"+newPwd+",请尽快登录进行密码修改!");
     }
 
+    public void uploadAvatar(){
+        UploadFile uploadFile=getFile();
+        File file=uploadFile.getFile();
+        int id=getParaToInt("id");
+        String picName= "/user/avatar/"+DateKit.dateToStr(new Date(),DateKit.yyyyMMdd)+"/"+ _StrKit.getUUID()+"_"+id+".jpg";
+        try {
+            QiNiuKit.upload(file,picName);
+        } catch (QiniuException e) {
+            renderFailJSON("头像更新失败");
+            return;
+        }
 
+        User user=User.dao.findById(id);
+        String picServerUrl= CacheKit.get(Consts.CACHE_NAMES.paramCache.name(),"qn_url");
+        user.setAvatar(picServerUrl+picName);
+        user.update();
+        renderSuccessJSON("头像更新成功",picServerUrl+picName);
+        CacheKit.remove(Consts.CACHE_NAMES.user.name(),user.getId());
+        CacheKit.remove(Consts.CACHE_NAMES.user.name(),"id_"+user.getId());
+        return;
+    }
 
 
 }

@@ -1,6 +1,8 @@
 package com.yhh.csap.www.model;
 
 
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 import com.yhh.csap.Consts;
 import com.yhh.csap.admin.model.User;
 import com.yhh.csap.kits.DateKit;
@@ -41,5 +43,16 @@ public class Replys extends BaseReplys<Replys> {
 			stringBuilder.append(getReplyer()!=null?getReplyer().getNickname():"").append(":回复").append("@").append(targetNickname);
 		}
 		return stringBuilder.toString();
+	}
+
+	public User getReplyTargetUser(){
+		if(getReplyId()!=0) {
+			return dao.findById(getReplyId()).getReplyer();
+		}
+		return null;
+	}
+
+	public String getTargetTitle(){
+		return Db.queryStr("select title from "+getTargetObj()+" where id=?",getTargetId());
 	}
 }

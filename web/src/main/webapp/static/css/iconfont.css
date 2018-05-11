@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'iconfont';  /* project id 615778 */
-    src: url('//at.alicdn.com/t/font_615778_3zloj751nqc40a4i.eot');
-    src: url('//at.alicdn.com/t/font_615778_3zloj751nqc40a4i.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_615778_3zloj751nqc40a4i.woff') format('woff'),
-    url('//at.alicdn.com/t/font_615778_3zloj751nqc40a4i.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_615778_3zloj751nqc40a4i.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_615778_m9bhpadsj6lgnwmi.eot');
+    src: url('//at.alicdn.com/t/font_615778_m9bhpadsj6lgnwmi.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_615778_m9bhpadsj6lgnwmi.woff') format('woff'),
+    url('//at.alicdn.com/t/font_615778_m9bhpadsj6lgnwmi.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_615778_m9bhpadsj6lgnwmi.svg#iconfont') format('svg');
 }
 .ali-icon{
     font-family: 'iconfont'!important;
@@ -47,4 +47,7 @@
 }
 .ali-dyn-icon:before{
     content: '\e64f';
+}
+.ali-collect-icon:before{
+    content: '\e607';
 }

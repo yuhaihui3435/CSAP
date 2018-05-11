@@ -1,5 +1,6 @@
 package com.yhh.csap.admin.user;
 
+import cn.hutool.core.util.StrUtil;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.LogKit;
 import com.yhh.csap.Consts;
@@ -59,15 +60,19 @@ public class UserValidator extends CoreValidator {
 //                addError(Consts.REQ_JSON_CODE.fail.name(),NICKNAME_EXIST);
 //                return ;
 //            }
-            _user=User.dao.findFirst("select id from s_user where email=? and id<>?",user.getEmail(),user.getId());
-            if(_user!=null){
-                addError(Consts.REQ_JSON_CODE.fail.name(),EMAIL_EXIST);
-                return ;
+            if(StrUtil.isNotBlank(user.getEmail())) {
+                _user = User.dao.findFirst("select id from s_user where email=? and id<>?", user.getEmail(), user.getId());
+                if (_user != null) {
+                    addError(Consts.REQ_JSON_CODE.fail.name(), EMAIL_EXIST);
+                    return;
+                }
             }
-            _user=User.dao.findFirst("select id from s_user where phone=? and id<>?",user.getPhone(),user.getId());
-            if(_user!=null){
-                addError(Consts.REQ_JSON_CODE.fail.name(),PHONE_EXIST);
-                return ;
+            if(StrUtil.isNotBlank(user.getPhone())) {
+                _user = User.dao.findFirst("select id from s_user where phone=? and id<>?", user.getPhone(), user.getId());
+                if (_user != null) {
+                    addError(Consts.REQ_JSON_CODE.fail.name(), PHONE_EXIST);
+                    return;
+                }
             }
         }
     }

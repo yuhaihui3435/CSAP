@@ -2,6 +2,7 @@
 #define content()
 <link rel="stylesheet" href="#(ctx)/static/layui/layui/css/layui.css">
 <link rel="stylesheet" href="#(ctx)/static/layui/css/global.css" charset="utf-8">
+<script src="#(ctx)/static/js/uc.js"></script>
 <style>
     .layui-tab-brief > .layui-tab-title .layui-this {
         color: #1E9FFF;
@@ -26,42 +27,9 @@
     }
 </style>
 
-
 <div class="layui-bg-gray">
     <div class="layui-container  fly-user-main" style="padding-top: 20px">
-        <ul class="layui-nav layui-nav-tree layui-inline">
-
-            <li class="layui-nav-item  #if(sm=='bs') layui-this #end ">
-                <a href="#(ctx)/uc/">
-                    <i class="ali-icon ali-setting-icon"></i>
-                    基本设置
-                </a>
-            </li>
-            <li class="layui-nav-item #if(sm=='dyn') layui-this #end">
-                <a href="#(ctx)/uc/dyn">
-                    <i class="ali-icon ali-dyn-icon"></i>
-                    动态
-                </a>
-            </li>
-            <li class="layui-nav-item #if(sm=='msg') layui-this #end">
-                <a href="#(ctx)/uc/msg">
-                    <i class="ali-icon ali-message-icon"></i>
-                    消息
-                </a>
-            </li>
-            <span class="layui-nav-bar" style="height: 0px; top: 0px; opacity: 0;"></span></ul>
-
-        <div class="site-tree-mobile layui-hide">
-            <i class="layui-icon"></i>
-        </div>
-        <div class="site-mobile-shade"></div>
-
-        <div class="site-tree-mobile layui-hide">
-            <i class="layui-icon"></i>
-        </div>
-        <div class="site-mobile-shade"></div>
-
-
+        #include("/WEB-INF/template/www/uc/side_menu.html")
         <div class="fly-panel fly-panel-user" pad20>
             <div class="layui-tab layui-tab-brief" >
                 <ul class="layui-tab-title" id="LAY_mine">
@@ -72,6 +40,7 @@
                 <div class="layui-tab-content" style="padding: 20px 0;">
                     <div class="layui-form layui-form-pane layui-tab-item layui-show">
                         <form method="post" >
+                            <input type="hidden" name="id" value="#(currUser.id)">
                             <div class="layui-form-item">
                                 <label for="L_username" class="layui-form-label">昵称</label>
                                 <div class="layui-input-inline">
@@ -80,29 +49,29 @@
                                 </div>
                                 <div class="layui-inline">
                                     <div class="layui-input-inline">
-                                        <input type="radio" name="sex" value="1" #if(currUser.sex=='1')checked#end title="男">
-                                        <input type="radio" name="sex" value="2" #if(currUser.sex=='2')checked#end title="女">
+                                        <input type="radio" name="sex" value="1" #if(currUser.sex=='1')checked  #end   title="男">
+                                        <input type="radio" name="sex" value="2" #if(currUser.sex=='2')checked  #end   title="女">
                                     </div>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_email" class="layui-form-label">年龄</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="L_age" name="age" required lay-verify="number"
+                                    <input type="text" id="L_age" name="age"  lay-verify="number"
                                            autocomplete="off" value="#(currUser.age??'')" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_email" class="layui-form-label">邮箱</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="L_email" name="email" required lay-verify="email"
+                                    <input type="text" id="L_email" name="email"  lay-verify="email"
                                            autocomplete="off" value="#(currUser.email??'')" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_email" class="layui-form-label">手机号</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="L_phone" name="phone" required lay-verify="phone"
+                                    <input type="text" id="L_phone" name="phone"  lay-verify="phone"
                                            autocomplete="off" value="#(currUser.phone??'')" class="layui-input">
                                 </div>
                             </div>
@@ -135,8 +104,9 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <button class="layui-btn layui-btn-normal" key="set-mine" lay-filter="*" lay-submit>确认修改</button>
+                                <button class="layui-btn layui-btn-normal" key="set-mine" lay-filter="updateUserInfo" lay-submit>确认修改</button>
                             </div>
+                        </form>
                     </div>
 
                     <div class="layui-form layui-form-pane layui-tab-item">
@@ -146,9 +116,7 @@
                                 <button type="button" class="layui-btn upload-img layui-btn-normal">
                                     <i class="layui-icon"></i>上传头像
                                 </button>
-                                <input class="layui-upload-file" type="file" name="file">
-                                <img src="#(currUser.avatar)">
-                                <span class="loading"></span>
+                                <img src="#(currUser.avatar)" id="L_avatar">
                             </div>
                         </div>
                     </div>
@@ -188,7 +156,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<script>
     var defaults = {
         s1: 'provid',
         s2: 'cityid',
@@ -197,6 +165,42 @@
         v2: '#(currUser.shi)',
         v3: '#(currUser.qu)'
     };
+</script>
+<!--<script src="#(ctx)/static/layui/layui/layui.all.js"></script>-->
+<script type="text/javascript" src="#(ctx)/static/js/data.js"></script>
+<script type="text/javascript" src="#(ctx)/static/js/province.js"></script>
+<script type="text/javascript">
+
+
+    $(function () {
+        let form=layui.form;
+        form.on('submit(updateUserInfo)', function(data){
+            Uc.updateUserInfo(data);
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        })
+
+        let upload=layui.upload
+        upload.render({
+            elem:'.upload-img',
+            url:$('#ctx').val()+'/ad01/uploadAvatar',
+            accept:'images',
+            size:50,
+            data:{'id':'#(currUser.id)'},
+            before: function(obj){
+                sweetAlert2Loading('图片上传中')
+            },
+            done: function(res, index, upload) {
+                swal.close();
+                $("#L_avatar").attr("src",res.resData);
+                layer.alert('头像更新成功', {icon: 6});
+            },
+            error: function(index, upload){
+                swal.close();
+                layui.msg('上传头像发生错误，请重试。',{icon:5});
+            }
+        })
+
+    })
 
 </script>
 #end

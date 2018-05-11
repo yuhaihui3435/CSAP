@@ -2,8 +2,11 @@ package com.yhh.csap.www.replys;
 
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.yhh.csap.www.model.Replys;
+
+import java.util.List;
 
 /**
  * 简介
@@ -34,5 +37,25 @@ public class ReplysSrv {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("update ").append(replys.getTargetObj()).append(" set commentCount=commentCount-1 where id=?");
         Db.update(stringBuilder.toString(),replys.getTargetId());
+    }
+
+    public Page<Replys> findReplysByUserIdForPost(int pn,int ps,Integer userId){
+        String sql=" from www_replys where dAt is null and userId=? and targetObj='www_post_info' order by cAt desc";
+        return Replys.dao.paginate(pn,ps,"select * ",sql,userId);
+    }
+
+    public Page<Replys> findReplysByUserIdForOther(int pn,int ps,Integer userId){
+        String sql=" from www_replys where dAt is null and userId=? and targetObj!='www_post_info' order by cAt desc";
+        return Replys.dao.paginate(pn,ps,"select * ",sql,userId);
+    }
+
+    public long countByUserIdForPost(Integer userId){
+        String sql="select count(*) from www_replys where dAt is null and userId=? and targetObj='www_post_info'";
+        return Db.queryLong(sql,userId);
+    }
+
+    public long countByUserIdForOther(Integer userId){
+        String sql="select count(*) from www_replys where dAt is null and userId=? and targetObj!='www_post_info'";
+        return Db.queryLong(sql,userId);
     }
 }

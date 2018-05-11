@@ -1,11 +1,11 @@
-﻿var defaults = {
-    s1: 'provid',
-    s2: 'cityid',
-    s3: 'areaid',
-    v1: null,
-    v2: null,
-    v3: null
-};
+﻿// var defaults = {
+//     s1: 'provid',
+//     s2: 'cityid',
+//     s3: 'areaid',
+//     v1: null,
+//     v2: null,
+//     v3: null
+// };
 var $form;
 var form;
 var $;
@@ -13,12 +13,14 @@ layui.define(['jquery', 'form'], function () {
     $ = layui.jquery;
     form = layui.form;
     $form = $('form');
+
+    if(typeof(defaults) != "undefined")
     treeSelect(defaults);
 });
 function treeSelect(config) {
-    config.v1 = config.v1 ? config.v1 : 110000;
-    config.v2 = config.v2 ? config.v2 : 110100;
-    config.v3 = config.v3 ? config.v3 : 110101;
+    config.v1 = config.v1 ? config.v1 : '';
+    config.v2 = config.v2 ? config.v2 : '';
+    config.v3 = config.v3 ? config.v3 : '';
     $.each(threeSelectData, function (k, v) {
         appendOptionTo($form.find('select[name=' + config.s1 + ']'), k, v.val, config.v1);
     });

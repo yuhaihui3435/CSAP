@@ -1,0 +1,212 @@
+#@layout()
+#define content()
+<link rel="stylesheet" href="#(ctx)/static/layui/layui/css/layui.css">
+<link rel="stylesheet" href="#(ctx)/static/layui/css/global.css" charset="utf-8">
+<script src="#(ctx)/static/js/uc.js"></script>
+<style>
+    .layui-tab-brief > .layui-tab-title .layui-this {
+        color: #1E9FFF;
+    }
+
+    .layui-tab-brief > .layui-tab-more li.layui-this:after, .layui-tab-brief > .layui-tab-title .layui-this:after {
+        border: none;
+        border-radius: 0;
+        border-bottom: 2px solid #66CCFF;
+    }
+
+    .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this > a, .layui-nav-tree .layui-this > a:hover {
+        background-color: #1E9FFF;
+        color: #fff;
+    }
+    .jie-row li .mine-edit {
+        margin-left: 15px;
+        padding: 0 6px;
+        background-color: #1E9FFF;
+        color: #fff;
+        font-size: 12px;
+    }
+    .jie-row li .mine-del {
+        margin-left: 15px;
+        padding: 0 6px;
+        background-color: #FF5722;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .layui-elem-quote {
+        margin-bottom: 10px;
+        padding: 15px;
+        line-height: 22px;
+        border-left: 5px solid #1E9FFF;
+        border-radius: 0 2px 2px 0;
+        background-color: #f2f2f2;
+    }
+</style>
+
+
+<div class="layui-bg-gray">
+    <div class="layui-container  fly-user-main" style="padding-top: 20px">
+        #include("/WEB-INF/template/www/uc/side_menu.html")
+        <div class="fly-panel fly-panel-user" pad20>
+            <div class="layui-tab layui-tab-brief" lay-filter="dyn" >
+                <ul class="layui-tab-title" id="LAY_mine">
+                    <li class="#if(isBlank(qt)||qt=='pi')layui-this #end" lay-id="postInfo">我发的帖(#(postInfoCount??0))</li>
+                    <li lay-id="replys" class="#if(isNotBlank(qt)&&qt=='r')layui-this #end">我的回复(#(replysCount??0))</li>
+                    <li lay-id="toMeReplys" class="#if(isNotBlank(qt)&&qt=='tmr')layui-this #end">回复我的(#(toMeReplysCount??0))</li>
+                    <li lay-id="comments" class="#if(isNotBlank(qt)&&qt=='c')layui-this #end">我的评论(#(commentCount??0))</li>
+                </ul>
+                <div class="layui-tab-content" style="padding: 20px 0;">
+                    <div class="layui-tab-item #if(isBlank(qt)||qt=='pi')layui-show#end">
+                        <ul class="mine-view jie-row">
+                            #if(postInfoPage!=null)
+                            #for(x : postInfoPage.list)
+                            <li>
+                                <a class="jie-title" href="" target="_blank">#(x.title)</a>
+                                <i>#date(x.cAt,'yyyy-MM-dd hh:mm:ss')</i>
+                                <span class="mine-edit" style="background-color:#5FB878">#(x.tax.title)</span>
+                                <!--<a class="mine-edit" href="/jie/edit/8116">编辑</a>-->
+                                <a class="mine-del"  onClick='Uc.delPostinfo(#(x.id))'>删除</a>
+                                <em>#(x.viewCount)阅/#(x.commentCount)答</em>
+                            </li>
+                            #end
+                            #end
+                        </ul>
+                        #if(isBlank(qt)||qt=='pi')
+                        <div id="piPage" style="text-align: center"></div>
+                        #end
+                    </div>
+
+                    <div class=" layui-tab-item #if(isNotBlank(qt)||qt=='r')layui-show#end" >
+                        <ul class="mine-view jie-row">
+                            #if(replysPage!=null)
+                            #for(x : replysPage.list)
+                            <li >
+
+                                <i>在帖子：&nbsp;</i><a class="jie-title" target="_blank" href="#(ctx)/">#(x.targetTitle)</a><i>中回复了&nbsp;</i>#if(x.replyTargetUser!=null)<a href="#(ctx)/uc/#(x.replyTargetUser.id)" target="_blank" class="jie-title">#(x.replyTargetUser.nickname)</a>#else <span>作者</span> #end
+                                <i>#date(x.cAt,'yyyy-MM-dd hh:mm:ss')</i>
+                                <a href="javascript:Uc.delReply(#(x.id));" class="mine-del">删除</a>
+                            </li>
+                            #end
+                            #end
+                        </ul>
+
+                        #if(isNotBlank(qt)&&qt=='r')
+                        <div id="rPage" style="text-align: center"></div>
+                        #end
+                    </div>
+                    <div class=" layui-tab-item #if(isNotBlank(qt)||qt=='tmr')layui-show#end">
+                        #if(isNotBlank(qt)&&qt=='tmr')
+                        <div id="tmrPage" style="text-align: center"></div>
+                        #end
+                    </div>
+                    <div class=" layui-tab-item #if(isNotBlank(qt)||qt=='c')layui-show#end">
+                        #if(isNotBlank(qt)&&qt=='c')
+                        <div id="cPage" style="text-align: center"></div>
+                        #end
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+#if(isBlank(qt)||qt=='pi')
+<script type="text/javascript">
+    $(function () {
+        let laypage=layui.laypage;
+        laypage.render({
+            elem: 'piPage',
+            theme: '#1E9FFF',
+            count: #(postInfoPage.totalRow),
+            limit: #(postInfoPage.pageSize),
+            jump: function (obj, first) {
+                //首次不执行
+                if (!first) {
+                    location.href='#(ctx)/uc/dyn?sm=dyn&qt=pi&qId=#(qId)&pn='+obj.curr;
+                }
+            }
+        });
+    })
+</script>
+#end
+#if(isNotBlank(qt)&&qt=='r')
+<script type="text/javascript">
+    $(function () {
+        let laypage=layui.laypage;
+        laypage.render({
+            elem: 'rPage',
+            theme: '#1E9FFF',
+            count: #(replysPage.totalRow),
+            limit: #(replysPage.pageSize),
+            jump: function (obj, first) {
+            //首次不执行
+            if (!first) {
+                location.href='#(ctx)/uc/dyn?sm=dyn&qt=r&qId=#(qId)&pn='+obj.curr;
+            }
+        }
+    });
+    })
+</script>
+#end
+
+#if(isNotBlank(qt)&&qt=='tmr')
+<script type="text/javascript">
+    $(function () {
+        let laypage=layui.laypage;
+        laypage.render({
+            elem: 'tmrPage',
+            theme: '#1E9FFF',
+            count: #(toMeReplysPage.totalRow),
+            limit: #(toMeReplysPage.pageSize),
+            jump: function (obj, first) {
+            //首次不执行
+            if (!first) {
+                location.href='#(ctx)/uc/dyn?sm=dyn&qt=tmr&qId=#(qId)&pn='+obj.curr;
+            }
+        }
+    });
+    })
+</script>
+#end
+
+#if(isNotBlank(qt)&&qt=='c')
+<script type="text/javascript">
+    $(function () {
+        let laypage=layui.laypage;
+        laypage.render({
+            elem: 'cPage',
+            theme: '#1E9FFF',
+            count: #(commentsPage.totalRow),
+            limit: #(commentsPage.pageSize),
+            jump: function (obj, first) {
+            //首次不执行
+            if (!first) {
+                location.href='#(ctx)/uc/dyn?sm=dyn&qt=c&qId=#(qId)&pn='+obj.curr;
+            }
+        }
+    });
+
+
+
+    })
+</script>
+#end
+
+<script>
+    $(function () {
+        let element = layui.element;
+        element.on('tab(dyn)', function (data) {
+            if (data.index == 0) {
+                location.href = '#(ctx)/uc/dyn?sm=dyn&qt=pi&qId=#(qId)';
+            } else if (data.index == 1) {
+                location.href = '#(ctx)/uc/dyn?sm=dyn&qt=r&qId=#(qId)';
+            }
+        });
+    })
+
+
+
+
+</script>
+
+#end
