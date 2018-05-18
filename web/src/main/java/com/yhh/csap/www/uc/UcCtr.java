@@ -68,6 +68,11 @@ public class UcCtr extends CoreController {
             setAttr("qt","r");
             setAttr("replysPage",replysPage);
         }
+        else if(StrUtil.isNotBlank(qt)&&qt.equals("tmr")){
+            Page<Replys> replysPage=replysSrv.findReplysByUserIdForPost(getPN(),getPS(),uId);
+            setAttr("qt","r");
+            setAttr("replysPage",replysPage);
+        }
         setAttr("postInfoCount",postInfoSrv.countByOperId(uId));
         setAttr("replysCount",replysSrv.countByUserIdForPost(uId));
         setAttr("commentCount",replysSrv.countByUserIdForOther(uId));

@@ -39,6 +39,10 @@ public class ReplysSrv {
         Db.update(stringBuilder.toString(),replys.getTargetId());
     }
 
+    public Page<Replys> findReplysByUserIdForReplyed(int pn,int ps,Integer userId){
+        String sql=" from   (select * from www_reply where dAt is null and userId=? and wr.targetObj='www_post_info' order by wr.cAt desc) t left join www_replys wr on t.id=wr.targetId ";
+        return Replys.dao.paginate(pn,ps,"select t.* ",sql,userId);
+    }
     public Page<Replys> findReplysByUserIdForPost(int pn,int ps,Integer userId){
         String sql=" from www_replys where dAt is null and userId=? and targetObj='www_post_info' order by cAt desc";
         return Replys.dao.paginate(pn,ps,"select * ",sql,userId);
