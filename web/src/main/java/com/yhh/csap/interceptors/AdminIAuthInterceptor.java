@@ -47,7 +47,7 @@ public class AdminIAuthInterceptor implements Interceptor {
             controller.setAttr(Consts.CURR_USER_RESES,Res.dao.findAllResStrByUserId(user.getId()));
         }
         //是否需要用户身份认证,方便测试
-        if(!ResKit.getConfigBoolean("userAuth")) {
+        if(ResKit.getConfigBoolean("devMode")) {
             flag = true;
             user=User.dao.findById(8);
             controller.setAttr(Consts.CURR_USER,user);

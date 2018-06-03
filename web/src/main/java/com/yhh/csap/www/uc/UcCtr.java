@@ -10,10 +10,6 @@ import com.yhh.csap.www.model.PostInfo;
 import com.yhh.csap.www.model.Replys;
 import com.yhh.csap.www.postInfo.PostInfoSrv;
 import com.yhh.csap.www.replys.ReplysSrv;
-import javafx.geometry.Pos;
-
-import java.sql.Struct;
-import java.util.List;
 
 /**
  *
